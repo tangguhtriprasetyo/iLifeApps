@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/radio_kategori_unchecked_330"/>
+    <item android:drawable="@drawable/radio_kategori_custom_pesanan_330" android:state_checked="true" tools:ignore="StateListReachable" />
+</selector>
