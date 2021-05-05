@@ -1,14 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.profile.PaymentFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.dashboard.profile.PaymentFragment"
+    android:background="@color/colorBackground">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/ic_back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Metode Pembayaran"
+        android:textColor="@color/font_default"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/ic_back"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.5"
+        android:fontFamily="@font/roboto"
+        android:text="Tentukan metode pembayaran anda sebelum memesan jasa atau makanan."
+        android:textColor="@color/font_default"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ic_back"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <RadioGroup
+        android:id="@+id/rg_metode_pembayaran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/rb_bayar_ditempat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto"
+                android:paddingStart="8dp"
+                android:text="Bayar di Tempat (COD)"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_cod"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ic_cod"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_bayar_ditempat"
+                app:layout_constraintStart_toEndOf="@+id/rb_bayar_ditempat"
+                app:layout_constraintTop_toTopOf="@+id/rb_bayar_ditempat" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLine8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb_bayar_ditempat" />
+
+            <LinearLayout
+                android:id="@+id/linear_transfer_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rb_transfer_bank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:buttonTint="@color/colorPrimaryDark"
+                        android:paddingStart="8dp"
+                        android:text="Transfer Bank"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/ic_transfer"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/rb_transfer_bank"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_baseline_keyboard_arrow_down_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLine8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_transfer_bank" />
+
+            <RadioButton
+                android:id="@+id/rb_ovo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto"
+                android:paddingStart="8dp"
+                android:text="OVO  "
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <ImageView
+                android:id="@+id/ic_ovo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/ic_ovo"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_ovo"
+                app:layout_constraintStart_toEndOf="@+id/rb_ovo"
+                app:layout_constraintTop_toTopOf="@+id/rb_ovo" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLine8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb_ovo" />
+
+            <RadioButton
+                android:id="@+id/rb_gopay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto"
+                android:paddingStart="8dp"
+                android:text="Gopay "
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+            <ImageView
+                android:id="@+id/ic_gopay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ic_gopay"
+                app:layout_constraintBottom_toBottomOf="@+id/rb_gopay"
+                app:layout_constraintStart_toEndOf="@+id/rb_gopay"
+                app:layout_constraintTop_toTopOf="@+id/rb_gopay" />
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLine8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rb_gopay" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_simpan"
+        style="@style/ButtonStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_btn_blue"
+        android:text="SIMPAN"
+        android:textSize="16sp"
+        app:layout_constraintVertical_bias="0.925"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

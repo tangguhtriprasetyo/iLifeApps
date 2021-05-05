@@ -1,14 +1,427 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.listmitra.detailshop.DetailShopFragment">
+    android:background="@color/colorBackground"
+    tools:context="ui.listmitra.detailshop.DetailShopFragment"
+    tools:ignore="MissingDefaultResource">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:background="@color/colorBackground"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/ic_back"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/ic_baseline_arrow_back_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_nama_mitra"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_nama_mitra" />
+
+                    <TextView
+                        android:id="@+id/tv_nama_mitra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="PT Sukses Jaya"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/font_default"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toEndOf="@+id/ic_back"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/ic_verified"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/ic_baseline_check_circle_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_nama_mitra"
+                        app:layout_constraintStart_toEndOf="@+id/tv_nama_mitra"
+                        app:layout_constraintTop_toTopOf="@+id/tv_nama_mitra" />
+
+                    <ImageView
+                        android:id="@+id/ic_message_from_pesanan"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_baseline_chat_24_blue"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_nama_mitra"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_nama_mitra" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                style="@style/Responsive16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearbar">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_profile_mitra"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/img_profile_default"
+                        android:background="@drawable/bg_shadow_hdpi"
+                        app:civ_border_width="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout10"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginStart="48dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/img_profile_mitra"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout15"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/tv_jarak_mitra"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="700 m"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="dari Anda"
+                                    android:textColor="@color/font_default"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:id="@+id/view3"
+                                android:layout_width="1.25dp"
+                                android:layout_height="match_parent"
+                                android:background="#EBEEF7"
+                                android:orientation="vertical"
+                                app:layout_constraintEnd_toStartOf="@+id/linearLayout16"
+                                app:layout_constraintStart_toEndOf="@+id/linearLayout15" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout16"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="40dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:background="@drawable/ic_baseline_star_24" />
+
+                                    <TextView
+                                        android:id="@+id/tv_nilai_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="6dp"
+                                        android:fontFamily="@font/roboto_bold"
+                                        android:text="4.8"
+                                        android:textColor="@color/colorPrimaryDark"
+                                        android:textSize="16sp" />
+
+                                </LinearLayout>
+
+
+                                <TextView
+                                    android:id="@+id/tv_jumlah_ulasan_mitra"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="23 Ulasan"
+                                    android:textColor="@color/font_default"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_harga_mitra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Rp. 200.000"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+
+            <TextView
+                android:id="@+id/tv_kategori_mitra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto"
+                android:text="Kebersihan"
+                android:textColor="@color/fontDetailMitra"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_harga_mitra" />
+
+            <TextView
+                android:id="@+id/tv_mitra_bergabung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto"
+                android:text="Bergabung sejak 7 Mei 2020"
+                android:textColor="@color/fontDetailMitra"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_kategori_mitra" />
+
+            <TextView
+                android:id="@+id/btn_lihat_lokasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_outline_white_r4"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="3dp"
+                android:text="Lihat Lokasi"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi_mitra"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_lokasi_mitra" />
+
+            <TextView
+                android:id="@+id/tv_lokasi_mitra"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:paddingEnd="12dp"
+                android:text="Jalan Ngaliyan No. 123, Semarang"
+                android:textColor="@color/font_default"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_lihat_lokasi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mitra_bergabung" />
+
+            <LinearLayout
+                android:id="@+id/linear_sosmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lokasi_mitra">
+
+                <ImageView
+                    android:id="@+id/ic_instagram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_instagram" />
+
+                <ImageView
+                    android:id="@+id/ic_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ic_facebook" />
+
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                app:tabIndicatorHeight="1dp"
+                android:background="@color/colorBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_sosmed"
+                app:tabGravity="start"
+                app:tabIndicatorColor="@color/lines"
+                app:tabTextAppearance="@style/tab_text_xxhdpi"
+                app:tabTextColor="@color/font_default">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabNot_confirmed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kemampuan" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabConfirmed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ulasan (2)" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <LinearLayout
+        android:id="@+id/linear_pilihan_mitra"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/ic_message"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_baseline_chat_24_blue"/>
+
+        <LinearLayout
+            android:id="@+id/btn_tawar"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/bg_white_outline_blue"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="TAWAR"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_pesan"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_blue"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="PESAN"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"  />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

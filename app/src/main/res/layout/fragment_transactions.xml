@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.transactions.TransactionsFragment">
+    android:background="@color/colorBackground"
+    tools:context=".ui.dashboard.transactions.TransactionsFragment"
+    tools:ignore="MissingDefaultResource">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Pesanan Anda"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/view41"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/bgChat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view41"
+        app:tabIndicatorColor="@color/colorPrimaryDark"
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/colorPrimaryDark"
+        app:tabTextAppearance="@style/tab_text_xxhdpi"
+        app:tabTextColor="@color/font_default">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabPesanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pesanan" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabDiproses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diproses" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabSelesai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesai" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabDibatalkan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dibatalkan" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorBackground"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

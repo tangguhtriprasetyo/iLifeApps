@@ -112,7 +112,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="Hey kamu, mau pesan apa ?"
                 android:textColor="@color/font_default"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/statusBarBackground" />
 
@@ -131,110 +131,110 @@
                 tools:ignore="MissingConstraints">
 
                 <LinearLayout
-                    android:id="@+id/kategori_elektronik"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_elektronik"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
+                            android:layout_marginTop="4dp"
                             android:background="@drawable/ic_home_elektronik" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Servis\nElektronik"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Servis\nElektronik"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/kategori_kebersihan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_kebersihan"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
                             android:background="@drawable/ic_home_kebersihan" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Kebersihan"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Kebersihan\n"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/kategori_kesehatan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_kesehatan"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
+                            android:layout_marginTop="4dp"
                             android:background="@drawable/ic_home_kesehatan" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Asisten\nKesehatan"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Asisten\nKesehatan"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -243,121 +243,121 @@
                 android:id="@+id/linearLayout9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
                 tools:ignore="MissingConstraints">
 
                 <LinearLayout
-                    android:id="@+id/kategori_kebun"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_kebun"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
                             android:background="@drawable/ic_home_bangunan" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Tukang"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Tukang\n"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
-
                 <LinearLayout
-                    android:id="@+id/kategori_bangunan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_guru_les"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
                             android:background="@drawable/ic_guru_les" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Guru Les"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Guru Les\n"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/kategori_lainnya"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="14dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="4dp">
+                    <LinearLayout
+                        android:id="@+id/kategori_lainnya"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/bg_primary_outline"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/ic_pesanan_khusus" />
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/ic_home_lainnya" />
 
-                    </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
+                            android:text="Pesanan\nKhusus"
+                            android:textColor="@color/font_default"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:text="Pesanan\nKhusus"
-                        android:textColor="@color/font_default"
-                        android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -448,20 +448,7 @@
 
     </ScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        style="@style/MyBottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="false"
-        android:background="@android:color/white"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/bottom_navigation" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

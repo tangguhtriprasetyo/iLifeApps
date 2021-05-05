@@ -1,14 +1,846 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detail.pesanan.PesananFragment">
+    android:background="@color/colorBackground"
+    tools:context=".ui.detail.pesanan.PesananFragment"
+    tools:ignore="MissingDefaultResource">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/ic_back"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_baseline_arrow_back_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Rincian Pesanan"
+            android:textColor="@color/font_default"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="56dp">
+
+            <LinearLayout
+                android:id="@+id/lineardetail"
+                style="@style/Responsive16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/linear_rincian_mitra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/img_profile"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:src="@drawable/img_profile_default"
+                                app:civ_border_width="0dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout10"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/btn_lihat_profil"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toEndOf="@+id/img_profile"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <LinearLayout
+                                            android:id="@+id/linearmitra"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent">
+
+                                            <TextView
+                                                android:id="@+id/tv_nama_mitra"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/roboto"
+                                                android:maxLength="30"
+                                                android:text="PT Sukses Jaya"
+                                                android:textColor="@color/font_default"
+                                                android:textSize="16sp"
+                                                app:layout_constraintStart_toStartOf="@+id/textView3"
+                                                app:layout_constraintTop_toTopOf="parent" />
+
+                                            <ImageButton
+                                                android:id="@+id/ic_verified"
+                                                android:layout_width="16dp"
+                                                android:layout_height="16dp"
+                                                android:layout_marginStart="2dp"
+                                                android:background="@drawable/ic_baseline_check_circle_24" />
+
+                                        </LinearLayout>
+
+                                        <TextView
+                                            android:id="@+id/tv_kategori_mitra"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto"
+                                            android:text="Kebersihan"
+                                            android:textColor="@color/fontulasan"
+                                            android:textSize="14sp" />
+
+                                    </LinearLayout>
+
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btn_lihat_profil"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_btn_lihat_profil"
+                                android:gravity="center"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="6dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Lihat Profil"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lineardetail" />
+
+
+            <LinearLayout
+                android:id="@+id/linear_waktu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_info_pesanan_dibuat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Pesanan Dibuat"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_createdAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_pesanan_dibuat"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_pesanan_dibuat" />
+
+                    <TextView
+                        android:id="@+id/tv_info_pesanan_dibatalkan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Pesanan Dibatalkan"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info_pesanan_dibuat" />
+
+                    <TextView
+                        android:id="@+id/tv_canceledAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_pesanan_dibatalkan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_pesanan_dibatalkan" />
+
+                    <TextView
+                        android:id="@+id/tv_info_pesanan_diproses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Pesanan Dikonfirmasi"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info_pesanan_dibuat" />
+
+                    <TextView
+                        android:id="@+id/tv_processedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_pesanan_diproses"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_pesanan_diproses" />
+
+                    <TextView
+                        android:id="@+id/tv_info_mulai_perjalanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="1dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Mitra berjalan ke tempatmu"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info_pesanan_diproses" />
+
+                    <TextView
+                        android:id="@+id/tv_startAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_mulai_perjalanan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_mulai_perjalanan" />
+
+                    <TextView
+                        android:id="@+id/tv_info_sampai_tujuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="1dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Mitra sampai di tempatmu"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info_mulai_perjalanan" />
+
+                    <TextView
+                        android:id="@+id/tv_arrivedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_sampai_tujuan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_sampai_tujuan" />
+
+                    <TextView
+                        android:id="@+id/tv_info_pesanan_selesai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="1dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Pesanan Selesai"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_info_sampai_tujuan" />
+
+                    <TextView
+                        android:id="@+id/tv_finishedAt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:visibility="gone"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_pesanan_selesai"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_pesanan_selesai" />
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/view_up_lokasi"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_waktu" />
+
+            <LinearLayout
+                android:id="@+id/linear_deskripsi_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view_up_lokasi">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linear_nama_pekerjaan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_nama_pekerjaan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Nama Pekerjaan"
+                                android:textColor="@color/font_default"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_value_nama_pekerjaan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:text="Pindahan Rumah"
+                                android:textColor="@color/fontulasan"
+                                android:textSize="14sp"
+                                app:layout_constraintStart_toStartOf="@+id/tv_nama_pekerjaan"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_nama_pekerjaan" />
+
+                            <View
+                                android:id="@+id/view_down_nama_pekerjaan"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="14dp"
+                                android:background="@color/colorLine"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_value_nama_pekerjaan" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_deskripsi_pekerjaan"
+                        style="@style/Responsive16dp"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linear_nama_pekerjaan">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/tv_deskripsi_pekerjaan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Deskripsi Pekerjaan"
+                                android:textColor="@color/font_default"
+                                android:textSize="16sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_value_deskripsi_pekerjaan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:text="Membutuhkan jasa untuk mengangkut barang-barang dari rumah lama ke rumah baru beserta mobil pickup untuk mengangkut barang. "
+                                android:textColor="@color/fontulasan"
+                                android:textSize="14sp"
+                                app:layout_constraintStart_toStartOf="@+id/tv_deskripsi_pekerjaan"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi_pekerjaan" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_down_deskripsi_makanan"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorLine" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_waktu_pesanan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_deskripsi_all">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView222"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Tanggal Pemesanan"
+                        android:textColor="@color/font_default"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView222"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView222" />
+
+                    <TextView
+                        android:id="@+id/textView223"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Waktu Pemesanan"
+                        android:textColor="@color/font_default"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView222" />
+
+                    <TextView
+                        android:id="@+id/tv_time_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="14 Juni 2020 08:30"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView223"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView223" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorLine" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Alamat"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_waktu_pesanan" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_baseline_location_on_24_blue"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
+
+            <TextView
+                android:id="@+id/tv_lokasi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/roboto"
+                android:text="Jalan Ngaliyan, Kota Semarang"
+                android:textColor="@color/font_default"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lokasi" />
+
+            <LinearLayout
+                android:id="@+id/linear_dana_harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_info_harga_jasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Total Harga"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_total_harga_jasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rp 180.000"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_jasa"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_jasa" />
+
+                    <TextView
+                        android:id="@+id/tv_dana_pesanan_khusus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Dana"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_total_dana_pesanan_khusus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rp 150.000 - Rp 1.000.000"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_dana_pesanan_khusus"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_dana_pesanan_khusus" />
+
+                    <TextView
+                        android:id="@+id/tv_info_harga_makanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Total Harga"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_total_harga_makanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rp 42.000"
+                        android:textColor="@color/font_default"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_makanan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_makanan" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_dana_harga" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Metode Pembayaran"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+            <TextView
+                android:id="@+id/tv_metode_pembayaran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Bayar Ditempat"
+                android:textColor="@color/fontulasan"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/textView25"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+            <LinearLayout
+                android:id="@+id/btn_ubah_metode_pembayaran"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_btn_lihat_profil"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_metode_pembayaran"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Ubah"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_metode_pembayaran" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/btn_pilih_mitra"
+        style="@style/Responsive16dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_btn_blue"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/btn_batalkan_pesanan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Pilih Mitra"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_batalkan_pesanan"
+        style="@style/Responsive16dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_white_outline_blue"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Batalkan Pesanan"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
