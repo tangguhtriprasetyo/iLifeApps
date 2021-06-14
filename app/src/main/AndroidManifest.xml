@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ilifeapps">
+    package="com.ibunda.ilifeapps">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -30,22 +30,22 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.maps.MapsActivity"
+            android:name="com.ibunda.ilifeapps.ui.maps.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".ui.chat.ChatActivity" />
-        <activity android:name=".ui.splashscreen.SplashScreenActivity" />
-        <activity android:name=".ui.onboarding.OnboardingActivity" />
-        <activity android:name=".ui.notifications.NotificationsActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.listmitra.ListMitraActivity" />
-        <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.dashboard.MainActivity">
+        <activity android:name="com.ibunda.ilifeapps.ui.chat.ChatActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.ibunda.ilifeapps.ui.onboarding.OnboardingActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.notifications.NotificationsActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.login.LoginActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.detail.DetailActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.MainActivity"></activity>
     </application>
 
 </manifest>
