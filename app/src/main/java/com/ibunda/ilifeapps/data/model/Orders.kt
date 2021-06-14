@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class Orders(
 
     var address: String? = null,
+    var jobDesc: String? = null,
+    var jobPerson: String? = null,
+    var jobName: String? = null,
     var arrivedAt: String? = null,
     var canceledAt: String? = null,
     var canceledBy: String? = null,
