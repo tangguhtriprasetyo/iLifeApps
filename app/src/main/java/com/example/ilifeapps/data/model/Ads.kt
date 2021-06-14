@@ -1,4 +1,4 @@
-package com.example.ilifeapps.model
+package com.example.ilifeapps.data.model
 
 import android.os.Parcel
 import android.os.Parcelable
