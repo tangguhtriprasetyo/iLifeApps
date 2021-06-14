@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "196001597991",
+    "project_id": "reflecting-poet-316809",
+    "storage_bucket": "reflecting-poet-316809.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196001597991:android:c56378863e98503920dc02",
+        "android_client_info": {
+          "package_name": "com.example.ilifeapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196001597991-kqnkorlh3mck9co5i4ggdf30ukpnqjei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxMvmbLDT_BHht4uUtbpRjQL0ePyQ4YPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196001597991-kqnkorlh3mck9co5i4ggdf30ukpnqjei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
