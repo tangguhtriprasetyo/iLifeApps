@@ -10,8 +10,7 @@ data class Shops(
     var categoryName: String? = null,
     var facebook: String? = null,
     var instagram: String? = null,
-    var isFood: Boolean? = null,
-    var isPromo: Boolean? = null,
+    var promo: Boolean? = null,
     var verified: Boolean? = null,
     var kemampuan1: String? = null,
     var kemampuan2: String? = null,
@@ -27,5 +26,6 @@ data class Shops(
     var shopPicture: String? = null,
     var shopPromo: Int? = null,
     var totalPesananSukses: Int? = null,
-    var totalUlasan: Int? = null,
+    var totalUlasan: Int? = null
+
 ) : Parcelable

@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.onboarding.OnboardingActivity">
 
+    <Button
+        android:id="@+id/tvLewati"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="40dp"
+        style="@style/ButtonStyle"
+        android:backgroundTint="@color/colorBackground"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/font_landing"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/onboardingViewPager"
         android:layout_width="match_parent"
