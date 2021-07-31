@@ -16,12 +16,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-
         const val HOME_FRAGMENT_TAG = "home_fragment_tag"
         const val SEARCH_FRAGMENT_TAG = "search_fragment_tag"
         const val TRANSACTIONS_FRAGMENT_TAG = "transactions_fragment_tag"
         const val PROFILE_FRAGMENT_TAG = "profile_fragment_tag"
-
+        const val EXTRA_USER = "extra_user"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

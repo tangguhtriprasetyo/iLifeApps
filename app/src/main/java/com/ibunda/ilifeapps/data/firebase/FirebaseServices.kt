@@ -1,8 +1,19 @@
 package com.ibunda.ilifeapps.data.firebase
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.ibunda.ilifeapps.data.model.Users
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FirebaseServices {
 
@@ -17,8 +28,67 @@ class FirebaseServices {
     private val ulasanRef: CollectionReference = firestoreRef.collection("ulasan")
     private val usersRef: CollectionReference = firestoreRef.collection("users")
 
-    fun signInWithGoogle() {
+    fun createUserToFirestore(authUser: Users): LiveData<Users> {
+        val createdUserData = MutableLiveData<Users>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = usersRef.document(authUser.userId)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(authUser).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                authUser.isCreated = true
+                                authUser.isNew = false
+                                createdUserData.postValue(authUser)
+                            } else {
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    Log.d("ErrorGetUser: ", it.message.toString())
+                }
+        }
+        return createdUserData
+    }
 
+    fun signInWithGoogle(idToken: String): LiveData<Users> {
+        val authenticatedUser = MutableLiveData<Users>()
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        CoroutineScope(Dispatchers.IO).launch {
+            firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val isNewUser = task.result?.additionalUserInfo?.isNewUser
+                        val user: FirebaseUser? = firebaseAuth.currentUser
+                        if (user != null) {
+                            val uid = user.uid
+                            val name = user.displayName
+                            val email = user.email
+                            val avatar = user.photoUrl
+                            val phone = user.phoneNumber
+                            val userInfo = Users(
+                                userId = uid,
+                                name = name,
+                                email = email,
+                                avatar = avatar.toString(),
+                                phone = phone
+                            )
+                            userInfo.isNew = isNewUser
+                            authenticatedUser.postValue(userInfo)
+                        }
+                    } else {
+                        Log.d("Error Authentication", "signInWithGoogle: ", task.exception)
+                    }
+                }
+        }
+        return authenticatedUser
     }
 
     fun signInWithFacebook() {
@@ -62,7 +132,7 @@ class FirebaseServices {
     }
 
     fun getUlasan() {
-
+        //whereEqual
     }
 
     fun getListOrder() {
