@@ -45,6 +45,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        callbackManager = CallbackManager.Factory.create()
         initGoogleSignInClient()
         initFacebookClient()
 
@@ -123,7 +125,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun initFacebookClient() {
-        callbackManager = CallbackManager.Factory.create()
+
+        Log.d(TAG, "initFacebook")
 
         binding.loginButton.setReadPermissions("email", "public_profile")
         binding.loginButton.registerCallback(callbackManager, object :
@@ -165,6 +168,7 @@ class LoginFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Pass the activity result back to the Facebook SDK
+        Log.d(TAG, "facebookActivityResult")
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 }
