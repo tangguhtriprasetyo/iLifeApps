@@ -2,6 +2,7 @@ package com.ibunda.ilifeapps.ui.login
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +13,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.GoogleAuthProvider
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentLoginBinding
@@ -24,6 +31,7 @@ import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var callbackManager: CallbackManager
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -37,11 +45,10 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         initGoogleSignInClient()
+        initFacebookClient()
 
-        val resultLauncher =
+        val loginGoogleLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = result.data
@@ -50,7 +57,9 @@ class LoginFragment : Fragment() {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = task.getResult(ApiException::class.java)!!
                         Log.d(ContentValues.TAG, "firebaseAuthWithGoogle:" + account.id)
-                        loginViewModel.signInWithGoogle(account.idToken!!)
+                        val googleCredential =
+                            GoogleAuthProvider.getCredential(account.idToken!!, null)
+                        loginViewModel.signInWithGoogleFacebook(googleCredential)
                             .observe(viewLifecycleOwner, { userData ->
                                 if (userData != null) {
                                     if (userData.isNew == true) {
@@ -77,7 +86,7 @@ class LoginFragment : Fragment() {
 
         binding.gSignIn.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
-            resultLauncher.launch(signInIntent)
+            loginGoogleLauncher.launch(signInIntent)
         }
     }
 
@@ -111,5 +120,51 @@ class LoginFragment : Fragment() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+    }
+
+    private fun initFacebookClient() {
+        callbackManager = CallbackManager.Factory.create()
+
+        binding.loginButton.setReadPermissions("email", "public_profile")
+        binding.loginButton.registerCallback(callbackManager, object :
+            FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Log.d(TAG, "facebook:onSuccess:$loginResult")
+                val facebookToken = loginResult.accessToken
+                val credential = FacebookAuthProvider.getCredential(facebookToken.token)
+                loginViewModel.signInWithGoogleFacebook(credential)
+                    .observe(viewLifecycleOwner, { userData ->
+                        if (userData != null) {
+                            if (userData.isNew == true) {
+                                createNewUser(userData)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Welcome back, ${userData.name}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                Log.d("oldUser", userData.name.toString())
+                                gotoMainActivity(userData)
+                            }
+                        }
+                    })
+            }
+
+            override fun onCancel() {
+                Log.d(TAG, "facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException) {
+                Log.d(TAG, "facebook:onError", error)
+            }
+        })
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Pass the activity result back to the Facebook SDK
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 }
