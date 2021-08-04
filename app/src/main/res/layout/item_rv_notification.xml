@@ -8,10 +8,9 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
-        android:id="@+id/linearLayout32"
+        android:id="@+id/linearNotif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bgNotification"
         android:paddingHorizontal="16dp"
         android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -32,7 +32,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Rincian Pesanan"
-            android:textColor="@color/font_default"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -48,16 +48,104 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="200dp">
+            android:paddingBottom="100dp">
+
+            <LinearLayout
+                android:id="@+id/linear_dana_harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bgPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    style="@style/Responsive16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:id="@+id/ic_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_money"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_info_harga_jasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Total Harga"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ic_money"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_total_harga_jasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rp 180.000"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_jasa"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_jasa" />
+
+                    <TextView
+                        android:id="@+id/tv_dana_pesanan_khusus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Dana"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ic_money"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_total_dana_pesanan_khusus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rp 150.000 - Rp 1.000.000"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_dana_pesanan_khusus"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_dana_pesanan_khusus" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewFirst"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/lineardetail"
                 style="@style/Responsive16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/linear_dana_harga">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -198,7 +286,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lineardetail" />
-
 
             <LinearLayout
                 android:id="@+id/linear_waktu"
@@ -384,11 +471,11 @@
 
             </LinearLayout>
 
-
             <View
                 android:id="@+id/view_up_lokasi"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:alpha="0.2"
                 android:layout_marginTop="12dp"
                 android:background="@color/colorLine"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -509,6 +596,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
+                    android:alpha="0.2"
                     android:background="@color/colorLine" />
 
             </LinearLayout>
@@ -527,56 +615,80 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/ic_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/ic_date_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/textView222"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Tanggal Pemesanan"
                         android:textColor="@color/font_default"
                         android:textSize="15sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="@+id/ic_date"
+                        app:layout_constraintStart_toEndOf="@+id/ic_date"
+                        app:layout_constraintTop_toTopOf="@+id/ic_date" />
 
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="3dp"
                         android:fontFamily="@font/roboto"
-                        android:text="14 Juni 2020 08:30"
+                        android:text="14 Juni 2020"
                         android:textColor="@color/fontulasan"
                         android:textSize="13sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView222"
+                        app:layout_constraintBottom_toBottomOf="@+id/ic_date"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView222" />
+                        app:layout_constraintTop_toTopOf="@+id/ic_date" />
+
+                    <ImageView
+                        android:id="@+id/ic_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/ic_time_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ic_date" />
 
                     <TextView
                         android:id="@+id/textView223"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="10dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Waktu Pemesanan"
                         android:textColor="@color/font_default"
                         android:textSize="15sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textView222" />
+                        app:layout_constraintBottom_toBottomOf="@+id/ic_time"
+                        app:layout_constraintStart_toEndOf="@+id/ic_time"
+                        app:layout_constraintTop_toTopOf="@+id/ic_time" />
 
                     <TextView
                         android:id="@+id/tv_time_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="3dp"
                         android:fontFamily="@font/roboto"
-                        android:text="14 Juni 2020 08:30"
+                        android:text="08:30"
                         android:textColor="@color/fontulasan"
                         android:textSize="13sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView223"
+                        app:layout_constraintBottom_toBottomOf="@+id/ic_time"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView223" />
+                        app:layout_constraintTop_toTopOf="@+id/ic_time" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -584,6 +696,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
+                    android:alpha="0.2"
                     android:background="@color/colorLine" />
 
             </LinearLayout>
@@ -606,7 +719,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/ic_baseline_location_on_24_blue"
+                android:background="@drawable/ic_location"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
@@ -630,112 +743,12 @@
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:alpha="0.2"
                 android:layout_marginTop="14dp"
                 android:background="@color/colorLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_lokasi" />
-
-            <LinearLayout
-                android:id="@+id/linear_dana_harga"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tv_info_harga_jasa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Total Harga"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_total_harga_jasa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Rp 180.000"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_jasa"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_jasa" />
-
-                    <TextView
-                        android:id="@+id/tv_dana_pesanan_khusus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Dana"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_total_dana_pesanan_khusus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Rp 150.000 - Rp 1.000.000"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_dana_pesanan_khusus"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_dana_pesanan_khusus" />
-
-                    <TextView
-                        android:id="@+id/tv_info_harga_makanan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="Total Harga"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_total_harga_makanan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Rp 42.000"
-                        android:textColor="@color/font_default"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_makanan"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_makanan" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/view4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="14dp"
-                android:background="@color/colorLine"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_dana_harga" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -748,7 +761,7 @@
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
 
             <TextView
                 android:id="@+id/tv_metode_pembayaran"
@@ -760,16 +773,6 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-            <View
-                android:id="@+id/view5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="14dp"
-                android:background="@color/colorLine"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_metode_pembayaran" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

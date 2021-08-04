@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="32dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/silahkan_lengkapi_informasi_data_akun_anda_sebelum_menjalanankan_aplikasi_i_life"
+        android:gravity="center"
+        android:textColor="@color/font_default"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto"/>
+
+    <Button
+        android:id="@+id/btnLengkapiData"
+        style="@style/ButtonStyle"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_btn_blue"
+        android:text="Lengkapi Data"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

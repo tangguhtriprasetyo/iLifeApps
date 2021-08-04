@@ -247,8 +247,8 @@
                 android:fontFamily="@font/roboto"
                 android:gravity="end"
                 android:maxLines="2"
-                android:paddingBottom="8dp"
                 android:paddingStart="56dp"
+                android:paddingBottom="8dp"
                 android:singleLine="false"
                 android:text="Jalan Zebra Tengah III gang 1 no 3D
 RT 06/RW 05"
@@ -262,13 +262,11 @@ RT 06/RW 05"
                 android:id="@+id/btn_set_lokasi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_outline_white_r4"
                 android:padding="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_info_alamat"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_address"
-                app:layout_constraintVertical_bias="0.062">
+                app:layout_constraintEnd_toEndOf="@+id/tv_address"
+                app:layout_constraintTop_toBottomOf="@+id/tv_address">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -291,56 +289,6 @@ RT 06/RW 05"
                 app:layout_constraintTop_toBottomOf="@+id/btn_set_lokasi" />
 
             <LinearLayout
-                android:id="@+id/linear_metode_pembayaran"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:paddingVertical="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view41">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Metode Pembayaran"
-                        android:layout_marginStart="16dp"
-                        android:textColor="@color/font_default"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/ic_baseline_arrow_forward_ios_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/view44"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/bgChat"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_metode_pembayaran" />
-
-            <LinearLayout
                 android:id="@+id/linear_penilaian_saya"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -348,7 +296,7 @@ RT 06/RW 05"
                 android:paddingVertical="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view44">
+                app:layout_constraintTop_toBottomOf="@+id/view41">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -428,20 +376,5 @@ RT 06/RW 05"
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        style="@style/MyBottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="false"
-        android:background="@android:color/white"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

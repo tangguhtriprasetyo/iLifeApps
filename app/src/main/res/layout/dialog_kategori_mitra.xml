@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/colorBackground"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Pilih Kategori"
+        android:textColor="@color/font_default"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rg_kategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView34">
+
+        <RadioButton
+            android:id="@+id/servis_elektronik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="Servis Elektronik"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+
+        <RadioButton
+            android:id="@+id/kebersihan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="Kebersihan"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+        <RadioButton
+            android:id="@+id/asisten_kesehatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="Asisten Kesehatan"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+
+        <RadioButton
+            android:id="@+id/tukang_kebun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="Tukang Kebun"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+
+        <RadioButton
+            android:id="@+id/perawat_anak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="Perawat Anak"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+
+        <RadioButton
+            android:id="@+id/guru_les"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="Guru Les"
+            android:textSize="16sp"
+            android:textColor="@color/font_default"
+            android:fontFamily="@font/roboto_medium" />
+
+        <RadioButton
+            android:id="@+id/lainnya"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="Lainnya"
+            android:textSize="0dp"
+            android:textColor="@color/colorBackground"
+            android:buttonTint="@color/colorPrimaryDark" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/et_rb_lainnya"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="12dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:fontFamily="@font/roboto_medium"
+        android:hint="Lainnya"
+        android:inputType="text"
+        android:maxLength="35"
+        android:maxLines="2"
+        android:paddingBottom="2dp"
+        android:scrollIndicators="bottom"
+        android:textColor="@color/font_default"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_kategori"
+        app:layout_constraintEnd_toEndOf="@+id/rg_kategori"
+        app:layout_constraintStart_toStartOf="@+id/rg_kategori" />
+
+    <Button
+        android:id="@+id/btn_pilih_kategori"
+        style="@style/ButtonStyle"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_btn_blue"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Simpan"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rg_kategori" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
