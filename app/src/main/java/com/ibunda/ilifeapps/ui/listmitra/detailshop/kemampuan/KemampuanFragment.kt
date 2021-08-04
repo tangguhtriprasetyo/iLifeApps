@@ -1,22 +1,22 @@
-package com.ibunda.ilifeapps.ui.detail.pesanan
+package com.ibunda.ilifeapps.ui.listmitra.detailshop.kemampuan
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ibunda.ilifeapps.databinding.FragmentPesananBinding
+import com.ibunda.ilifeapps.databinding.FragmentKemampuanBinding
 
+class KemampuanFragment : Fragment() {
 
-class PesananFragment : Fragment() {
-    private lateinit var binding : FragmentPesananBinding
+    private lateinit var binding : FragmentKemampuanBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentPesananBinding.inflate(inflater, container, false)
+        binding = FragmentKemampuanBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

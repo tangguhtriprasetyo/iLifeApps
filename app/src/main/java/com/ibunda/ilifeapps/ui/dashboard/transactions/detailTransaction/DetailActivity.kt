@@ -1,4 +1,4 @@
-package com.ibunda.ilifeapps.ui.detail
+package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

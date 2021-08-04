@@ -33,7 +33,7 @@
 
         <activity
             android:name="com.ibunda.ilifeapps.ui.maps.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"/>
         <activity android:name="com.ibunda.ilifeapps.ui.chat.ChatActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.splashscreen.SplashScreenActivity">
             <intent-filter>
@@ -46,8 +46,8 @@
         <activity android:name="com.ibunda.ilifeapps.ui.notifications.NotificationsActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.login.LoginActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity" />
-        <activity android:name="com.ibunda.ilifeapps.ui.detail.DetailActivity" />
-        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.MainActivity"></activity>
+        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.DetailActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.MainActivity"/>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />

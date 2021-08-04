@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {
         supportFragmentManager.commit {
-            replace(R.id.frame_main, fragment, fragmentTag)
+            replace(R.id.host_fragment_activity_main, fragment, fragmentTag)
         }
     }
 }

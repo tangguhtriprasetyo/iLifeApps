@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.detail.dibatalkan.DibatalkanFragment"
+    tools:context=".ui.dashboard.transactions.detailTransaction.dibatalkan.DibatalkanFragment"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout

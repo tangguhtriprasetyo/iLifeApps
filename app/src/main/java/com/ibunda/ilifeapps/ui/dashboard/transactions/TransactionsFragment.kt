@@ -9,7 +9,21 @@ import com.ibunda.ilifeapps.databinding.FragmentTransactionsBinding
 
 
 class TransactionsFragment : Fragment() {
+
     private lateinit var binding : FragmentTransactionsBinding
+
+    companion object {
+        private const val ARG_SECTION_NUMBER = "section_number"
+
+        @JvmStatic
+        fun newInstance(sectionNumber: Int): TransactionsFragment {
+            return TransactionsFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

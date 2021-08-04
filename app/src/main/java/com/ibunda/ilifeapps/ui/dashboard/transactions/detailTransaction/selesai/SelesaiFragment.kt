@@ -1,4 +1,4 @@
-package com.ibunda.ilifeapps.ui.detail.selesai
+package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.selesai
 
 import android.os.Bundle
 import android.view.LayoutInflater

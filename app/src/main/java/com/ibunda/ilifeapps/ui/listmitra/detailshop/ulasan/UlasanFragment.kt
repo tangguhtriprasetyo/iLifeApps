@@ -1,22 +1,22 @@
-package com.ibunda.ilifeapps.ui.detail.diproses
+package com.ibunda.ilifeapps.ui.listmitra.detailshop.ulasan
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ibunda.ilifeapps.databinding.FragmentDiprosesBinding
+import com.ibunda.ilifeapps.databinding.FragmentUlasanBinding
 
+class UlasanFragment : Fragment() {
 
-class DiprosesFragment : Fragment() {
-    private lateinit var binding : FragmentDiprosesBinding
+    private lateinit var binding : FragmentUlasanBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentDiprosesBinding.inflate(inflater, container, false)
+        binding = FragmentUlasanBinding.inflate(inflater, container, false)
         return binding.root
     }
 }
