@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -133,24 +134,8 @@ class LoginFragment : Fragment() {
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 Log.d(TAG, "facebook:onSuccess:$loginResult")
-                val facebookToken = loginResult.accessToken
-                val credential = FacebookAuthProvider.getCredential(facebookToken.token)
-                loginViewModel.signInWithGoogleFacebook(credential)
-                    .observe(viewLifecycleOwner, { userData ->
-                        if (userData != null) {
-                            if (userData.isNew == true) {
-                                createNewUser(userData)
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Welcome back, ${userData.name}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                Log.d("oldUser", userData.name.toString())
-                                gotoMainActivity(userData)
-                            }
-                        }
-                    })
+                Log.d("FacebookTOKEN", loginResult.accessToken.toString())
+                handleFacebookAccessToken(loginResult.accessToken)
             }
 
             override fun onCancel() {
@@ -164,8 +149,28 @@ class LoginFragment : Fragment() {
 
     }
 
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d(TAG, "handleFacebookAccessToken:$token")
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        loginViewModel.signInWithGoogleFacebook(credential)
+            .observe(viewLifecycleOwner, { userData ->
+                if (userData != null) {
+                    if (userData.isNew == true) {
+                        createNewUser(userData)
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Welcome back, ${userData.name}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        Log.d("oldUser", userData.name.toString())
+                        gotoMainActivity(userData)
+                    }
+                }
+            })
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
         // Pass the activity result back to the Facebook SDK
         Log.d(TAG, "facebookActivityResult")
