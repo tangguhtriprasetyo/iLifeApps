@@ -1,21 +1,22 @@
-package com.ibunda.ilifeapps.ui.chat.chatroom
+package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ibunda.ilifeapps.databinding.FragmentChatRoomBinding
+import com.ibunda.ilifeapps.databinding.FragmentPaymentBinding
 
-class ChatRoomFragment : Fragment() {
-    private lateinit var binding : FragmentChatRoomBinding
+class PaymentFragment : Fragment() {
+
+    private lateinit var binding : FragmentPaymentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentChatRoomBinding.inflate(inflater, container, false)
+        binding = FragmentPaymentBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

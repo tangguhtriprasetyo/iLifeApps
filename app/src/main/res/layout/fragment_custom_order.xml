@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.home.customorder.CustomOrderFragment"
+    android:background="@color/colorBackground"
+    tools:ignore="MissingDefaultResource">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="56dp">
+
+            <ImageView
+                android:id="@+id/ic_back"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_baseline_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="@+id/textView16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/product_sans_bold"
+                android:text="Buat Pesanan Khusus"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/ic_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/Responsive16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Jasa yang anda cari tidak ada di kategori?\nSilahkan isi data yang tersedia di bawah."
+                android:textColor="@color/font_default"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="Nama Pekerjaan"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_nama_pekerjaan"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="Kategori"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_kategori"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:focusedByDefault="false"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    android:contextClickable="false"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Pilih Kategori"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout3"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="Tanggal Pesanan"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_tanggal_pesanan"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:focusable="false"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_waktu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/product_sans_bold"
+                android:text="Waktu Pesanan"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
+            <LinearLayout
+                android:id="@+id/linear_waktu_pesanan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                style="@style/Responsive16dp"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_waktu">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout7"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:focusableInTouchMode="true"
+                    android:hint="Dari Jam"
+                    android:textColorHint="@color/font_default"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxStrokeWidth="2.3dp"
+                    app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                    app:hintTextColor="@color/font_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_waktu_dari"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/roboto"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:focusable="false"
+                        android:gravity="center"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:textColor="@color/font_default"
+                        android:textColorHint="@color/font_default"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout8"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:focusableInTouchMode="true"
+                    android:hint="Sampai Jam"
+                    android:textColorHint="@color/font_default"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:boxStrokeWidth="2.3dp"
+                    app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                    app:hintTextColor="@color/font_default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_waktu_sampai"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:gravity="center"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:textColor="@color/font_default"
+                        android:textColorHint="@color/font_default"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout5"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="Lokasi"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear_waktu_pesanan">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_lokasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:text="Jl. Ngaliyan no.123, Semarang"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout6"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="Deskripsi Pekerjaan"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_deskripsi_pekerjaan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:maxLength="250"
+                    android:singleLine="false"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_dana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/product_sans_bold"
+                android:text="Dana"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout30"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_dana">
+
+                <LinearLayout
+                    android:id="@+id/btn_tawar"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dana_custom"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_value_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Rp 50000"
+                        android:textColor="@color/font_default"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_sampai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="sampai"
+                    android:textColor="@color/font_default"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/btn_pesan"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dana_custom"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_value_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Rp 2000000"
+                        android:textColor="@color/font_default"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                android:id="@+id/rangeSeekBar"
+                style="@style/Responsive16dp"
+                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_color="@color/fontulasan"
+                app:bar_highlight_color="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"
+                app:left_thumb_color="@color/colorPrimaryDark"
+                app:left_thumb_color_pressed="@color/colorPrimaryDark"
+                app:right_thumb_color="@color/colorPrimaryDark"
+                app:right_thumb_color_pressed="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/tv_preferensi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/product_sans_bold"
+                android:text="Preferensi Penyedia Jasa"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
+
+            <RadioGroup
+                android:id="@+id/radio_grup_jasa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                style="@style/Responsive16dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">
+
+                <RadioButton
+                    android:id="@+id/rbPria"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="44dp"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:textColor="@color/radio_flat_text_selector"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Pria"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto" />
+
+                <RadioButton
+                    android:id="@+id/rbWanita"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:text="Wanita"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/radio_flat_text_selector" />
+
+                <RadioButton
+                    android:id="@+id/rbTidakAda"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:text="Tidak Ada"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/radio_flat_text_selector" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_buat_pesanan"
+                style="@style/ButtonStyle"
+                android:layout_height="50dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:enabled="false"
+                android:background="@drawable/bg_btn_blue"
+                android:text="Buat Pesanan"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

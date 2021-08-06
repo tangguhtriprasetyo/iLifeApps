@@ -28,12 +28,19 @@ import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentLoginBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
+import com.ibunda.ilifeapps.utils.DatePickerHelper
+import com.ibunda.ilifeapps.utils.TimePickerHelper
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
     private val loginViewModel: LoginViewModel by activityViewModels()
+
+    lateinit var datePicker: DatePickerHelper
+    lateinit var timePicker: TimePickerHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +53,14 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        datePicker = DatePickerHelper(requireContext())
+        timePicker = TimePickerHelper(requireContext(), true)
+        //testDialog
+        binding.tv.setOnClickListener {
+//            showDatePickerDialog()
+            showTimePickerDialog()
+        }
 
         callbackManager = CallbackManager.Factory.create()
         initGoogleSignInClient()
@@ -91,6 +106,40 @@ class LoginFragment : Fragment() {
             val signInIntent = googleSignInClient.signInIntent
             loginGoogleLauncher.launch(signInIntent)
         }
+    }
+
+    //testDialog
+    private fun showTimePickerDialog() {
+        val cal = Calendar.getInstance()
+        val h = cal.get(Calendar.HOUR_OF_DAY)
+        val m = cal.get(Calendar.MINUTE)
+        timePicker.showDialog(h, m, object : TimePickerHelper.Callback {
+            override fun onTimeSelected(hourOfDay: Int, minute: Int) {
+                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "${hourOfDay}"
+                val minuteStr = if (minute < 10) "0${minute}" else "${minute}"
+                binding.tv.text = "${hourOfDay}:${minuteStr}"
+            }
+        })
+    }
+
+    //testDialog
+    private fun showDatePickerDialog() {
+        val cal = Calendar.getInstance()
+        val d = cal.get(Calendar.DAY_OF_MONTH)
+        val m = cal.get(Calendar.MONTH)
+        val y = cal.get(Calendar.YEAR)
+
+        datePicker.setMinDate(cal.timeInMillis)
+        datePicker.showDialog(d, m, y, object : DatePickerHelper.Callback {
+            override fun onDateSelected(datePicker: View, dayofMonth: Int, month: Int, year: Int) {
+
+                val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+                cal.set(dayofMonth, month, year)
+                Log.d(dayofMonth.toString() + month.toString() + year.toString(), "resultDate")
+                val date = dateFormat.format(cal.time)
+                binding.tv.text = date
+            }
+        })
     }
 
 

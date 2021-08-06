@@ -1,4 +1,4 @@
-package com.ibunda.ilifeapps.ui.chat
+package com.ibunda.ilifeapps.ui.dashboard.home.chat
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

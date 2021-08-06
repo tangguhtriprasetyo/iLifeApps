@@ -34,7 +34,7 @@
         <activity
             android:name="com.ibunda.ilifeapps.ui.maps.MapsActivity"
             android:label="@string/title_activity_maps"/>
-        <activity android:name="com.ibunda.ilifeapps.ui.chat.ChatActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.home.chat.ChatActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.splashscreen.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.ibunda.ilifeapps.ui.onboarding.OnboardingActivity" />
-        <activity android:name="com.ibunda.ilifeapps.ui.notifications.NotificationsActivity" />
+        <activity android:name="com.ibunda.ilifeapps.ui.dashboard.home.notifications.NotificationsActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.login.LoginActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity" />
         <activity android:name="com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.DetailActivity" />

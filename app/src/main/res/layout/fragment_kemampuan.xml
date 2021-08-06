@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.listmitra.detailshop.kemampuan.KemampuanFragment">
+    tools:context=".ui.listmitra.listshop.detailshop.kemampuan.KemampuanFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

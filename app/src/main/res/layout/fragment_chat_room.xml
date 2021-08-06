@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bgChat"
-    tools:context=".ui.chat.chatroom.ChatRoomFragment"
+    tools:context=".ui.dashboard.home.chat.chatroom.ChatRoomFragment"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout

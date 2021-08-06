@@ -1,4 +1,4 @@
-package com.ibunda.ilifeapps.ui.chat.listchatroom
+package com.ibunda.ilifeapps.ui.dashboard.home.chat.listchatroom
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

@@ -8,6 +8,7 @@
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
     android:orientation="vertical"
+    tools:context=".ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment"
     android:background="@android:color/white"
     tools:ignore="MissingDefaultResource">
 

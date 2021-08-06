@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ibunda.ilifeapps.databinding.FragmentHomeBinding
+import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment
 
 class HomeFragment : Fragment() {
 
@@ -18,5 +19,16 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mFragmentManager = parentFragmentManager
+        val mDialogEditProfileFragment = DialogEditProfileFragment()
+        mDialogEditProfileFragment.isCancelable = false
+        mDialogEditProfileFragment.show(mFragmentManager, "DialogEditProfileFragment")
+
     }
 }

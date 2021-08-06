@@ -1,4 +1,4 @@
-package com.ibunda.ilifeapps.ui.notifications
+package com.ibunda.ilifeapps.ui.dashboard.home.notifications
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
