@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/product_sans_bold"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Buat Pesanan Khusus"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/product_sans_bold"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Waktu Pesanan"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
@@ -358,7 +358,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/product_sans_bold"
+                android:fontFamily="@font/roboto_bold"
                 android:text="Dana"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
@@ -430,106 +430,105 @@
 
             </LinearLayout>
 
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-                android:id="@+id/rangeSeekBar"
-                style="@style/Responsive16dp"
-                android:layout_marginTop="14dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:bar_color="@color/fontulasan"
-                app:bar_highlight_color="@color/colorPrimaryDark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"
-                app:left_thumb_color="@color/colorPrimaryDark"
-                app:left_thumb_color_pressed="@color/colorPrimaryDark"
-                app:right_thumb_color="@color/colorPrimaryDark"
-                app:right_thumb_color_pressed="@color/colorPrimaryDark" />
+            <!--            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar-->
+            <!--                android:id="@+id/rangeSeekBar"-->
+            <!--                style="@style/Responsive16dp"-->
+            <!--                android:layout_marginTop="14dp"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:bar_color="@color/fontulasan"-->
+            <!--                app:bar_highlight_color="@color/colorPrimaryDark"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"-->
+            <!--                app:left_thumb_color="@color/colorPrimaryDark"-->
+            <!--                app:left_thumb_color_pressed="@color/colorPrimaryDark"-->
+            <!--                app:right_thumb_color="@color/colorPrimaryDark"-->
+            <!--                app:right_thumb_color_pressed="@color/colorPrimaryDark" />-->
 
-            <TextView
-                android:id="@+id/tv_preferensi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/product_sans_bold"
-                android:text="Preferensi Penyedia Jasa"
-                android:textColor="@color/font_default"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_preferensi"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:fontFamily="@font/roboto_bold"-->
+            <!--                android:text="Preferensi Penyedia Jasa"-->
+            <!--                android:textColor="@color/font_default"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />-->
 
-            <RadioGroup
-                android:id="@+id/radio_grup_jasa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                style="@style/Responsive16dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/radio_grup_jasa"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                style="@style/Responsive16dp"-->
+            <!--                android:gravity="center_horizontal"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">-->
 
-                <RadioButton
-                    android:id="@+id/rbPria"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="44dp"
-                    android:background="@drawable/radio_flat_selector"
-                    android:button="@android:color/transparent"
-                    android:textColor="@color/radio_flat_text_selector"
-                    android:gravity="center"
-                    android:padding="4dp"
-                    android:text="Pria"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/roboto" />
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/rbPria"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:layout_height="44dp"-->
+            <!--                    android:background="@drawable/radio_flat_selector"-->
+            <!--                    android:button="@android:color/transparent"-->
+            <!--                    android:textColor="@color/radio_flat_text_selector"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:padding="4dp"-->
+            <!--                    android:text="Pria"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    android:fontFamily="@font/roboto" />-->
 
-                <RadioButton
-                    android:id="@+id/rbWanita"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_flat_selector"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="Wanita"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/radio_flat_text_selector" />
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/rbWanita"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="44dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@drawable/radio_flat_selector"-->
+            <!--                    android:button="@android:color/transparent"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:text="Wanita"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    android:fontFamily="@font/roboto"-->
+            <!--                    android:textColor="@color/radio_flat_text_selector" />-->
 
-                <RadioButton
-                    android:id="@+id/rbTidakAda"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_flat_selector"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="Tidak Ada"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/radio_flat_text_selector" />
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/rbTidakAda"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="44dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:background="@drawable/radio_flat_selector"-->
+            <!--                    android:button="@android:color/transparent"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:text="Tidak Ada"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    android:fontFamily="@font/roboto"-->
+            <!--                    android:textColor="@color/radio_flat_text_selector" />-->
 
-            </RadioGroup>
+            <!--            </RadioGroup>-->
 
-            <Button
-                android:id="@+id/btn_buat_pesanan"
-                style="@style/ButtonStyle"
-                android:layout_height="50dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:enabled="false"
-                android:background="@drawable/bg_btn_blue"
-                android:text="Buat Pesanan"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />
-
+            <!--            <Button-->
+            <!--                android:id="@+id/btn_buat_pesanan"-->
+            <!--                style="@style/ButtonStyle"-->
+            <!--                android:layout_height="50dp"-->
+            <!--                android:layout_marginTop="32dp"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:enabled="false"-->
+            <!--                android:background="@drawable/bg_btn_blue"-->
+            <!--                android:text="Buat Pesanan"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

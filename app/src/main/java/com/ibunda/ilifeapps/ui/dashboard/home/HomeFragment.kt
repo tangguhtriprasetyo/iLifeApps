@@ -25,10 +25,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+    }
+
+    private fun showDialogEditProfile() {
         val mFragmentManager = parentFragmentManager
         val mDialogEditProfileFragment = DialogEditProfileFragment()
         mDialogEditProfileFragment.isCancelable = false
         mDialogEditProfileFragment.show(mFragmentManager, "DialogEditProfileFragment")
-
     }
 }

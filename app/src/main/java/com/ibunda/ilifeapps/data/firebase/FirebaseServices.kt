@@ -31,7 +31,7 @@ class FirebaseServices {
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
         val createdUserData = MutableLiveData<Users>()
         CoroutineScope(Dispatchers.IO).launch {
-            val docRef: DocumentReference = usersRef.document(authUser.userId)
+            val docRef: DocumentReference = usersRef.document(authUser.userId.toString())
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val document: DocumentSnapshot? = task.result

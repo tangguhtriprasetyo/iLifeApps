@@ -43,35 +43,9 @@
         app:tabIndicatorHeight="2dp"
         app:tabSelectedTextColor="@color/colorPrimaryDark"
         app:tabTextAppearance="@style/tab_text_xxhdpi"
-        app:tabTextColor="@color/font_default">
+        app:tabTextColor="@color/font_default" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabPesanan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pesanan" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabDiproses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diproses" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabSelesai"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selesai" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabDibatalkan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dibatalkan" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

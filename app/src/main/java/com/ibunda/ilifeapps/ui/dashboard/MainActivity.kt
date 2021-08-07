@@ -1,24 +1,32 @@
 package com.ibunda.ilifeapps.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityMainBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.HomeFragment
 import com.ibunda.ilifeapps.ui.dashboard.profile.ProfileFragment
 import com.ibunda.ilifeapps.ui.dashboard.search.SearchFragment
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionsFragment
+import com.ibunda.ilifeapps.ui.login.LoginActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     private lateinit var binding: ActivityMainBinding
     private var doubleBackToExit = false
+    private lateinit var user: Users
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     companion object {
         const val HOME_FRAGMENT_TAG = "home_fragment_tag"
@@ -34,10 +42,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
+
         val homeFragment = HomeFragment()
         val searchFragment = SearchFragment()
         val transactionsFragment = TransactionsFragment()
         val profileFragment = ProfileFragment()
+
         if (savedInstanceState != null) {
             supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
                 ?.let { setCurrentFragment(it, HOME_FRAGMENT_TAG) }
@@ -46,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
         }
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+        binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
                     setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
@@ -87,6 +98,25 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
 
         Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExit = false }, 2000)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        firebaseAuth.addAuthStateListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        firebaseAuth.removeAuthStateListener(this)
+    }
+
+    override fun onAuthStateChanged(@NonNull firebaseAuth: FirebaseAuth) {
+        val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
+        if (firebaseUser == null) {
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
 }
