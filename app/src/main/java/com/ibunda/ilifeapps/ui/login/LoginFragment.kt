@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.login
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.databinding.FragmentDialogKategoriMitraBinding
 import com.ibunda.ilifeapps.databinding.FragmentLoginBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.utils.DatePickerHelper
@@ -58,8 +61,9 @@ class LoginFragment : Fragment() {
         timePicker = TimePickerHelper(requireContext(), true)
         //testDialog
         binding.tv.setOnClickListener {
+            showDialog()
 //            showDatePickerDialog()
-            showTimePickerDialog()
+//            showTimePickerDialog()
         }
 
         callbackManager = CallbackManager.Factory.create()
@@ -106,6 +110,25 @@ class LoginFragment : Fragment() {
             val signInIntent = googleSignInClient.signInIntent
             loginGoogleLauncher.launch(signInIntent)
         }
+    }
+
+    //testDialogBuilder
+    private fun showDialog() {
+        val dialog = Dialog(requireContext())
+        val inflater = this.layoutInflater
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+
+        val binding :FragmentDialogKategoriMitraBinding = FragmentDialogKategoriMitraBinding.inflate(inflater)
+        dialog.setContentView(binding.root)
+
+        binding.btnPilihKategori.setOnClickListener {
+            Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
     }
 
     //testDialog

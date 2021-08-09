@@ -8,6 +8,7 @@
     android:paddingVertical="32dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    tools:context=".ui.listmitra.listshop.detailshop.dialogorder.DialogOrderFragment"
     tools:ignore="MissingDefaultResource">
 
     <TextView
@@ -51,7 +52,7 @@
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_pilih"
+        android:id="@+id/btn_pilih_jadwal"
         style="@style/ButtonStyle"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

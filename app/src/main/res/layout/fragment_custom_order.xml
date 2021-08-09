@@ -427,37 +427,61 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-            <!--            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar-->
-            <!--                android:id="@+id/rangeSeekBar"-->
-            <!--                style="@style/Responsive16dp"-->
-            <!--                android:layout_marginTop="14dp"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:bar_color="@color/fontulasan"-->
-            <!--                app:bar_highlight_color="@color/colorPrimaryDark"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"-->
-            <!--                app:left_thumb_color="@color/colorPrimaryDark"-->
-            <!--                app:left_thumb_color_pressed="@color/colorPrimaryDark"-->
-            <!--                app:right_thumb_color="@color/colorPrimaryDark"-->
-            <!--                app:right_thumb_color_pressed="@color/colorPrimaryDark" />-->
+<!--            <com.jaygoo.widget.RangeSeekBar-->
+<!--                android:id="@+id/rangeSeekBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Responsive16dp"-->
+<!--                app:rsb_gravity="bottom"-->
+<!--                app:rsb_indicator_background_color="@color/colorProgress"-->
+<!--                app:rsb_indicator_height="30dp"-->
+<!--                app:rsb_indicator_width="50dp"-->
+<!--                app:rsb_mode="single"-->
+<!--                app:rsb_progress_color="@color/colorProgress"-->
+<!--                app:rsb_step_auto_bonding="true"-->
+<!--                app:rsb_step_color="@color/colorProgress"-->
+<!--                app:rsb_step_height="10dp"-->
+<!--                app:rsb_step_width="5dp"-->
+<!--                app:rsb_steps="4"-->
+<!--                app:rsb_thumb_drawable="@drawable/ic_baseline_brightness"-->
+<!--                app:rsb_tick_mark_layout_gravity="bottom"-->
+<!--                app:rsb_tick_mark_mode="other"-->
+<!--                app:rsb_tick_mark_text_array="@array/levelArray"-->
+<!--                app:rsb_tick_mark_text_margin="20dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30" />-->
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/tv_preferensi"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginStart="16dp"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                android:fontFamily="@font/roboto_bold"-->
-            <!--                android:text="Preferensi Penyedia Jasa"-->
-            <!--                android:textColor="@color/font_default"-->
-            <!--                android:textSize="16sp"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/rangeSeekBar" />-->
+<!--            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar-->
+<!--                android:id="@+id/rangeSeekBar2"-->
+<!--                style="@style/Responsive16dp"-->
+<!--                android:layout_marginTop="14dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:bar_color="@color/fontulasan"-->
+<!--                app:bar_highlight_color="@color/colorPrimaryDark"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"-->
+<!--                app:left_thumb_color="@color/colorPrimaryDark"-->
+<!--                app:left_thumb_color_pressed="@color/colorPrimaryDark"-->
+<!--                app:right_thumb_color="@color/colorPrimaryDark"-->
+<!--                app:right_thumb_color_pressed="@color/colorPrimaryDark" />-->
+
+            <TextView
+                android:id="@+id/tv_preferensi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Preferensi Penyedia Jasa"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout30" />
 
             <!--            <RadioGroup-->
             <!--                android:id="@+id/radio_grup_jasa"-->
