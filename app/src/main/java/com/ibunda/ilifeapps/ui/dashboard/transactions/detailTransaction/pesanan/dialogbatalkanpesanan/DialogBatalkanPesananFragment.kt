@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.databinding.FragmentDialogBatalkanPesananBinding
 
 class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
@@ -23,6 +25,30 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.icClose.setOnClickListener {
+            onDismiss(dialog!!)
+        }
+
+        binding.btnBatalkanPesanan.setOnClickListener {
+            val checkedRadioButtonId = binding.rgKategori.checkedRadioButtonId
+            if (checkedRadioButtonId != 1) {
+                var kategori: String? = null
+                when (checkedRadioButtonId) {
+                    R.id.rb_ubah_alamat -> kategori = binding.rbUbahAlamat.text.toString().trim()
+                    R.id.rb_ubah_pesanan -> kategori = binding.rbUbahPesanan.text.toString().trim()
+                    R.id.rb_nemu_mitra -> kategori = binding.rbNemuMitra.text.toString().trim()
+                    R.id.rb_tidak_pesan -> kategori = binding.rbTidakPesan.text.toString().trim()
+                    R.id.rb_lainnya -> kategori = binding.rbLainnya.text.toString().trim()
+                }
+                cancelOrder(kategori)
+                dialog?.dismiss()
+            }
+        }
+
+    }
+
+    private fun cancelOrder(kategori: String?) {
+        Toast.makeText(requireContext(), kategori, Toast.LENGTH_SHORT).show()
     }
 
 }
