@@ -27,13 +27,6 @@ class FirebaseServices {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestoreRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    private val adsRef: CollectionReference = firestoreRef.collection("ads")
-    private val chatRoomRef: CollectionReference = firestoreRef.collection("chatRoom")
-    private val mitrasRef: CollectionReference = firestoreRef.collection("mitras")
-    private val notificationsRef: CollectionReference = firestoreRef.collection("notifications")
-    private val ordersRef: CollectionReference = firestoreRef.collection("orders")
-    private val shopsRef: CollectionReference = firestoreRef.collection("shops")
-    private val ulasanRef: CollectionReference = firestoreRef.collection("ulasan")
     private val usersRef: CollectionReference = firestoreRef.collection("users")
 
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
@@ -185,11 +178,13 @@ class FirebaseServices {
         return downloadUrl
     }
 
-    fun getListShop(categoryName: String) : Flow<List<Shops>?> {
+    fun getListData(query: String, collectionRef: String): Flow<List<Shops>?> {
 
         return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
             val listenerRegistration =
-                usersRef.whereEqualTo("categoryName", categoryName)
+                collectionRef.whereEqualTo("categoryName", query)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
                             cancel(
@@ -198,14 +193,14 @@ class FirebaseServices {
                             )
                             return@addSnapshotListener
                         }
-                        val listFundedIdeas = querySnapshot?.documents?.mapNotNull {
+                        val listShops = querySnapshot?.documents?.mapNotNull {
                             it.toObject<Shops>()
                         }
-                        offer(listFundedIdeas)
-                        Log.d("FUNDEDIDEAS", listFundedIdeas.toString())
+                        offer(listShops)
+                        Log.d("Shops", listShops.toString())
                     }
             awaitClose {
-                Log.d(TAG, "getListIdeas: ")
+                Log.d(TAG, "getListShops: ")
                 listenerRegistration.remove()
             }
         }

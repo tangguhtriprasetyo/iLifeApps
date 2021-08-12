@@ -1,18 +1,21 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.databinding.FragmentListShopBinding
 
 
 class ListShopFragment : Fragment() {
     private lateinit var binding: FragmentListShopBinding
     private val listShopViewModel: ListShopViewModel by activityViewModels()
+    private val listShopAdapter = ListShopAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,19 +28,24 @@ class ListShopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setShopsAdapter()
         setDataRvListShop()
     }
 
+    private fun setShopsAdapter() {
+        with(binding.rvListMitra) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = listShopAdapter
+            Log.d(TAG, "setAdapter: ")
+        }
+    }
+
     private fun setDataRvListShop() {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPrefetchDistance(2)
-            .setPageSize(4)
-            .build()
-//
-//        val options = FirestorePagingOptions.Builder<Users>()
-//            .setLifecycleOwner(this)
-//            .setQuery(mQuery, config, Post::class.java)
-//            .build()
+        listShopViewModel.getListShop("Kebersihan").observe(viewLifecycleOwner, { listShops ->
+            if (listShops != null) {
+                listShopAdapter.setListShops(listShops)
+            }
+        })
     }
 }

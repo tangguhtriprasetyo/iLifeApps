@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,9 +29,9 @@ class EditProfileFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
-    private lateinit var uriImagePath: Uri
     lateinit var datePicker: DatePickerHelper
 
+    private var uriImagePath: Uri? = null
     private var gender: String? = null
 
     companion object {
@@ -175,6 +176,52 @@ class EditProfileFragment : Fragment() {
             userDataProfile.gender = etJenisKelamin.text.toString()
             userDataProfile.ttl = etTanggalLahir.text.toString()
         }
+        userDataProfile.isNew = false
+
+        if (uriImagePath != null) {
+            uploadProfilePicture()
+        } else {
+            uploadData()
+        }
+    }
+
+    private fun uploadProfilePicture() {
+        mainViewModel.uploadImages(
+            uriImagePath!!,
+            "${userDataProfile.userId.toString()}${userDataProfile.name}",
+            "Images",
+            "profilePicture"
+        ).observe(viewLifecycleOwner, { downloadUrl ->
+            if (downloadUrl != null) {
+                userDataProfile.avatar = downloadUrl.toString()
+                uploadData()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Update Profile Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    private fun uploadData() {
+        mainViewModel.editProfileUser(userDataProfile).observe(viewLifecycleOwner, { newUserData ->
+            if (newUserData != null) {
+                Toast.makeText(
+                    requireActivity(),
+                    "Profile Updated",
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().supportFragmentManager.popBackStackImmediate()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Update Profile Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
 

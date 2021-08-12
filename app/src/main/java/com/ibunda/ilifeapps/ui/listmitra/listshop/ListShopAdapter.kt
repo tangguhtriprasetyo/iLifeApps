@@ -2,24 +2,18 @@ package com.ibunda.ilifeapps.ui.listmitra.listshop
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 
-class ListShopAdapter : PagedListAdapter<Shops, ListShopViewHolder>(DIFF_CALLBACK) {
+class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
+    private var listShops = ArrayList<Shops>()
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Shops>() {
-            override fun areItemsTheSame(oldItem: Shops, newItem: Shops): Boolean {
-                return oldItem.shopId == newItem.shopId
-            }
-
-            override fun areContentsTheSame(oldItem: Shops, newItem: Shops): Boolean {
-                return oldItem == newItem
-            }
-
-        }
+    fun setListShops(shops: List<Shops>?) {
+        if (shops == null) return
+        this.listShops.clear()
+        this.listShops.addAll(shops)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListShopViewHolder {
@@ -29,7 +23,11 @@ class ListShopAdapter : PagedListAdapter<Shops, ListShopViewHolder>(DIFF_CALLBAC
     }
 
     override fun onBindViewHolder(holder: ListShopViewHolder, position: Int) {
-        val listShop = getItem(position)
-        listShop?.let { holder.bind(it) }
+        val shops = listShops[position]
+        holder.bind(shops)
     }
+
+    override fun getItemCount(): Int = listShops.size
+
+
 }
