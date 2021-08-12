@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:paddingVertical="32dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:text="Pilih Jenis Kelamin Anda"
+        android:textColor="@color/font_default"
+        android:textSize="18sp" />
+
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_laki"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:fontFamily="@font/roboto"
+            android:paddingStart="8dp"
+            android:text="Laki-Laki"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_perempuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:fontFamily="@font/roboto"
+            android:paddingStart="8dp"
+            android:text="Perempuan"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_pilih_gender"
+        style="@style/ButtonStyle"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_blue"
+        android:text="Pilih"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

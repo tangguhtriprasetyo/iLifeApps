@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.ibunda.ilifeapps.R
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
     private lateinit var binding: ActivityMainBinding
     private var doubleBackToExit = false
     private lateinit var user: Users
+    private lateinit var mainViewModel: MainViewModel
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     companion object {
@@ -42,7 +44,18 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(MainViewModel::class.java)
+
         user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
+
+        mainViewModel.setUserProfile(user.userId.toString()).observe(this, { userProfile ->
+            if (userProfile != null) {
+                user = userProfile
+            }
+        })
 
         val homeFragment = HomeFragment()
         val searchFragment = SearchFragment()

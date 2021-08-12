@@ -2,11 +2,15 @@ package com.ibunda.ilifeapps.ui.dashboard.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentHomeBinding
+import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
@@ -16,6 +20,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
 
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var userDataProfile: Users
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +35,19 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mainViewModel.getProfileData()
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+                    userDataProfile = userProfile
+                    if (userDataProfile.isNew == true) {
+                        showDialogEditProfile()
+                    }
+                }
+                Log.d("ViewModelProfile: ", userProfile.toString())
+            })
+
+
 
         binding.kategoriKebersihan.setOnClickListener {
             val intent = Intent(requireActivity(), ListMitraActivity::class.java)

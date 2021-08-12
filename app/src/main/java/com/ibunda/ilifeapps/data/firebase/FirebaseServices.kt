@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.data.firebase
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import kotlinx.coroutines.*
@@ -110,8 +114,8 @@ class FirebaseServices {
 
     }
 
-    fun getUserData(uid: String) : LiveData<Users> {
-        val docRef: DocumentReference = usersRef.document(uid)
+    fun getUserData(userId: String) : LiveData<Users> {
+        val docRef: DocumentReference = usersRef.document(userId)
         val userProfileData = MutableLiveData<Users>()
         CoroutineScope(IO).launch {
             docRef.get().addOnSuccessListener { document ->
@@ -128,6 +132,57 @@ class FirebaseServices {
                 }
         }
         return userProfileData
+    }
+
+    fun editUserData(authUser: Users): LiveData<Users> {
+        val editedUserData = MutableLiveData<Users>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = usersRef.document(authUser.userId.toString())
+            docRef.set(authUser, SetOptions.merge()).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    authUser.isNew = false
+                    editedUserData.postValue(authUser)
+                } else {
+                    Log.d(
+                        "errorUpdateProfile: ",
+                        it.exception?.message.toString()
+                    )
+                }
+            }
+                .addOnFailureListener {
+                    Log.d(
+                        "errorCreateUser: ", it.message.toString()
+                    )
+                }
+        }
+        return editedUserData
+    }
+
+    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
+        val mStorage: FirebaseStorage = Firebase.storage
+        val storageRef = mStorage.reference
+        val fileRef = storageRef.child("$uid/$type/$name")
+        val downloadUrl = MutableLiveData<String>()
+
+        fileRef.putFile(uri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            fileRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                downloadUrl.postValue(downloadUri.toString())
+                Log.d("uploadFiles: ", downloadUri.toString())
+            } else {
+                task.exception?.let {
+                    throw it
+                }
+            }
+        }
+        return downloadUrl
     }
 
     fun getListShop(categoryName: String) : Flow<List<Shops>?> {
@@ -182,10 +237,6 @@ class FirebaseServices {
     }
 
     fun getDetailOrder() {
-
-    }
-
-    fun updateUserData() {
 
     }
 

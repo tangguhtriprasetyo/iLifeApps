@@ -229,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
-                    android:enabled="false"
+                    android:focusable="false"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
                     android:paddingStart="24dp"
@@ -240,21 +240,8 @@
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spinner_jenis_kelamin"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="24dp"
-                android:background="@null"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textInputLayout4" />
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/et_tanggal_lahir"
+                android:id="@+id/textInputLayout5"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,7 +264,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_tanggal_lahir_value"
+                    android:id="@+id/et_tanggal_lahir"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
@@ -304,7 +291,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_tanggal_lahir" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

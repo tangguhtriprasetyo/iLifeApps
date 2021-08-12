@@ -3,6 +3,7 @@ package com.ibunda.ilifeapps.utils
 import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
+import com.ibunda.ilifeapps.R
 import java.util.*
 
 class DatePickerHelper(context: Context) {
@@ -13,8 +14,9 @@ class DatePickerHelper(context: Context) {
             callback?.onDateSelected(datePicker ,dayOfMonth, monthOfYear, year)
         }
     init {
+        val style = R.style.DialogTheme
         val cal = Calendar.getInstance()
-        dialog = DatePickerDialog(context, listener,
+        dialog = DatePickerDialog(context, style, listener,
             cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
     }
     fun showDialog(dayofMonth: Int, month: Int, year: Int, callback: Callback?) {
