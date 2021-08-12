@@ -1,24 +1,28 @@
 package com.ibunda.ilifeapps.data.firebase
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.toObject
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
+@ExperimentalCoroutinesApi
 class FirebaseServices {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestoreRef: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     private val adsRef: CollectionReference = firestoreRef.collection("ads")
     private val chatRoomRef: CollectionReference = firestoreRef.collection("chatRoom")
     private val mitrasRef: CollectionReference = firestoreRef.collection("mitras")
@@ -106,11 +110,50 @@ class FirebaseServices {
 
     }
 
-    fun getUserData() {
+    fun getUserData(uid: String) : LiveData<Users> {
+        val docRef: DocumentReference = usersRef.document(uid)
+        val userProfileData = MutableLiveData<Users>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userProfile = document.toObject<Users>()
+                    userProfileData.postValue(userProfile!!)
+                    Log.d("getUserProfile: ", userProfile.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
 
+                }
+        }
+        return userProfileData
     }
 
-    fun getListShop() {
+    fun getListShop(categoryName: String) : Flow<List<Shops>?> {
+
+        return callbackFlow {
+            val listenerRegistration =
+                usersRef.whereEqualTo("categoryName", categoryName)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listFundedIdeas = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Shops>()
+                        }
+                        offer(listFundedIdeas)
+                        Log.d("FUNDEDIDEAS", listFundedIdeas.toString())
+                    }
+            awaitClose {
+                Log.d(TAG, "getListIdeas: ")
+                listenerRegistration.remove()
+            }
+        }
 
     }
 

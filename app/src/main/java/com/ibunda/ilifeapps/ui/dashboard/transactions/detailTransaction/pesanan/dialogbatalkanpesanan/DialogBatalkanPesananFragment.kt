@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import com.ibunda.ilifeapps.databinding.FragmentDialogBatalkanPesananBinding
 class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDialogBatalkanPesananBinding
+
+    private var kategori: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +32,12 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
             onDismiss(dialog!!)
         }
 
+
+        binding.btnBatalkanPesanan.isEnabled = true
         binding.btnBatalkanPesanan.setOnClickListener {
+
             val checkedRadioButtonId = binding.rgKategori.checkedRadioButtonId
             if (checkedRadioButtonId != 1) {
-                var kategori: String? = null
                 when (checkedRadioButtonId) {
                     R.id.rb_ubah_alamat -> kategori = binding.rbUbahAlamat.text.toString().trim()
                     R.id.rb_ubah_pesanan -> kategori = binding.rbUbahPesanan.text.toString().trim()
@@ -40,10 +45,13 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
                     R.id.rb_tidak_pesan -> kategori = binding.rbTidakPesan.text.toString().trim()
                     R.id.rb_lainnya -> kategori = binding.rbLainnya.text.toString().trim()
                 }
-                cancelOrder(kategori)
-                dialog?.dismiss()
             }
+
+            cancelOrder(kategori)
+            Log.d(kategori, "result")
+            dialog?.dismiss()
         }
+
 
     }
 

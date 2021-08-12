@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ibunda.ilifeapps.databinding.FragmentHomeBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment
+import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 
 class HomeFragment : Fragment() {
@@ -28,7 +29,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.kategoriLainnya.setOnClickListener {
-            showDialogTawar()
+            showDialogCancelOrder()
 //            val mFragmentManager = parentFragmentManager
 //            val mCustomOrderFragment = CustomOrderFragment()
 //            mFragmentManager.commit {
@@ -43,9 +44,16 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun showDialogCancelOrder() {
+        val mDialogBatalkanPesananFragment = DialogBatalkanPesananFragment()
+        mDialogBatalkanPesananFragment.show(
+            requireActivity().supportFragmentManager,
+            DialogBatalkanPesananFragment::class.java.simpleName
+        )
+    }
+
     private fun showDialogTawar() {
         val mDialogTawarMitraFragment = DialogTawarMitraFragment()
-        mDialogTawarMitraFragment.isCancelable = false
         mDialogTawarMitraFragment.show(
             requireActivity().supportFragmentManager,
             DialogTawarMitraFragment::class.java.simpleName

@@ -38,5 +38,6 @@
 
 
     <color name="placeholder">#6FB6B6B6</color>
+    <color name="colorDisabled">#D3D3D3</color>
 
 </resources>
