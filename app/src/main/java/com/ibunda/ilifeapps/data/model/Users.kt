@@ -19,10 +19,9 @@ data class Users(
     var totalOrder: Int? = null,
     var latitude: Int? = null,
     var longitude: Int? = null,
+    var isNew: Boolean? = null,
     @get:Exclude
     var isAuthenticated: Boolean? = null,
-    @get:Exclude
-    var isNew: Boolean? = null,
     @get:Exclude
     var isCreated: Boolean? = null
 

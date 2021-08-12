@@ -81,9 +81,9 @@ class FirebaseServices {
                                 name = name,
                                 email = email,
                                 avatar = avatar.toString(),
-                                phone = phone
+                                phone = phone,
+                                isNew = isNewUser
                             )
-                            userInfo.isNew = isNewUser
                             authenticatedUser.postValue(userInfo)
                         }
                     } else {

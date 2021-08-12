@@ -78,7 +78,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     //Paging
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.1'
+    implementation 'androidx.paging:paging-runtime-ktx:3.0.1'
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
 
     //testing
     testImplementation 'junit:junit:4.13.2'

@@ -9,17 +9,6 @@ import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 
 class ListShopAdapter : PagedListAdapter<Shops, ListShopViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListShopViewHolder {
-        val itemRvListShopBinding =
-            ItemRvListShopBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ListShopViewHolder(itemRvListShopBinding)
-    }
-
-    override fun onBindViewHolder(holder: ListShopViewHolder, position: Int) {
-        val listShop = getItem(position)
-        listShop?.let { holder.bind(it) }
-    }
-
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Shops>() {
             override fun areItemsTheSame(oldItem: Shops, newItem: Shops): Boolean {
@@ -31,5 +20,16 @@ class ListShopAdapter : PagedListAdapter<Shops, ListShopViewHolder>(DIFF_CALLBAC
             }
 
         }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListShopViewHolder {
+        val itemRvListShopBinding =
+            ItemRvListShopBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListShopViewHolder(itemRvListShopBinding)
+    }
+
+    override fun onBindViewHolder(holder: ListShopViewHolder, position: Int) {
+        val listShop = getItem(position)
+        listShop?.let { holder.bind(it) }
     }
 }
