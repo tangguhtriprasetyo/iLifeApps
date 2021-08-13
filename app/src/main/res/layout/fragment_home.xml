@@ -43,7 +43,7 @@
                     android:layout_height="match_parent">
 
                     <EditText
-                        android:id="@+id/etLocation"
+                        android:id="@+id/et_location"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -73,9 +73,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/etLocation"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_location"
                         app:layout_constraintEnd_toStartOf="@+id/notification"
-                        app:layout_constraintTop_toTopOf="@+id/etLocation" />
+                        app:layout_constraintTop_toTopOf="@+id/et_location" />
 
                     <include
                         android:id="@+id/notification"
@@ -83,9 +83,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/etLocation"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_location"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/etLocation" />
+                        app:layout_constraintTop_toTopOf="@+id/et_location" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

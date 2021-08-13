@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:196001597991:android:c56378863e98503920dc02",
+        "mobilesdk_app_id": "1:196001597991:android:3a3dbbb6e277cf4720dc02",
         "android_client_info": {
-          "package_name": "com.example.ilifeapps"
+          "package_name": "com.ibunda.ilifeapps"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "196001597991-na18ntvlbmuo3js6pkgflag8vnf0lbgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ibunda.ilifeapps",
+            "certificate_hash": "3f41ccecd1b3368157368bf30ca4dd10671f18b6"
+          }
+        },
         {
           "client_id": "196001597991-kqnkorlh3mck9co5i4ggdf30ukpnqjei.apps.googleusercontent.com",
           "client_type": 3
@@ -20,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxMvmbLDT_BHht4uUtbpRjQL0ePyQ4YPQ"
+          "current_key": "AIzaSyBSqamHWMS7a426nGrDcTFCUi7e-g0pEak"
         }
       ],
       "services": {

@@ -58,8 +58,7 @@
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dibatalkan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_diproses.xml" value="0.33" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2807971014492754" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_list_shop.xml" value="0.17958459979736577" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_home.xml" value="0.2884963768115942" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_login.xml" value="0.2884963768115942" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_payment.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_pesanan.xml" value="0.33" />
@@ -71,10 +70,12 @@
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_list_shop.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_notification.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_content_transaction.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_custom_order.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_dialog_tawar_mitra.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_dibatalkan.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_transactions.xml" value="0.34375" />

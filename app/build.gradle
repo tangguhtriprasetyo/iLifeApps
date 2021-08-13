@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
 
 android {
@@ -10,7 +11,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.ilifeapps"
+        applicationId "com.ibunda.ilifeapps"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -77,12 +78,14 @@ dependencies {
     //facebook
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
     implementation 'com.facebook.android:facebook-login:5.15.3'
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'
-    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     //Paging
     implementation 'androidx.paging:paging-runtime-ktx:3.0.1'
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
+
+    //Maps
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
     //testing
     testImplementation 'junit:junit:4.13.2'

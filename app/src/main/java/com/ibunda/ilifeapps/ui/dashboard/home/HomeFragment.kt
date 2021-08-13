@@ -19,6 +19,7 @@ import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfil
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
+import com.ibunda.ilifeapps.ui.maps.MapsActivity
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
@@ -46,6 +47,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.kategoriTukang.setOnClickListener(this)
         binding.kategoriGuruLes.setOnClickListener(this)
         binding.kategoriLainnya.setOnClickListener(this)
+        binding.etLocation.setOnClickListener(this)
 
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
@@ -60,14 +62,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        var categoryName: String? = null
         when (v.id) {
-                R.id.kategori_elektronik -> gotoListShop("Servis Elektronik")
-                R.id.kategori_kebersihan -> gotoListShop("Kebersihan")
-                R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan")
-                R.id.kategori_tukang -> gotoListShop("Tukang")
-                R.id.kategori_guru_les -> gotoListShop("Guru Les")
-                R.id.kategori_lainnya -> gotoCustomOrder()
+            R.id.kategori_elektronik -> gotoListShop("Servis Elektronik")
+            R.id.kategori_kebersihan -> gotoListShop("Kebersihan")
+            R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan")
+            R.id.kategori_tukang -> gotoListShop("Tukang")
+            R.id.kategori_guru_les -> gotoListShop("Guru Les")
+            R.id.kategori_lainnya -> gotoCustomOrder()
+            R.id.et_location -> openMaps()
         }
     }
 
@@ -112,5 +114,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val mDialogEditProfileFragment = DialogEditProfileFragment()
         mDialogEditProfileFragment.isCancelable = false
         mDialogEditProfileFragment.show(mFragmentManager, "DialogEditProfileFragment")
+    }
+
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        startActivity(intent)
     }
 }
