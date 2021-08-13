@@ -36,7 +36,7 @@ class ListShopFragment : Fragment() {
 
     private fun initView() {
         binding.icBack.setOnClickListener {
-
+            activity?.onBackPressed()
         }
     }
 
