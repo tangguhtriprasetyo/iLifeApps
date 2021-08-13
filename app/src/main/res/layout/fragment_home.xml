@@ -259,7 +259,7 @@
                     android:gravity="center">
 
                     <LinearLayout
-                        android:id="@+id/kategori_kebun"
+                        android:id="@+id/kategori_tukang"
                         android:layout_width="104dp"
                         android:layout_height="104dp"
                         android:orientation="vertical"

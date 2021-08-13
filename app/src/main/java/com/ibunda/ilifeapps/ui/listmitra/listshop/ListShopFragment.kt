@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.databinding.FragmentListShopBinding
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 
 
 class ListShopFragment : Fragment() {
     private lateinit var binding: FragmentListShopBinding
     private val listShopViewModel: ListShopViewModel by activityViewModels()
+    private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private val listShopAdapter = ListShopAdapter()
 
     override fun onCreateView(
@@ -28,6 +31,11 @@ class ListShopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        listMitraViewModel.dataCategory.observe(viewLifecycleOwner, Observer {
+            binding.tvListKategoriMitra.text = listMitraViewModel.dataCategory.value
+        })
 
         initView()
         setShopsAdapter()

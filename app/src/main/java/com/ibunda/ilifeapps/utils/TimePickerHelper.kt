@@ -2,6 +2,7 @@ package com.ibunda.ilifeapps.utils
 
 import android.app.TimePickerDialog
 import android.content.Context
+import com.ibunda.ilifeapps.R
 import java.util.*
 
 class TimePickerHelper(
@@ -14,8 +15,9 @@ class TimePickerHelper(
         callback?.onTimeSelected(hourOfDay, minute)
     }
     init {
+        val style = R.style.DialogTheme
         val cal = Calendar.getInstance()
-        dialog = TimePickerDialog(context, listener,
+        dialog = TimePickerDialog(context, style, listener,
             cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), is24HourView)
     }
     fun showDialog(hourOfDay: Int, minute: Int, callback: Callback?) {
