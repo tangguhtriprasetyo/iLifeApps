@@ -33,7 +33,7 @@ class ListShopFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        listMitraViewModel.dataCategory.observe(viewLifecycleOwner, Observer {
+        listMitraViewModel.dataCategory?.observe(viewLifecycleOwner, Observer {
             binding.tvListKategoriMitra.text = listMitraViewModel.dataCategory.value
         })
 
@@ -58,10 +58,12 @@ class ListShopFragment : Fragment() {
     }
 
     private fun setDataRvListShop() {
-        listShopViewModel.getListShop("Kebersihan").observe(viewLifecycleOwner, { listShops ->
-            if (listShops != null) {
-                listShopAdapter.setListShops(listShops)
-            }
-        })
+        listMitraViewModel.dataCategory.value?.let {
+            listShopViewModel.getListShop(it).observe(viewLifecycleOwner, { listShops ->
+                if (listShops != null) {
+                    listShopAdapter.setListShops(listShops)
+                }
+            })
+        }
     }
 }

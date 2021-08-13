@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
@@ -27,7 +28,7 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
 
             with(itemView) {
                 setOnClickListener {
-                    //
+                    Toast.makeText(context, data.shopId, Toast.LENGTH_SHORT).show()
                 }
             }
 

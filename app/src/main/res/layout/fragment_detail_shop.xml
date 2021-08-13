@@ -62,6 +62,7 @@
                         android:id="@+id/ic_verified"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:visibility="gone"
                         android:layout_marginStart="4dp"
                         android:background="@drawable/ic_baseline_check_circle_24"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_nama_mitra"

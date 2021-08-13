@@ -28,6 +28,7 @@ class FirebaseServices {
     private val firestoreRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val usersRef: CollectionReference = firestoreRef.collection("users")
+    private val shopsRef: CollectionReference = firestoreRef.collection("shops")
 
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
         val createdUserData = MutableLiveData<Users>()
@@ -207,8 +208,24 @@ class FirebaseServices {
 
     }
 
-    fun getShopData() {
+    fun getShopData(shopId: String) : LiveData<Shops> {
+        val docRef: DocumentReference = shopsRef.document(shopId)
+        val shopData = MutableLiveData<Shops>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val shopsData = document.toObject<Shops>()
+                    shopData.postValue(shopsData!!)
+                    Log.d("getShopData: ", shopsData.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
 
+                }
+        }
+        return shopData
     }
 
     fun getNotifications() {

@@ -7,7 +7,4 @@ class ListMitraViewModel : ViewModel()
 {
     val dataCategory = MutableLiveData<String>()
 
-    fun dataCategory(categoryName: String) {
-        dataCategory.value = categoryName
-    }
 }

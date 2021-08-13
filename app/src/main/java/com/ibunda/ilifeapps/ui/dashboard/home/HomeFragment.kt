@@ -41,14 +41,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.kategoriElektronik.setOnClickListener(this)
-        binding.kategoriKebersihan.setOnClickListener(this)
-        binding.kategoriKesehatan.setOnClickListener(this)
-        binding.kategoriTukang.setOnClickListener(this)
-        binding.kategoriGuruLes.setOnClickListener(this)
-        binding.kategoriLainnya.setOnClickListener(this)
-        binding.etLocation.setOnClickListener(this)
+        initView()
+        getProfileData()
 
+    }
+
+    private fun getProfileData() {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -59,6 +57,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
             })
+    }
+
+    private fun initView() {
+        binding.kategoriElektronik.setOnClickListener(this)
+        binding.kategoriKebersihan.setOnClickListener(this)
+        binding.kategoriKesehatan.setOnClickListener(this)
+        binding.kategoriTukang.setOnClickListener(this)
+        binding.kategoriGuruLes.setOnClickListener(this)
+        binding.kategoriLainnya.setOnClickListener(this)
+        binding.etLocation.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
