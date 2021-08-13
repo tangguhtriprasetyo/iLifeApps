@@ -28,8 +28,16 @@ class ListShopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initView()
         setShopsAdapter()
         setDataRvListShop()
+    }
+
+    private fun initView() {
+        binding.icBack.setOnClickListener {
+
+        }
     }
 
     private fun setShopsAdapter() {

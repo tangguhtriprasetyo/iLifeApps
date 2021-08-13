@@ -130,6 +130,9 @@ class EditProfileFragment : Fragment() {
     private fun setProfileData(userDataProfile: Users) {
         with(binding) {
             imgProfile.loadImage(userDataProfile.avatar)
+            if (userDataProfile.email == null) {
+                binding.etEmailUser.isEnabled = true
+            }
             etNamaUser.setText(
                 if (userDataProfile.name == null) {
                     "-"
@@ -213,6 +216,9 @@ class EditProfileFragment : Fragment() {
                     "Profile Updated",
                     Toast.LENGTH_SHORT
                 ).show()
+                val bottomNav: BottomNavigationView =
+                    requireActivity().findViewById(R.id.bottom_navigation)
+                bottomNav.visibility = View.VISIBLE
                 requireActivity().supportFragmentManager.popBackStackImmediate()
             } else {
                 Toast.makeText(
