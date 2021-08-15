@@ -71,11 +71,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.kategori_elektronik -> gotoListShop("Servis Elektronik")
-            R.id.kategori_kebersihan -> gotoListShop("Kebersihan")
-            R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan")
-            R.id.kategori_tukang -> gotoListShop("Tukang")
-            R.id.kategori_guru_les -> gotoListShop("Guru Les")
+            R.id.kategori_elektronik -> gotoListShop("Servis Elektronik", userDataProfile)
+            R.id.kategori_kebersihan -> gotoListShop("Kebersihan", userDataProfile)
+            R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan", userDataProfile)
+            R.id.kategori_tukang -> gotoListShop("Tukang", userDataProfile)
+            R.id.kategori_guru_les -> gotoListShop("Guru Les", userDataProfile)
             R.id.kategori_lainnya -> gotoCustomOrder()
             R.id.et_location -> openMaps()
         }
@@ -94,10 +94,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun gotoListShop(categoryName: String) {
+    private fun gotoListShop(categoryName: String, userDataProfile: Users) {
         val intent =
             Intent(requireActivity(), ListMitraActivity::class.java)
         intent.putExtra(ListMitraActivity.EXTRA_CATEGORY_NAME, categoryName)
+        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
         startActivity(intent)
     }
 

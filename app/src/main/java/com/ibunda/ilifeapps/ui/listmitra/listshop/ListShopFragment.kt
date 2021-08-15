@@ -38,8 +38,8 @@ class ListShopFragment : Fragment() {
         })
 
         initView()
-        setShopsAdapter()
         setDataRvListShop()
+
     }
 
     private fun initView() {
@@ -62,6 +62,7 @@ class ListShopFragment : Fragment() {
             listShopViewModel.getListShop(it).observe(viewLifecycleOwner, { listShops ->
                 if (listShops != null) {
                     listShopAdapter.setListShops(listShops)
+                    setShopsAdapter()
                 }
             })
         }

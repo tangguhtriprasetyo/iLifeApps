@@ -1,13 +1,19 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
+import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
 import com.ibunda.ilifeapps.utils.loadImage
 import java.text.NumberFormat
 import java.util.*
+
 
 class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -17,6 +23,7 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
             if (data.verified == true) {
                 icVerified.visibility = View.VISIBLE
             }
+            Log.d(data.verified.toString(), "verified")
             imgProfileShops.loadImage(data.shopPicture)
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvNamaMitra.text = (data.shopName)
@@ -28,10 +35,21 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
 
             with(itemView) {
                 setOnClickListener {
-                    Toast.makeText(context, data.shopId, Toast.LENGTH_SHORT).show()
+                    val mDetailShopFragment = DetailShopFragment()
+                    val mBundle = Bundle()
+                    mBundle.putParcelable("ShopData", data)
+                    mDetailShopFragment.arguments = mBundle
+                    val manager: FragmentManager =
+                        (context as AppCompatActivity).supportFragmentManager
+                    manager.commit {
+                        addToBackStack(null)
+                        replace(com.ibunda.ilifeapps.R.id.host_listshop_activity, mDetailShopFragment)
+                    }
                 }
             }
 
         }
     }
+
+
 }

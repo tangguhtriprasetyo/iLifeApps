@@ -321,25 +321,13 @@
                 app:tabTextAppearance="@style/tab_text_xxhdpi"
                 app:tabTextColor="@color/font_default">
 
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabNot_confirmed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kemampuan" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/tabConfirmed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ulasan (2)" />
-
             </com.google.android.material.tabs.TabLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

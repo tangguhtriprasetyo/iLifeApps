@@ -30,6 +30,8 @@
 
     <string name="facebook_app_id">262856895645523</string>
     <string name="fb_login_protocol_scheme">fb262856895645523</string>
+    <string name="kemampuan">Kemampuan</string>
+    <string name="ulasan">Ulasan</string>
 
 
 </resources>

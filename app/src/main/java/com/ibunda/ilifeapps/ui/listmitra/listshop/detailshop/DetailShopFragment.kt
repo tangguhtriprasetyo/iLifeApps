@@ -7,17 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentDetailShopBinding
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.utils.loadImage
 import java.text.NumberFormat
 import java.util.*
 
 class DetailShopFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var binding : FragmentDetailShopBinding
-    private val detailShopViewModel: DetailShopViewModel by activityViewModels()
+    private lateinit var binding: FragmentDetailShopBinding
+    private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private lateinit var shopData: Shops
 
     override fun onCreateView(
@@ -32,9 +34,35 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        shopData = Shops()
+        if (arguments != null) {
+            shopData = requireArguments().getParcelable("ShopData")!!
+        }
+        Log.d(shopData.shopId.toString(), "shopId")
+
+        listMitraViewModel.setShopData(shopData.shopId.toString())
+            .observe(viewLifecycleOwner, { shops ->
+                if (shops != null) {
+                    shopData = shops
+                }
+            })
+
         initView()
+        initTabLayout()
         getShopData()
 
+    }
+
+    private fun initTabLayout() {
+        val sectionAdapter = SectionDetailAdapter(this)
+        binding.viewPager.adapter = sectionAdapter
+        binding.viewPager.isSaveEnabled = false
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Kemampuan"
+                1 -> tab.text = "Ulasan"
+            }
+        }.attach()
     }
 
     private fun initView() {
@@ -48,19 +76,18 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.ic_back -> requireActivity().supportFragmentManager.popBackStackImmediate()
+            R.id.ic_back -> activity?.onBackPressed()
         }
     }
 
-
     private fun getShopData() {
-        detailShopViewModel.getShopData()
+        listMitraViewModel.getShopData()
             .observe(viewLifecycleOwner, { shops ->
                 if (shops != null) {
                     shopData = shops
                     setShopData(shopData)
                 }
-                Log.d("ViewModelProfile: ", shops.toString())
+                Log.d("ViewModelShopData: ", shops.toString())
             })
     }
 

@@ -11,6 +11,10 @@ class UlasanFragment : Fragment() {
 
     private lateinit var binding : FragmentUlasanBinding
 
+    companion object{
+        fun newInstance() = UlasanFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

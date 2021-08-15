@@ -11,7 +11,7 @@ data class Shops(
     var facebook: String? = null,
     var instagram: String? = null,
     var promo: Boolean? = null,
-    var verified: Boolean? = null,
+    var verified: Boolean? = false,
     var kemampuan1: String? = null,
     var kemampuan2: String? = null,
     var kemampuan3: String? = null,

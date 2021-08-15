@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityListMitraBinding
+import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.ListShopFragment
 
 class ListMitraActivity : AppCompatActivity() {
@@ -14,9 +16,11 @@ class ListMitraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListMitraBinding
 
     private val listMitraViewModel: ListMitraViewModel by viewModels()
+    private lateinit var user: Users
 
     companion object {
         const val EXTRA_CATEGORY_NAME = "extra_category_name"
+        const val EXTRA_USER = "extra_user"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +31,16 @@ class ListMitraActivity : AppCompatActivity() {
         var categoryName: String? = null
         categoryName = intent.getStringExtra(EXTRA_CATEGORY_NAME)
         Log.d(categoryName, "categoryName")
-        
         listMitraViewModel.dataCategory.value = categoryName
+
+        user = intent.getParcelableExtra<Users>(MainActivity.EXTRA_USER) as Users
+
+        listMitraViewModel.setUserProfile(user.userId.toString()).observe(this, { userProfile ->
+            if (userProfile != null) {
+                user = userProfile
+            }
+        })
+
 
         val listShopFragment = ListShopFragment()
         supportFragmentManager.commit {

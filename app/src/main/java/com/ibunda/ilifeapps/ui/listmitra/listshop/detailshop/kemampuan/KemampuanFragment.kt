@@ -11,6 +11,10 @@ class KemampuanFragment : Fragment() {
 
     private lateinit var binding : FragmentKemampuanBinding
 
+    companion object{
+        fun newInstance() = KemampuanFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

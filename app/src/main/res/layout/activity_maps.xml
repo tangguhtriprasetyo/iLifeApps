@@ -40,6 +40,7 @@
             android:hint="Cari Lokasi"
             android:inputType="text"
             android:ellipsize="end"
+            android:focusable="false"
             android:importantForAutofill="no"
             android:singleLine="true"
             android:paddingStart="8dp"
