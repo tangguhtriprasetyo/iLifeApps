@@ -9,17 +9,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentHomeBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
+import com.ibunda.ilifeapps.ui.dashboard.home.ads.AdsHomeAdapter
 import com.ibunda.ilifeapps.ui.dashboard.home.customorder.CustomOrderFragment
 import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment
+import com.ibunda.ilifeapps.ui.dashboard.home.story.StoryHomeAdaper
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
+import com.ibunda.ilifeapps.utils.RvDecoration
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
@@ -27,6 +33,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
+    private val adsHomeAdapter = AdsHomeAdapter()
+    private val storyHomeAdapter = StoryHomeAdaper()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +50,51 @@ class HomeFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        setRvAdsHome()
+        setRvStoryHome()
         getProfileData()
 
+    }
+
+    private fun setRvStoryHome() {
+        mainViewModel.getListAds("adsStory").observe(viewLifecycleOwner, { listStory ->
+            if (listStory != null) {
+                storyHomeAdapter.setListStory(listStory)
+                setStoryAdapter()
+            }
+        })
+    }
+
+    private fun setStoryAdapter() {
+        with(binding.rvStoryMitra) {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            adapter = storyHomeAdapter
+            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+        }
+    }
+
+    private fun setRvAdsHome() {
+        mainViewModel.getListAds("adsHome").observe(viewLifecycleOwner, { listAds ->
+            if (listAds != null) {
+                adsHomeAdapter.setListAds(listAds)
+                setAdsAdapter()
+            }
+        })
+    }
+
+    private fun setAdsAdapter() {
+        with(binding.rvAdsHome) {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            val snapHelper: SnapHelper = PagerSnapHelper()
+            onFlingListener = null
+            snapHelper.attachToRecyclerView(this)
+            val mRvDecoration = RvDecoration()
+            addItemDecoration(mRvDecoration)
+            adapter = adsHomeAdapter
+            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+        }
     }
 
     private fun getProfileData() {

@@ -22,6 +22,10 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
     private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private lateinit var shopData: Shops
 
+    companion object {
+        const val EXTRA_SHOP_DATA = "extra_shop_data"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +40,7 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
 
         shopData = Shops()
         if (arguments != null) {
-            shopData = requireArguments().getParcelable("ShopData")!!
+            shopData = requireArguments().getParcelable(EXTRA_SHOP_DATA)!!
         }
         Log.d(shopData.shopId.toString(), "shopId")
 
