@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
+import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
-import java.text.NumberFormat
-import java.util.*
 
 
 class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
@@ -28,10 +27,7 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvNamaMitra.text = (data.shopName)
 
-
-            val localeId = Locale("in", "ID")
-            val priceFormat = NumberFormat.getCurrencyInstance(localeId)
-            tvHargaMitra.text = priceFormat.format(data.price)
+            tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.price)
 
             with(itemView) {
                 setOnClickListener {

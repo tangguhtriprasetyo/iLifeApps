@@ -32,6 +32,18 @@
     <string name="fb_login_protocol_scheme">fb262856895645523</string>
     <string name="kemampuan">Kemampuan</string>
     <string name="ulasan">Ulasan</string>
+    <string name="slider_desc">Slider Description</string>
+    <string name="tentukan_metode_pembayaran_anda_untuk_transaksi_pembayaran_jasa">Tentukan metode pembayaran anda untuk transaksi pembayaran jasa</string>
+    <string name="metode_pembayaran">Metode Pembayaran</string>
+    <string name="bayar_di_tempat_cod">Bayar di Tempat (COD)</string>
+    <string name="transfer_bank">Transfer Bank</string>
+    <string name="ovo">OVO</string>
+    <string name="gopay">Gopay</string>
+    <string name="pesan">Pesan</string>
+    <string name="atur_jadwal">Atur Jadwal</string>
+    <string name="pesan_sekarang">Pesan Sekarang</string>
+    <string name="waktu_pemesanan">Waktu Pemesanan</string>
+    <string name="tanggal_pemesanan">Tanggal Pemesanan</string>
 
 
 </resources>

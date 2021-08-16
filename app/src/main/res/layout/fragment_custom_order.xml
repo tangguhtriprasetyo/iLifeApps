@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.home.customorder.CustomOrderFragment"
     android:background="@color/colorBackground"
+    tools:context=".ui.dashboard.home.customorder.CustomOrderFragment"
     tools:ignore="MissingDefaultResource">
 
     <ScrollView
@@ -60,8 +59,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:focusableInTouchMode="true"
                 android:hint="Nama Pekerjaan"
@@ -97,8 +96,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:focusableInTouchMode="true"
                 android:hint="Kategori"
@@ -119,13 +118,13 @@
                     android:id="@+id/et_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:contextClickable="false"
                     android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:focusedByDefault="false"
-                    android:focusableInTouchMode="false"
-                    android:focusable="false"
-                    android:contextClickable="false"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="Pilih Kategori"
@@ -139,8 +138,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:focusableInTouchMode="true"
                 android:hint="Tanggal Pesanan"
@@ -187,10 +186,10 @@
 
             <LinearLayout
                 android:id="@+id/linear_waktu_pesanan"
+                style="@style/Responsive16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                style="@style/Responsive16dp"
                 android:weightSum="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,11 +221,11 @@
                         android:id="@+id/et_waktu_dari"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:focusable="false"
                         android:fontFamily="@font/roboto"
+                        android:gravity="center"
                         android:inputType="numberDecimal"
                         android:maxLength="5"
-                        android:focusable="false"
-                        android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:textColor="@color/font_default"
@@ -263,9 +262,9 @@
                         android:layout_height="50dp"
                         android:focusable="false"
                         android:fontFamily="@font/roboto"
+                        android:gravity="center"
                         android:inputType="numberDecimal"
                         android:maxLength="5"
-                        android:gravity="center"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:textColor="@color/font_default"
@@ -281,8 +280,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:focusableInTouchMode="true"
                 android:hint="Lokasi"
@@ -306,9 +305,9 @@
                     android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:text="Jl. Ngaliyan no.123, Semarang"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
+                    android:text="Jl. Ngaliyan no.123, Semarang"
                     android:textColor="@color/font_default"
                     android:textColorHint="@color/font_default"
                     android:textSize="16sp" />
@@ -319,8 +318,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:focusableInTouchMode="true"
                 android:hint="Deskripsi Pekerjaan"
@@ -343,9 +342,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:inputType="textMultiLine"
+                    android:maxLength="250"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:maxLength="250"
                     android:singleLine="false"
                     android:textColor="@color/font_default"
                     android:textColorHint="@color/font_default"
@@ -390,7 +389,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="Rp 50000"
+                        android:text="Rp 10000"
                         android:textColor="@color/font_default"
                         android:textSize="14sp" />
 
@@ -429,46 +428,20 @@
 
             </LinearLayout>
 
-<!--            <com.jaygoo.widget.RangeSeekBar-->
-<!--                android:id="@+id/rangeSeekBar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                style="@style/Responsive16dp"-->
-<!--                app:rsb_gravity="bottom"-->
-<!--                app:rsb_indicator_background_color="@color/colorProgress"-->
-<!--                app:rsb_indicator_height="30dp"-->
-<!--                app:rsb_indicator_width="50dp"-->
-<!--                app:rsb_mode="single"-->
-<!--                app:rsb_progress_color="@color/colorProgress"-->
-<!--                app:rsb_step_auto_bonding="true"-->
-<!--                app:rsb_step_color="@color/colorProgress"-->
-<!--                app:rsb_step_height="10dp"-->
-<!--                app:rsb_step_width="5dp"-->
-<!--                app:rsb_steps="4"-->
-<!--                app:rsb_thumb_drawable="@drawable/ic_baseline_brightness"-->
-<!--                app:rsb_tick_mark_layout_gravity="bottom"-->
-<!--                app:rsb_tick_mark_mode="other"-->
-<!--                app:rsb_tick_mark_text_array="@array/levelArray"-->
-<!--                app:rsb_tick_mark_text_margin="20dp"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30" />-->
-
-<!--            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar-->
-<!--                android:id="@+id/rangeSeekBar2"-->
-<!--                style="@style/Responsive16dp"-->
-<!--                android:layout_marginTop="14dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:bar_color="@color/fontulasan"-->
-<!--                app:bar_highlight_color="@color/colorPrimaryDark"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"-->
-<!--                app:left_thumb_color="@color/colorPrimaryDark"-->
-<!--                app:left_thumb_color_pressed="@color/colorPrimaryDark"-->
-<!--                app:right_thumb_color="@color/colorPrimaryDark"-->
-<!--                app:right_thumb_color_pressed="@color/colorPrimaryDark" />-->
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/range_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/slider_desc"
+                android:stepSize="10000"
+                android:valueFrom="10000"
+                android:valueTo="2000000"
+                app:labelBehavior="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout30"
+                app:values="@array/initial_slider_values" />
 
             <TextView
                 android:id="@+id/tv_preferensi"
@@ -481,78 +454,78 @@
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout30" />
+                app:layout_constraintTop_toBottomOf="@+id/range_slider" />
 
-            <!--            <RadioGroup-->
-            <!--                android:id="@+id/radio_grup_jasa"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                style="@style/Responsive16dp"-->
-            <!--                android:gravity="center_horizontal"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">-->
+            <RadioGroup
+                android:id="@+id/radio_grup_jasa"
+                style="@style/Responsive16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">
 
-            <!--                <RadioButton-->
-            <!--                    android:id="@+id/rbPria"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:layout_height="44dp"-->
-            <!--                    android:background="@drawable/radio_flat_selector"-->
-            <!--                    android:button="@android:color/transparent"-->
-            <!--                    android:textColor="@color/radio_flat_text_selector"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:padding="4dp"-->
-            <!--                    android:text="Pria"-->
-            <!--                    android:textSize="14sp"-->
-            <!--                    android:fontFamily="@font/roboto" />-->
+                <RadioButton
+                    android:id="@+id/rbPria"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Pria"
+                    android:textColor="@color/radio_flat_text_selector"
+                    android:textSize="14sp" />
 
-            <!--                <RadioButton-->
-            <!--                    android:id="@+id/rbWanita"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="44dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:background="@drawable/radio_flat_selector"-->
-            <!--                    android:button="@android:color/transparent"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:layout_marginStart="8dp"-->
-            <!--                    android:text="Wanita"-->
-            <!--                    android:textSize="14sp"-->
-            <!--                    android:fontFamily="@font/roboto"-->
-            <!--                    android:textColor="@color/radio_flat_text_selector" />-->
+                <RadioButton
+                    android:id="@+id/rbWanita"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="Wanita"
+                    android:textColor="@color/radio_flat_text_selector"
+                    android:textSize="14sp" />
 
-            <!--                <RadioButton-->
-            <!--                    android:id="@+id/rbTidakAda"-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="44dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:background="@drawable/radio_flat_selector"-->
-            <!--                    android:button="@android:color/transparent"-->
-            <!--                    android:gravity="center"-->
-            <!--                    android:layout_marginStart="8dp"-->
-            <!--                    android:text="Tidak Ada"-->
-            <!--                    android:textSize="14sp"-->
-            <!--                    android:fontFamily="@font/roboto"-->
-            <!--                    android:textColor="@color/radio_flat_text_selector" />-->
+                <RadioButton
+                    android:id="@+id/rbTidakAda"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_flat_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="Tidak Ada"
+                    android:textColor="@color/radio_flat_text_selector"
+                    android:textSize="14sp" />
 
-            <!--            </RadioGroup>-->
+            </RadioGroup>
 
-            <!--            <Button-->
-            <!--                android:id="@+id/btn_buat_pesanan"-->
-            <!--                style="@style/ButtonStyle"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:layout_marginTop="32dp"-->
-            <!--                android:layout_marginStart="16dp"-->
-            <!--                android:layout_marginEnd="16dp"-->
-            <!--                android:enabled="false"-->
-            <!--                android:background="@drawable/bg_btn_blue"-->
-            <!--                android:text="Buat Pesanan"-->
-            <!--                android:textSize="16sp"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />-->
+            <Button
+                android:id="@+id/btn_buat_pesanan"
+                style="@style/ButtonStyle"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_btn_blue"
+                android:enabled="false"
+                android:text="Buat Pesanan"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

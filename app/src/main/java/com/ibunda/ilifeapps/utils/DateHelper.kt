@@ -10,7 +10,7 @@ object DateHelper {
 
     fun getCurrentDate(): String {
         val localeID = Locale("in", "ID")
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", localeID)
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy HH:mm:ss", localeID)
         val date = Date()
         return dateFormat.format(date)
     }
