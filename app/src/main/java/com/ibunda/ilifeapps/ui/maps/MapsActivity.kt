@@ -6,9 +6,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
@@ -49,6 +47,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private var likelyPlaceAddresses: Array<String?> = arrayOfNulls(0)
     private var likelyPlaceAttributions: Array<List<*>?> = arrayOfNulls(0)
     private var likelyPlaceLatLngs: Array<LatLng?> = arrayOfNulls(0)
+    private var mapMarker: Marker? = null
 
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
 
@@ -57,7 +56,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val place = result.data?.let { Autocomplete.getPlaceFromIntent(it) }
-                    Log.i(TAG, "Place: ${place?.name}, ${place?.id}")
+                    lastKnownLocation!!.latitude =
+                        place?.latLng?.latitude ?: defaultLocation.latitude
+                    lastKnownLocation!!.longitude =
+                        place?.latLng?.longitude ?: defaultLocation.longitude
+                    moveCamera()
+                    Log.i(TAG, "Place: ${place?.name}, ${place?.id}, ${place?.latLng}")
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
                     // TODO: Handle the error.
@@ -99,28 +103,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
-        map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoWindow(p0: Marker): View? {
-                return null
-            }
-
-            override fun getInfoContents(marker: Marker): View? {
-                val infoWindow = layoutInflater.inflate(
-                    R.layout.custom_info_contents,
-                    findViewById<FrameLayout>(R.id.map), false
-                )
-                val title = infoWindow.findViewById<TextView>(R.id.title)
-                title.text = marker.title
-                val snippet = infoWindow.findViewById<TextView>(R.id.snippet)
-                snippet.text = marker.snippet
-                return infoWindow
-            }
-        })
         getLocationPermission()
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -161,16 +144,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = task.result
-                        if (lastKnownLocation != null) {
-                            map?.moveCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    LatLng(
-                                        lastKnownLocation!!.latitude,
-                                        lastKnownLocation!!.longitude
-                                    ), DEFAULT_ZOOM.toFloat()
-                                )
-                            )
-                        }
+                        moveCamera()
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
                         Log.e(TAG, "Exception: %s", task.exception)
@@ -184,6 +158,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
+        }
+    }
+
+    private fun moveCamera() {
+        if (lastKnownLocation != null) {
+            val latLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
+            map?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    latLng,
+                    DEFAULT_ZOOM.toFloat()
+                )
+            )
+            mapMarker?.remove()
+            mapMarker = map?.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title("Posisi Anda Saat Ini")
+                    .snippet(lastKnownLocation.toString())
+            )
+
         }
     }
 
@@ -229,9 +223,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     private fun openPlacesApi() {
-        val fields = listOf(Place.Field.ID, Place.Field.NAME)
+        val fields =
+            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
             .setTypeFilter(TypeFilter.ADDRESS)
+            .setCountry("ID")
             .build(this)
         getResult.launch(intent)
 
