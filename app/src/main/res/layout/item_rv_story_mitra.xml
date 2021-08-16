@@ -34,6 +34,7 @@
                     android:id="@+id/img_story_mitra"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_story_mitra"
                     android:src="@drawable/bg_story_mitra"
                     app:layout_constraintBottom_toBottomOf="parent"

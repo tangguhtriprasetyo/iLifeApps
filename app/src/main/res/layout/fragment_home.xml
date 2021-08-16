@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="72dp">
+            android:paddingBottom="16dp">
 
             <View
                 android:id="@+id/statusBarBackground"
@@ -96,13 +96,15 @@
                 android:id="@+id/rvAdsHome"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
-                tools:listitem="@layout/item_rv_ads_home"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/statusBarBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout35" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout35"
+                app:layout_constraintVertical_bias="0.0"
+                tools:listitem="@layout/item_rv_ads_home" />
 
             <TextView
                 android:id="@+id/tv_hey_kamu"
@@ -418,19 +420,6 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView8" />
-
-            <TextView
-                android:id="@+id/tv_lihat_semua_story"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Lihat Semua"
-                android:textColor="@color/font_landing"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_story_mitra"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_story_mitra" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvStoryMitra"

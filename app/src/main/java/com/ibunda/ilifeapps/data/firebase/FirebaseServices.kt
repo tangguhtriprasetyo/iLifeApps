@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import com.ibunda.ilifeapps.data.model.Ads
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import kotlinx.coroutines.*
@@ -226,6 +227,36 @@ class FirebaseServices {
                 }
         }
         return shopData
+    }
+
+
+    fun getListAdsHome(query: String, collectionRef: String): Flow<List<Ads>?> {
+
+        return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val listenerRegistration =
+                collectionRef.whereEqualTo("category", query)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listAds = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Ads>()
+                        }
+                        offer(listAds)
+                        Log.d("Ads", listAds.toString())
+                    }
+            awaitClose {
+                Log.d(TAG, "getListAds: ")
+                listenerRegistration.remove()
+            }
+        }
+
     }
 
     fun getNotifications() {

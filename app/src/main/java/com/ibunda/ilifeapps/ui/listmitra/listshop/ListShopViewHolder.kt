@@ -37,7 +37,7 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
                 setOnClickListener {
                     val mDetailShopFragment = DetailShopFragment()
                     val mBundle = Bundle()
-                    mBundle.putParcelable("ShopData", data)
+                    mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, data)
                     mDetailShopFragment.arguments = mBundle
                     val manager: FragmentManager =
                         (context as AppCompatActivity).supportFragmentManager
