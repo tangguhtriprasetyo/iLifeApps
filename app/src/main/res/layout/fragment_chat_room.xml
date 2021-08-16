@@ -61,10 +61,10 @@
                         android:id="@+id/tv_nama_mitra"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="PT Sukses Jaya"
                         android:ellipsize="end"
+                        android:fontFamily="@font/roboto_bold"
                         android:maxLength="35"
+                        android:text="PT Sukses Jaya"
                         android:textColor="@color/font_default"
                         android:textSize="12sp" />
 

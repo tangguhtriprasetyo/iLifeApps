@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentDetailShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
+import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
-import java.text.NumberFormat
-import java.util.*
 
 class DetailShopFragment : Fragment(), View.OnClickListener {
 
@@ -81,6 +82,19 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.ic_back -> activity?.onBackPressed()
+            R.id.btn_pesan -> gotoPayment()
+        }
+    }
+
+    private fun gotoPayment() {
+        val mFragmentManager = parentFragmentManager
+        val mPaymentFragment = PaymentFragment()
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_listshop_activity,
+                mPaymentFragment
+            )
         }
     }
 
@@ -104,9 +118,7 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             }
             tvNilaiRating.text = shopData.rating.toString()
             tvJumlahUlasanMitra.text = shopData.totalUlasan.toString() + " Ulasan"
-            val localeId = Locale("in", "ID")
-            val priceFormat = NumberFormat.getCurrencyInstance(localeId)
-            tvHargaMitra.text = priceFormat.format(shopData.price)
+            tvHargaMitra.text = PriceFormatHelper.getPriceFormat(shopData.price)
             tvKategoriMitra.text = shopData.categoryName
             tvMitraBergabung.text = "Bergabung sejak " + shopData.registeredAt
             tvLokasiMitra.text = shopData.address
