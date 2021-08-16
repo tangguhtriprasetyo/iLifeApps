@@ -29,7 +29,7 @@ import com.ibunda.ilifeapps.utils.RvDecoration
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
@@ -49,11 +49,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getProfileData()
         initView()
         setRvAdsHome()
         setRvStoryHome()
-        getProfileData()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getProfileData()
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.kategori_elektronik -> gotoListShop("Servis Elektronik", userDataProfile)
+            R.id.kategori_kebersihan -> gotoListShop("Kebersihan", userDataProfile)
+            R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan", userDataProfile)
+            R.id.kategori_tukang -> gotoListShop("Tukang", userDataProfile)
+            R.id.kategori_guru_les -> gotoListShop("Guru Les", userDataProfile)
+            R.id.kategori_lainnya -> gotoCustomOrder()
+            R.id.et_location -> openMaps()
+        }
     }
 
     private fun setRvStoryHome() {
@@ -67,10 +84,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun setStoryAdapter() {
         with(binding.rvStoryMitra) {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = storyHomeAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 
@@ -85,7 +103,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun setAdsAdapter() {
         with(binding.rvAdsHome) {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             val snapHelper: SnapHelper = PagerSnapHelper()
             onFlingListener = null
@@ -93,7 +112,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             val mRvDecoration = RvDecoration()
             addItemDecoration(mRvDecoration)
             adapter = adsHomeAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 
@@ -101,7 +120,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
+
                     userDataProfile = userProfile
+                    binding.etLocation.hint = userDataProfile.address
+
                     if (userDataProfile.isNew == true) {
                         showDialogEditProfile()
                     }
@@ -111,6 +133,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initView() {
+
         binding.kategoriElektronik.setOnClickListener(this)
         binding.kategoriKebersihan.setOnClickListener(this)
         binding.kategoriKesehatan.setOnClickListener(this)
@@ -118,18 +141,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.kategoriGuruLes.setOnClickListener(this)
         binding.kategoriLainnya.setOnClickListener(this)
         binding.etLocation.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.kategori_elektronik -> gotoListShop("Servis Elektronik", userDataProfile)
-            R.id.kategori_kebersihan -> gotoListShop("Kebersihan", userDataProfile)
-            R.id.kategori_kesehatan -> gotoListShop("Asisten Kesehatan", userDataProfile)
-            R.id.kategori_tukang -> gotoListShop("Tukang", userDataProfile)
-            R.id.kategori_guru_les -> gotoListShop("Guru Les", userDataProfile)
-            R.id.kategori_lainnya -> gotoCustomOrder()
-            R.id.et_location -> openMaps()
-        }
     }
 
     private fun gotoCustomOrder() {
@@ -179,6 +190,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun openMaps() {
         val intent =
             Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
         startActivity(intent)
     }
 }

@@ -17,8 +17,8 @@ data class Users(
     var tanggalDibuat: String? = null,
     var ttl: String? = null,
     var totalOrder: Int? = null,
-    var latitude: Int? = null,
-    var longitude: Int? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
     var isNew: Boolean? = null,
     @get:Exclude
     var isAuthenticated: Boolean? = null,

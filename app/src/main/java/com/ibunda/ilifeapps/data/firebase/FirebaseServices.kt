@@ -16,6 +16,7 @@ import com.google.firebase.storage.ktx.storage
 import com.ibunda.ilifeapps.data.model.Ads
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.utils.DateHelper.getCurrentDate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.awaitClose
@@ -33,7 +34,7 @@ class FirebaseServices {
 
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
         val createdUserData = MutableLiveData<Users>()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(IO).launch {
             val docRef: DocumentReference = usersRef.document(authUser.userId.toString())
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -63,7 +64,7 @@ class FirebaseServices {
 
     fun signInWithGoogleFacebook(idToken: AuthCredential): LiveData<Users> {
         val authenticatedUser = MutableLiveData<Users>()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(IO).launch {
             firebaseAuth.signInWithCredential(idToken)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -81,7 +82,9 @@ class FirebaseServices {
                                 email = email,
                                 avatar = avatar.toString(),
                                 phone = phone,
-                                isNew = isNewUser
+                                isNew = isNewUser,
+                                totalOrder = 1,
+                                tanggalDibuat = getCurrentDate()
                             )
                             authenticatedUser.postValue(userInfo)
                         }

@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentProfileBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
+import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.loadImage
 
 
@@ -63,6 +65,7 @@ class ProfileFragment : Fragment() {
             tvGender.text = userDataProfile.gender
             tvTtl.text = userDataProfile.ttl
             tvAddress.text = userDataProfile.address
+            tvTglDibuat.text = userDataProfile.tanggalDibuat
         }
     }
 
@@ -97,5 +100,17 @@ class ProfileFragment : Fragment() {
         binding.linearLogout.setOnClickListener {
             userLogout()
         }
+
+        binding.btnSetLokasi.setOnClickListener {
+            openMaps()
+        }
     }
+
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
+        startActivity(intent)
+    }
+
 }
