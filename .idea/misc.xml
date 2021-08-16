@@ -84,6 +84,8 @@
         <entry key="app/src/main/res/layout/fragment_dialog_tawar_mitra.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_dibatalkan.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_otp.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_transactions.xml" value="0.34375" />

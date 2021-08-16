@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "196001597991-oocovjujh8i7g4uoci1esn3jf09ldnar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ibunda.ilifeapps",
+            "certificate_hash": "9afc142e1c45b00206bba25c7446d7dc30d6731b"
+          }
+        },
+        {
           "client_id": "196001597991-kqnkorlh3mck9co5i4ggdf30ukpnqjei.apps.googleusercontent.com",
           "client_type": 3
         }

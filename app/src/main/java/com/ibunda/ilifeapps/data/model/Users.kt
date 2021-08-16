@@ -23,6 +23,8 @@ data class Users(
     @get:Exclude
     var isAuthenticated: Boolean? = null,
     @get:Exclude
-    var isCreated: Boolean? = null
+    var isCreated: Boolean? = null,
+    @get:Exclude
+    var errorMessage: String? = null
 
 ) : Parcelable

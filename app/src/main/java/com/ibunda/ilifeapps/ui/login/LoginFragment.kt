@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -41,6 +42,8 @@ class LoginFragment : Fragment() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
     private val loginViewModel: LoginViewModel by activityViewModels()
+
+    private var phoneNumber: String? = null
 
     lateinit var datePicker: DatePickerHelper
     lateinit var timePicker: TimePickerHelper
@@ -83,7 +86,7 @@ class LoginFragment : Fragment() {
                             GoogleAuthProvider.getCredential(account.idToken!!, null)
                         loginViewModel.signInWithGoogleFacebook(googleCredential)
                             .observe(viewLifecycleOwner, { userData ->
-                                if (userData != null) {
+                                if (userData != null && userData.errorMessage == null) {
                                     if (userData.isNew == true) {
                                         createNewUser(userData)
                                     } else {
@@ -95,6 +98,12 @@ class LoginFragment : Fragment() {
                                         Log.d("oldUser", userData.name.toString())
                                         gotoMainActivity(userData)
                                     }
+                                } else if (userData.errorMessage != null) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        userData.errorMessage,
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             })
                     } catch (e: ApiException) {
@@ -110,6 +119,66 @@ class LoginFragment : Fragment() {
             val signInIntent = googleSignInClient.signInIntent
             loginGoogleLauncher.launch(signInIntent)
         }
+
+        binding.btnMulai.setOnClickListener {
+
+            phoneNumber = binding.etPhoneNumber.text.toString()
+            if (verifyPhoneNumberFormat()) {
+                gotoOtpFragment()
+            } else {
+                Toast.makeText(requireContext(), "Masukkan Nomor Telepon Valid!", Toast.LENGTH_LONG)
+                    .show()
+            }
+
+        }
+    }
+
+    private fun verifyPhoneNumberFormat(): Boolean {
+
+        var isVerified = false
+        val checkFormat = phoneNumber!!.substring(0, 3)
+        Log.d(
+            TAG,
+            "verifyPhoneNumberFormat: $checkFormat | ${phoneNumber!!.first()} | ${phoneNumber!!.length}"
+        )
+        if (phoneNumber != null && phoneNumber!!.length >= 8) {
+
+            Log.d(TAG, "verifyLength: ${phoneNumber!!.length}")
+
+            if (phoneNumber!!.first().toString() == "0" || checkFormat == "+62") {
+
+                Log.d(TAG, "verifyFirsCheckFormat: ${phoneNumber!!.first()} | $checkFormat}")
+
+                if (phoneNumber!!.first().toString() == "0") {
+
+                    Log.d(TAG, "verifyFirst: ${phoneNumber!!.first()}")
+                    phoneNumber = phoneNumber!!.replace("0", "+62", ignoreCase = true)
+                }
+                isVerified = true
+            }
+        } else {
+            isVerified = false
+        }
+        return isVerified
+    }
+
+    private fun gotoOtpFragment() {
+
+        val mFragmentManager = parentFragmentManager
+        val mOtpFragment = OtpFragment()
+
+        val mBundle = Bundle()
+        mBundle.putString(OtpFragment.EXTRA_PHONE_NUMBER, phoneNumber)
+        mOtpFragment.arguments = mBundle
+
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_login_activity,
+                mOtpFragment,
+                LoginActivity::class.java.simpleName
+            )
+        }
     }
 
     //testDialogBuilder
@@ -119,14 +188,14 @@ class LoginFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
 
-        val binding :FragmentDialogKategoriMitraBinding = FragmentDialogKategoriMitraBinding.inflate(inflater)
+        val binding: FragmentDialogKategoriMitraBinding =
+            FragmentDialogKategoriMitraBinding.inflate(inflater)
         dialog.setContentView(binding.root)
 
         binding.btnPilihKategori.setOnClickListener {
             Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
-
 
         dialog.show()
     }
@@ -226,7 +295,7 @@ class LoginFragment : Fragment() {
         val credential = FacebookAuthProvider.getCredential(token.token)
         loginViewModel.signInWithGoogleFacebook(credential)
             .observe(viewLifecycleOwner, { userData ->
-                if (userData != null) {
+                if (userData != null && userData.errorMessage == null) {
                     if (userData.isNew == true) {
                         createNewUser(userData)
                     } else {
@@ -238,6 +307,9 @@ class LoginFragment : Fragment() {
                         Log.d("oldUser", userData.name.toString())
                         gotoMainActivity(userData)
                     }
+                } else if (userData.errorMessage != null) {
+                    Toast.makeText(requireContext(), userData.errorMessage, Toast.LENGTH_LONG)
+                        .show()
                 }
             })
     }

@@ -58,7 +58,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        getProfileData()
+        mainViewModel.getProfileData()
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+
+                    userDataProfile = userProfile
+                    if (userDataProfile.address != null) {
+                        binding.etLocation.hint = userDataProfile.address
+                    } else {
+                        binding.etLocation.hint = "Tentukan Lokasi Anda"
+                    }
+                }
+                Log.d("ViewModelProfile: ", userProfile.toString())
+            })
     }
 
     override fun onClick(v: View) {
@@ -122,7 +134,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 if (userProfile != null) {
 
                     userDataProfile = userProfile
-                    binding.etLocation.hint = userDataProfile.address
+
+                    if (userDataProfile.address != null) {
+                        binding.etLocation.hint = userDataProfile.address
+                    } else {
+                        binding.etLocation.hint = "Tentukan Lokasi Anda"
+                    }
 
                     if (userDataProfile.isNew == true) {
                         showDialogEditProfile()

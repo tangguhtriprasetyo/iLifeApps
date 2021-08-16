@@ -83,13 +83,17 @@ class FirebaseServices {
                                 avatar = avatar.toString(),
                                 phone = phone,
                                 isNew = isNewUser,
-                                totalOrder = 1,
+                                totalOrder = 0,
                                 tanggalDibuat = getCurrentDate()
                             )
                             authenticatedUser.postValue(userInfo)
                         }
                     } else {
                         Log.d("Error Authentication", "signInWithGoogle: ", task.exception)
+                        val errorMessage = Users(
+                            errorMessage = task.exception?.message
+                        )
+                        authenticatedUser.postValue(errorMessage)
                     }
                 }
         }
