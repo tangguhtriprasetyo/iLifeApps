@@ -62,12 +62,6 @@ class LoginFragment : Fragment() {
 
         datePicker = DatePickerHelper(requireContext())
         timePicker = TimePickerHelper(requireContext(), true)
-        //testDialog
-        binding.tv.setOnClickListener {
-            showDialog()
-//            showDatePickerDialog()
-//            showTimePickerDialog()
-        }
 
         callbackManager = CallbackManager.Factory.create()
         initGoogleSignInClient()
@@ -180,60 +174,6 @@ class LoginFragment : Fragment() {
             )
         }
     }
-
-    //testDialogBuilder
-    private fun showDialog() {
-        val dialog = Dialog(requireContext())
-        val inflater = this.layoutInflater
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-
-        val binding: FragmentDialogKategoriMitraBinding =
-            FragmentDialogKategoriMitraBinding.inflate(inflater)
-        dialog.setContentView(binding.root)
-
-        binding.btnPilihKategori.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    //testDialog
-    private fun showTimePickerDialog() {
-        val cal = Calendar.getInstance()
-        val h = cal.get(Calendar.HOUR_OF_DAY)
-        val m = cal.get(Calendar.MINUTE)
-        timePicker.showDialog(h, m, object : TimePickerHelper.Callback {
-            override fun onTimeSelected(hourOfDay: Int, minute: Int) {
-                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "${hourOfDay}"
-                val minuteStr = if (minute < 10) "0${minute}" else "${minute}"
-                binding.tv.text = "${hourOfDay}:${minuteStr}"
-            }
-        })
-    }
-
-    //testDialog
-    private fun showDatePickerDialog() {
-        val cal = Calendar.getInstance()
-        val d = cal.get(Calendar.DAY_OF_MONTH)
-        val m = cal.get(Calendar.MONTH)
-        val y = cal.get(Calendar.YEAR)
-
-        datePicker.setMinDate(cal.timeInMillis)
-        datePicker.showDialog(d, m, y, object : DatePickerHelper.Callback {
-            override fun onDateSelected(datePicker: View, dayofMonth: Int, month: Int, year: Int) {
-
-                val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-                cal.set(dayofMonth, month, year)
-                Log.d(dayofMonth.toString() + month.toString() + year.toString(), "resultDate")
-                val date = dateFormat.format(cal.time)
-                binding.tv.text = date
-            }
-        })
-    }
-
 
     private fun createNewUser(userData: Users) {
         Log.d("createdNewUser", userData.name.toString())

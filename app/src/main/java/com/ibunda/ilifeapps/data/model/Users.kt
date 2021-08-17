@@ -20,6 +20,7 @@ data class Users(
     var latitude: Double? = null,
     var longitude: Double? = null,
     var isNew: Boolean? = null,
+    var registeredToken: String? = null,
     @get:Exclude
     var isAuthenticated: Boolean? = null,
     @get:Exclude

@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Orders(
 
+    var orderId: String? = null,
     var address: String? = null,
     var jobDesc: String? = null,
     var jobPerson: String? = null,
@@ -19,8 +20,8 @@ data class Orders(
     var finishedAt: String? = null,
     var orderKhusus: Boolean? = null,
     var orderLainnya: Boolean? = null,
-    var latitude: Int? = null,
-    var longitude: Int? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
     var orderDate: String? = null,
     var orderTime: String? = null,
     var payment: String? = null,

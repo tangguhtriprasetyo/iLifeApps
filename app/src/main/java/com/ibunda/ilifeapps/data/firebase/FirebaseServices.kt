@@ -14,8 +14,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.ibunda.ilifeapps.data.model.Ads
+import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.utils.AppConstants.STATUS_SUCCESS
 import com.ibunda.ilifeapps.utils.DateHelper.getCurrentDate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
@@ -31,6 +33,9 @@ class FirebaseServices {
 
     private val usersRef: CollectionReference = firestoreRef.collection("users")
     private val shopsRef: CollectionReference = firestoreRef.collection("shops")
+    private val ordersRef: CollectionReference = firestoreRef.collection("orders")
+
+    private var STATUS_ERROR = "error"
 
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
         val createdUserData = MutableLiveData<Users>()
@@ -44,6 +49,7 @@ class FirebaseServices {
                             if (it.isSuccessful) {
                                 authUser.isCreated = true
                                 authUser.isNew = false
+                                authUser.registeredToken = null
                                 createdUserData.postValue(authUser)
                             } else {
                                 Log.d(
@@ -60,6 +66,39 @@ class FirebaseServices {
                 }
         }
         return createdUserData
+    }
+
+    fun uploadOrder(orders: Orders): LiveData<String> {
+        val statusOrder =  MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orders.orderId!!)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(orders).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                TODO("UpdateTotalOrder")
+                                statusOrder.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    Log.d("ErrorGetUser: ", it.message.toString())
+                }
+        }
+
+
+        return statusOrder
     }
 
     fun signInWithGoogleFacebook(idToken: AuthCredential): LiveData<Users> {
@@ -306,9 +345,7 @@ class FirebaseServices {
 
     }
 
-    fun uploadOrder() {
 
-    }
 
     fun uploadTawar() {
 
