@@ -91,12 +91,12 @@ class PaymentFragment : Fragment() {
             setDataOrder()
             order(orders)
         }
-        val totalPrice = shopData.price
     }
 
     private fun setDataOrder() {
+        val orderId = "${userData.userId}${shopData.shopId}-${userData.totalOrder}"
         orders = Orders(
-            orderId = userData.userId + shopData.shopId,
+            orderId = orderId,
             address = userData.address,
             categoryName = shopData.categoryName,
             createdAt = DateHelper.getCurrentDate(),

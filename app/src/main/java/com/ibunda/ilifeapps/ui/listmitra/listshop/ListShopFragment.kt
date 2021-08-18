@@ -15,7 +15,9 @@ import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 
 
 class ListShopFragment : Fragment() {
+
     private lateinit var binding: FragmentListShopBinding
+
     private val listShopViewModel: ListShopViewModel by activityViewModels()
     private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private val listShopAdapter = ListShopAdapter()
@@ -31,7 +33,6 @@ class ListShopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         listMitraViewModel.dataCategory?.observe(viewLifecycleOwner, Observer {
             binding.tvListKategoriMitra.text = listMitraViewModel.dataCategory.value

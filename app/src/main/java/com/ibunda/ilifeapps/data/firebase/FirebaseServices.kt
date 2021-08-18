@@ -69,7 +69,7 @@ class FirebaseServices {
     }
 
     fun uploadOrder(orders: Orders): LiveData<String> {
-        val statusOrder =  MutableLiveData<String>()
+        val statusOrder = MutableLiveData<String>()
         CoroutineScope(IO).launch {
             val docRef: DocumentReference = ordersRef.document(orders.orderId!!)
             docRef.get().addOnCompleteListener { task ->
@@ -78,8 +78,16 @@ class FirebaseServices {
                     if (document?.exists() == false) {
                         docRef.set(orders).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                TODO("UpdateTotalOrder")
-                                statusOrder.postValue(STATUS_SUCCESS)
+                                usersRef.document(orders.userId.toString())
+                                    .update("totalOrder", FieldValue.increment(1))
+                                    .addOnCompleteListener {
+                                        statusOrder.postValue(STATUS_SUCCESS)
+                                    }
+                                    .addOnFailureListener { error ->
+                                        STATUS_ERROR = error.message.toString()
+                                        statusOrder.postValue(STATUS_ERROR)
+                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                                    }
                             } else {
                                 STATUS_ERROR = it.exception?.message.toString()
                                 statusOrder.postValue(STATUS_ERROR)
@@ -93,7 +101,9 @@ class FirebaseServices {
                 }
             }
                 .addOnFailureListener {
-                    Log.d("ErrorGetUser: ", it.message.toString())
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
                 }
         }
 
@@ -139,7 +149,7 @@ class FirebaseServices {
         return authenticatedUser
     }
 
-    fun getUserData(userId: String) : LiveData<Users> {
+    fun getUserData(userId: String): LiveData<Users> {
         val docRef: DocumentReference = usersRef.document(userId)
         val userProfileData = MutableLiveData<Users>()
         CoroutineScope(IO).launch {
@@ -210,7 +220,27 @@ class FirebaseServices {
         return downloadUrl
     }
 
-    fun getListData(query: String, collectionRef: String): Flow<List<Shops>?> {
+    fun getShopData(shopId: String): LiveData<Shops> {
+        val docRef: DocumentReference = shopsRef.document(shopId)
+        val shopData = MutableLiveData<Shops>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val shopsData = document.toObject<Shops>()
+                    shopData.postValue(shopsData!!)
+                    Log.d("getShopData: ", shopsData.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return shopData
+    }
+
+    fun getListShopData(query: String, collectionRef: String): Flow<List<Shops>?> {
 
         return callbackFlow {
 
@@ -239,24 +269,39 @@ class FirebaseServices {
 
     }
 
-    fun getShopData(shopId: String) : LiveData<Shops> {
-        val docRef: DocumentReference = shopsRef.document(shopId)
-        val shopData = MutableLiveData<Shops>()
-        CoroutineScope(IO).launch {
-            docRef.get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val shopsData = document.toObject<Shops>()
-                    shopData.postValue(shopsData!!)
-                    Log.d("getShopData: ", shopsData.toString())
-                } else {
-                    Log.d("Error getting Doc", "Document Doesn't Exist")
-                }
-            }
-                .addOnFailureListener {
+    fun getListOrdersData(
+        query: String,
+        userId: String,
+        collectionRef: String
+    ): Flow<List<Orders>?> {
 
-                }
+        return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            Log.d(TAG, "getListOrdersData: $collectionRef, $query, $userId")
+            val listenerRegistration =
+                collectionRef.whereEqualTo("status", query)
+                    .whereEqualTo("userId", userId)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listOrders = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Orders>()
+                        }
+                        offer(listOrders)
+                        Log.d("Orders", listOrders.toString())
+                    }
+            awaitClose {
+                Log.d(TAG, "getListOrders: ")
+                listenerRegistration.remove()
+            }
         }
-        return shopData
+
     }
 
     fun getListAdsHome(query: String, collectionRef: String): Flow<List<Ads>?> {
@@ -356,7 +401,6 @@ class FirebaseServices {
     fun uploadUlasan() {
 
     }
-
 
 
     fun uploadTawar() {

@@ -13,6 +13,6 @@ class ListShopViewModel : ViewModel() {
     private val firebaseServices: FirebaseServices = FirebaseServices()
 
     fun getListShop(categoryName: String): LiveData<List<Shops>?> {
-        return firebaseServices.getListData(categoryName, "shops").asLiveData()
+        return firebaseServices.getListShopData(categoryName, "shops").asLiveData()
     }
 }
