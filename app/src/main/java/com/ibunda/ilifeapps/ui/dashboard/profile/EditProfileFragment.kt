@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -83,7 +82,6 @@ class EditProfileFragment : Fragment() {
 
         binding.etJenisKelamin.setOnClickListener {
             val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val binding : DialogJenisKelaminBinding = DialogJenisKelaminBinding.inflate(LayoutInflater.from(context))
             dialog.setContentView(binding.root)
             binding.btnPilihGender.setOnClickListener {

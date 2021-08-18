@@ -8,14 +8,6 @@
     tools:context=".ui.dashboard.profile.ProfileFragment"
     tools:ignore="MissingDefaultResource">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="72dp">
 
             <View
                 android:id="@+id/view5"
@@ -30,10 +22,10 @@
                 android:id="@+id/linear_edit_akun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="59dp"
+                android:layout_marginTop="60dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_edit_profile"
-                android:padding="6dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout26"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view5">
@@ -42,8 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="EDIT AKUN"
-                    android:textColor="@color/font_default"
+                    android:text="Edit Akun"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -302,16 +294,26 @@ RT 06/RW 05"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/ic_star"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
+                        android:layout_marginStart="12dp"
                         android:text="Penilaian Saya"
-                        android:layout_marginStart="16dp"
                         android:textColor="@color/font_default"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/star"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
@@ -338,43 +340,40 @@ RT 06/RW 05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linear_penilaian_saya" />
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto"
-                android:text="I-life v 1.0"
-                android:textColor="@color/font_default"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view45" />
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:layout_marginBottom="16dp"
+        android:text="I-life v 1.0"
+        android:textColor="@color/font_default"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/linear_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/linear_logout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                style="@style/Responsive16dp"
-                android:background="@drawable/bg_white_outline_blue"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15">
+    <LinearLayout
+        android:id="@+id/linear_logout"
+        style="@style/Responsive16dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bg_white_outline_blue"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="KELUAR"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="KELUAR"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
 
-            </LinearLayout>
+    </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

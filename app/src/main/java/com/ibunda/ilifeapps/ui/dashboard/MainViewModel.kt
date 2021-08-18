@@ -7,11 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.Ads
+import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Users
 
 class MainViewModel : ViewModel() {
     private val firebaseServices: FirebaseServices = FirebaseServices()
     private var _userProfile = MutableLiveData<Users>()
+
+    fun uploadOrder(orders: Orders): LiveData<String> =
+        firebaseServices.uploadOrder(orders)
 
     fun getListAds(category: String): LiveData<List<Ads>?> {
         return firebaseServices.getListAdsHome(category, "ads").asLiveData()

@@ -16,10 +16,7 @@ import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentPaymentBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
-import com.ibunda.ilifeapps.utils.AppConstants
-import com.ibunda.ilifeapps.utils.DateHelper
-import com.ibunda.ilifeapps.utils.DatePickerHelper
-import com.ibunda.ilifeapps.utils.TimePickerHelper
+import com.ibunda.ilifeapps.utils.*
 import java.util.*
 
 class PaymentFragment : Fragment() {
@@ -94,6 +91,7 @@ class PaymentFragment : Fragment() {
             setDataOrder()
             order(orders)
         }
+        val totalPrice = shopData.price
     }
 
     private fun setDataOrder() {
@@ -111,7 +109,7 @@ class PaymentFragment : Fragment() {
             shopName = shopData.shopName,
             shopPicture = shopData.shopPicture,
             status = "Pesanan",
-            totalPrice = shopData.price,
+            totalPrice = PriceFormatHelper.getPriceFormat(shopData.price),
             userId = userData.userId,
             userName = userData.name,
             userPicture = userData.avatar,
@@ -196,7 +194,7 @@ class PaymentFragment : Fragment() {
                 val mon = month + 1
                 val monthStr = if (mon < 10) "0${mon}" else "${mon}"
                 val date = "${dayStr}/${monthStr}/${year}"
-                binding.tvDate.setText(date)
+                binding.tvDate.text = date
             }
         })
     }

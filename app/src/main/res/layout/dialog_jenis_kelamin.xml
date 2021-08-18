@@ -6,8 +6,8 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingVertical="32dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
     tools:ignore="MissingDefaultResource">
 
     <TextView
@@ -53,7 +53,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_pilih_gender"
         style="@style/ButtonStyle"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_btn_blue"
         android:text="Pilih"

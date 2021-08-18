@@ -31,7 +31,7 @@ data class Orders(
     var shopPicture: String? = null,
     var startAt: String? = null,
     var status: String? = null,
-    var totalPrice: Int? = null,
+    var totalPrice: String? = null,
     var userId: String? = null,
     var userName: String? = null,
     var userPicture: String? = null,

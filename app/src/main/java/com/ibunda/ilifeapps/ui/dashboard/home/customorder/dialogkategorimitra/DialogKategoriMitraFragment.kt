@@ -34,7 +34,7 @@ class DialogKategoriMitraFragment : DialogFragment() {
                                 binding.asistenKesehatan.text.toString().trim()
                             R.id.tukang -> kategori = binding.tukang.text.toString().trim()
                             R.id.guru_les -> kategori = binding.guruLes.text.toString().trim()
-                            R.id.lainnya -> kategori = binding.etRbLainnya.text.toString().trim()
+                            R.id.lainnya -> kategori = binding.lainnya.text.toString().trim()
                         }
                         optionDialogListener?.onOptionChosen(kategori)
                         dialog?.dismiss()

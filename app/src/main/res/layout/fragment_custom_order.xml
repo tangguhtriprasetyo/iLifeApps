@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Waktu Pesanan"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
@@ -305,9 +305,11 @@
                     android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="Jl. Ngaliyan no.123, Semarang"
                     android:textColor="@color/font_default"
                     android:textColorHint="@color/font_default"
                     android:textSize="16sp" />
@@ -357,7 +359,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Dana"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
@@ -449,15 +451,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Preferensi Penyedia Jasa"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/preferensi_penyedia_jasa"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/range_slider" />
 
             <RadioGroup
-                android:id="@+id/radio_grup_jasa"
+                android:id="@+id/rg_penyedia_jasa"
                 style="@style/Responsive16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -469,7 +471,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_preferensi">
 
                 <RadioButton
-                    android:id="@+id/rbPria"
+                    android:id="@+id/rb_pria"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_weight="1"
@@ -483,7 +485,7 @@
                     android:textSize="14sp" />
 
                 <RadioButton
-                    android:id="@+id/rbWanita"
+                    android:id="@+id/rb_wanita"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginStart="8dp"
@@ -497,7 +499,7 @@
                     android:textSize="14sp" />
 
                 <RadioButton
-                    android:id="@+id/rbTidakAda"
+                    android:id="@+id/rb_tidak_ada"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginStart="8dp"
@@ -512,6 +514,61 @@
 
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/tv_payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/metode_pembayaran"
+                android:textColor="@color/font_default"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rg_penyedia_jasa" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout20"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:focusableInTouchMode="true"
+                android:hint="@string/metode_pembayaran"
+                android:textColorHint="@color/font_default"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:boxStrokeWidth="2.3dp"
+                app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+                app:hintTextColor="@color/font_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_payment">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:contextClickable="false"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusedByDefault="false"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/bayar_di_tempat_cod"
+                    android:textColor="@color/font_default"
+                    android:textColorHint="@color/font_default"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/btn_buat_pesanan"
                 style="@style/ButtonStyle"
@@ -520,12 +577,11 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_btn_blue"
-                android:enabled="false"
-                android:text="Buat Pesanan"
+                android:text="@string/buat_pesanan"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radio_grup_jasa" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout20" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:padding="24dp"
         tools:context=".ui.dashboard.home.customorder.dialogkategorimitra.DialogKategoriMitraFragment"
-        android:background="@color/colorBackground"
+    android:background="@color/colorBackground"
         tools:ignore="MissingDefaultResource">
 
         <TextView
@@ -87,37 +87,15 @@
 
             <RadioButton
                 android:id="@+id/lainnya"
-                android:layout_width="40dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="8dp"
                 android:text="Lainnya"
-                android:textSize="0dp"
-                android:textColor="@color/colorBackground"
-                android:buttonTint="@color/colorPrimaryDark" />
+                android:textSize="16sp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto_medium" />
 
         </RadioGroup>
-
-        <EditText
-            android:id="@+id/et_rb_lainnya"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.7"
-            android:layout_marginStart="40dp"
-            android:layout_marginBottom="12dp"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:fontFamily="@font/roboto_medium"
-            android:hint="Lainnya"
-            android:inputType="text"
-            android:maxLength="35"
-            android:maxLines="2"
-            android:paddingBottom="2dp"
-            android:scrollIndicators="bottom"
-            android:textColor="@color/font_default"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/rg_kategori"
-            app:layout_constraintEnd_toEndOf="@+id/rg_kategori"
-            app:layout_constraintStart_toStartOf="@+id/rg_kategori" />
 
         <Button
             android:id="@+id/btn_pilih_kategori"
