@@ -139,22 +139,6 @@ class FirebaseServices {
         return authenticatedUser
     }
 
-    fun signInWithFacebook() {
-
-    }
-
-    fun signInOtp() {
-
-    }
-
-    fun getAdsHome() {
-
-    }
-
-    fun getStoryHome() {
-
-    }
-
     fun getUserData(userId: String) : LiveData<Users> {
         val docRef: DocumentReference = usersRef.document(userId)
         val userProfileData = MutableLiveData<Users>()
@@ -275,7 +259,6 @@ class FirebaseServices {
         return shopData
     }
 
-
     fun getListAdsHome(query: String, collectionRef: String): Flow<List<Ads>?> {
 
         return callbackFlow {
@@ -293,6 +276,35 @@ class FirebaseServices {
                         }
                         val listAds = querySnapshot?.documents?.mapNotNull {
                             it.toObject<Ads>()
+                        }
+                        offer(listAds)
+                        Log.d("Ads", listAds.toString())
+                    }
+            awaitClose {
+                Log.d(TAG, "getListAds: ")
+                listenerRegistration.remove()
+            }
+        }
+
+    }
+
+    fun getListPromoShop(query: Boolean, collectionRef: String): Flow<List<Shops>?> {
+
+        return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val listenerRegistration =
+                collectionRef.whereEqualTo("promo", query)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listAds = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Shops>()
                         }
                         offer(listAds)
                         Log.d("Ads", listAds.toString())

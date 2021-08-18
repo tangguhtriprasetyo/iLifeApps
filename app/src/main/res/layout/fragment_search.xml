@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="72dp">
+            android:paddingBottom="24dp">
 
             <LinearLayout
                 android:id="@+id/linear_address"
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="8dp"
-                tools:listitem="@layout/item_rv_sedang_diskon"
+                tools:listitem="@layout/item_rv_shop_lainnya"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />

@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.Ads
 import com.ibunda.ilifeapps.data.model.Orders
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 
 class MainViewModel : ViewModel() {
@@ -35,4 +36,15 @@ class MainViewModel : ViewModel() {
 
     fun uploadImages(uri: Uri, uid: String, type: String, name: String): LiveData<String> =
         firebaseServices.uploadFiles(uri, uid, type, name)
+
+    fun getListOtherShop(categoryName: String): LiveData<List<Shops>?> {
+        return firebaseServices.getListData(categoryName, "shops").asLiveData()
+    }
+
+    fun getListPromoShop(promo: Boolean): LiveData<List<Shops>?> {
+        return firebaseServices.getListPromoShop(promo, "shops").asLiveData()
+    }
+
+
+
 }
