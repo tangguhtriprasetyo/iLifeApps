@@ -157,7 +157,7 @@ class CustomOrderFragment : Fragment() {
             orderId = "KHUSUS" + userData.userId,
             address = userData.address,
             categoryName = binding.etKategori.text.toString(),
-            createdAt = DateHelper.getCurrentDate(),
+            createdAt = DateHelper.getCurrentDateTime(),
             orderDate = binding.etTanggalPesanan.text.toString(),
             orderKhusus = true,
             orderLainnya = isLainnya,

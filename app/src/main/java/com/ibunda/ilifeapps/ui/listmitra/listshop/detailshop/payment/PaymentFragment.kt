@@ -99,7 +99,7 @@ class PaymentFragment : Fragment() {
             orderId = orderId,
             address = userData.address,
             categoryName = shopData.categoryName,
-            createdAt = DateHelper.getCurrentDate(),
+            createdAt = DateHelper.getCurrentDateTime(),
             orderDate = binding.tvDate.text.toString(),
             orderKhusus = false,
             orderLainnya = false,

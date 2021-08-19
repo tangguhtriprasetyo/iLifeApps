@@ -47,6 +47,16 @@
     <string name="preferensi_penyedia_jasa">Preferensi Penyedia Jasa</string>
     <string name="buat_pesanan">Buat Pesanan</string>
     <string name="bayar_di_tempat_cod">Bayar di Tempat (COD)</string>
+    <string name="pesanan_anda">Pesanan Anda</string>
+    <string name="dana">Dana</string>
+    <string name="total_harga">Total Harga</string>
+    <string name="rincian_pesanan">Rincian Pesanan</string>
+    <string name="pesanan_dibuat">Pesanan Dibuat</string>
+    <string name="alamat">Alamat</string>
+    <string name="lokasi_pelanggan">Lokasi Pelanggan</string>
+    <string name="dibatalkan_oleh">Dibatalkan oleh</string>
+    <string name="alasan_dibatalkan">Alasan Dibatalkan</string>
+    <string name="pesanan_dibatalkan">Pesanan Dibatalkan</string>
 
 
 </resources>

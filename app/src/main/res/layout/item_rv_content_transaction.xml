@@ -72,6 +72,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginStart="2dp"
+                        android:visibility="gone"
                         android:background="@drawable/ic_baseline_check_circle_24"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_nama_mitra_pesanan"
                         app:layout_constraintStart_toEndOf="@+id/tv_nama_mitra_pesanan"

@@ -1,20 +1,21 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.databinding.FragmentDialogBatalkanPesananBinding
+import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.PesananFragment
 
 class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDialogBatalkanPesananBinding
 
     private var kategori: String? = null
+    private var optionDialogListener: OnOptionDialogListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,18 +46,30 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
                     R.id.rb_tidak_pesan -> kategori = binding.rbTidakPesan.text.toString().trim()
                     R.id.rb_lainnya -> kategori = binding.rbLainnya.text.toString().trim()
                 }
+                optionDialogListener?.onOptionChosen(kategori)
+                dialog?.dismiss()
             }
-
-            cancelOrder(kategori)
-            Log.d(kategori, "result")
-            dialog?.dismiss()
         }
-
 
     }
 
-    private fun cancelOrder(kategori: String?) {
-        Toast.makeText(requireContext(), kategori, Toast.LENGTH_SHORT).show()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val fragment = parentFragment
+
+        if (fragment is PesananFragment) {
+            val pesananFragment = fragment
+            this.optionDialogListener = pesananFragment.optionDialogListener
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        this.optionDialogListener = null
+    }
+
+    interface OnOptionDialogListener {
+        fun onOptionChosen(category: String?)
     }
 
 }

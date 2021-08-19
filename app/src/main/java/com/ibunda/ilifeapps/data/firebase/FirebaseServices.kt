@@ -111,6 +111,26 @@ class FirebaseServices {
         return statusOrder
     }
 
+    fun getOrderData(orderId: String): LiveData<Orders> {
+        val docRef: DocumentReference = ordersRef.document(orderId)
+        val orderData = MutableLiveData<Orders>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userProfile = document.toObject<Orders>()
+                    orderData.postValue(userProfile!!)
+                    Log.d("getUserProfile: ", userProfile.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return orderData
+    }
+
     fun signInWithGoogleFacebook(idToken: AuthCredential): LiveData<Users> {
         val authenticatedUser = MutableLiveData<Users>()
         CoroutineScope(IO).launch {
