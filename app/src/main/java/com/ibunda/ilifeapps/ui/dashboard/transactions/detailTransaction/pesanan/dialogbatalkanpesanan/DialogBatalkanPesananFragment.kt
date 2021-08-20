@@ -33,8 +33,6 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
             onDismiss(dialog!!)
         }
 
-
-        binding.btnBatalkanPesanan.isEnabled = true
         binding.btnBatalkanPesanan.setOnClickListener {
 
             val checkedRadioButtonId = binding.rgKategori.checkedRadioButtonId

@@ -15,7 +15,7 @@ import com.ibunda.ilifeapps.utils.loadImage
 
 class DibatalkanFragment : Fragment() {
 
-    private lateinit var binding : FragmentDibatalkanBinding
+    private lateinit var binding: FragmentDibatalkanBinding
 
     private val transactionViewModel: TransactionViewModel by activityViewModels()
     private lateinit var orderData: Orders
@@ -32,7 +32,19 @@ class DibatalkanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getOrderData()
+        transactionViewModel.getOrderData()
+            .observe(viewLifecycleOwner, { orders ->
+                if (orders != null) {
+                    orderData = orders
+                    if (orderData.orderKhusus == true) {
+                        initViewPesananKhusus(orderData)
+                    } else {
+                        initViewPesananJasa(orderData)
+                    }
+                }
+                Log.d("ViewModelOrder: ", orders.toString())
+            })
+
         initOnClick()
     }
 
@@ -48,20 +60,6 @@ class DibatalkanFragment : Fragment() {
         }
     }
 
-    private fun getOrderData() {
-        transactionViewModel.getOrderData()
-            .observe(viewLifecycleOwner, { orders ->
-                if (orders != null) {
-                    orderData = orders
-                    if (orderData.orderKhusus == true) {
-                        initViewPesananKhusus(orderData)
-                    } else {
-                        initViewPesananJasa(orderData)
-                    }
-                }
-                Log.d("ViewModelOrder: ", orders.toString())
-            })
-    }
 
     private fun initViewPesananJasa(orderData: Orders) {
         with(binding) {

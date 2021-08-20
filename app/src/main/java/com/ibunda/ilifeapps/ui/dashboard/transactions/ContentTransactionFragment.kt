@@ -140,44 +140,36 @@ class ContentTransactionFragment : Fragment() {
     private fun showEmptyPesanan(state: Boolean) {
         if (state) {
             binding.rvListOrderTransaction.visibility = View.GONE
-            binding.tesLayoutKosong.visibility = View.VISIBLE
-            binding.tesLayoutKosong.text = "Layout Kosong $STATUS_PESANAN"
+            binding.linearEmptyPesanan.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
-            binding.tesLayoutKosong.visibility = View.GONE
         }
     }
 
     private fun showEmptyDiproses(state: Boolean) {
         if (state) {
             binding.rvListOrderTransaction.visibility = View.GONE
-            binding.tesLayoutKosong.visibility = View.VISIBLE
-            binding.tesLayoutKosong.text = "Layout Kosong $STATUS_DIPROSES"
+            binding.linearEmptyDiproses.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
-            binding.tesLayoutKosong.visibility = View.GONE
         }
     }
 
     private fun showEmptySelesai(state: Boolean) {
         if (state) {
             binding.rvListOrderTransaction.visibility = View.GONE
-            binding.tesLayoutKosong.visibility = View.VISIBLE
-            binding.tesLayoutKosong.text = "Layout Kosong $STATUS_SELESAI"
+            binding.linearEmptySelesai.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
-            binding.tesLayoutKosong.visibility = View.GONE
         }
     }
 
     private fun showEmptyDibatalkan(state: Boolean) {
         if (state) {
             binding.rvListOrderTransaction.visibility = View.GONE
-            binding.tesLayoutKosong.visibility = View.VISIBLE
-            binding.tesLayoutKosong.text = "Layout Kosong $STATUS_DIBATALKAN"
+            binding.linearEmptyDibatalkan.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
-            binding.tesLayoutKosong.visibility = View.GONE
         }
     }
 

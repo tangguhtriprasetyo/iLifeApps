@@ -9,6 +9,7 @@ import com.ibunda.ilifeapps.databinding.ItemRvContentTransactionBinding
 class ListTransactionAdapter : RecyclerView.Adapter<ListTransactionViewHolder>() {
     private var listOrders = ArrayList<Orders>()
 
+
     fun setListOrders(orders: List<Orders>?) {
         if (orders == null) return
         this.listOrders.clear()

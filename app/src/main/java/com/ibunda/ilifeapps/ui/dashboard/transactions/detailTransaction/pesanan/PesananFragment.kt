@@ -12,6 +12,8 @@ import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentPesananBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
+import com.ibunda.ilifeapps.utils.AppConstants
+import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
 
 
@@ -21,6 +23,7 @@ class PesananFragment : Fragment() {
 
     private val transactionViewModel: TransactionViewModel by activityViewModels()
     private lateinit var orderData: Orders
+    private var reasonCancel: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,19 @@ class PesananFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getOrderData()
+        transactionViewModel.getOrderData()
+            .observe(viewLifecycleOwner, { orders ->
+                if (orders != null) {
+                    orderData = orders
+                    if (orderData.orderKhusus == true) {
+                        initViewPesananKhusus(orderData)
+                    } else {
+                        initViewPesananJasa(orderData)
+                    }
+                }
+                Log.d("ViewModelOrder: ", orders.toString())
+            })
+
         initOnClick()
     }
 
@@ -50,21 +65,9 @@ class PesananFragment : Fragment() {
         binding.btnUbahMetodePembayaran.setOnClickListener {
             Toast.makeText(requireContext(), "Saat ini hanya tersedia metode pembayaran Bayar di Tempat (COD)", Toast.LENGTH_SHORT).show()
         }
-    }
+        binding.btnLihatProfil.setOnClickListener {
 
-    private fun getOrderData() {
-        transactionViewModel.getOrderData()
-            .observe(viewLifecycleOwner, { orders ->
-                if (orders != null) {
-                    orderData = orders
-                    if (orderData.orderKhusus == true) {
-                        initViewPesananKhusus(orderData)
-                    } else {
-                        initViewPesananJasa(orderData)
-                    }
-                }
-                Log.d("ViewModelOrder: ", orders.toString())
-            })
+        }
     }
 
     private fun initViewPesananJasa(orderData: Orders) {
@@ -118,10 +121,32 @@ class PesananFragment : Fragment() {
     }
 
     internal var optionDialogListener: DialogBatalkanPesananFragment.OnOptionDialogListener = object : DialogBatalkanPesananFragment.OnOptionDialogListener {
-        override fun onOptionChosen(category: String?) {
-            val kategoriMitra: String? = category
-            Toast.makeText(requireContext(), kategoriMitra, Toast.LENGTH_SHORT).show()
+        override fun onOptionChosen(reason: String?) {
+            reasonCancel = reason
+            updateOrderData(reasonCancel)
         }
+    }
+
+    private fun updateOrderData(reasonCancel: String?) {
+        orderData.canceledReason = reasonCancel
+        orderData.canceledBy = "User"
+        orderData.canceledAt = DateHelper.getCurrentDateTime()
+        orderData.status = AppConstants.STATUS_DIBATALKAN
+
+        transactionViewModel.updateOrderData(orderData).observe(viewLifecycleOwner, { updateOrder ->
+            if (updateOrder != null) {
+                Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()
+                activity?.onBackPressed()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Update Order Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+
     }
 
 }

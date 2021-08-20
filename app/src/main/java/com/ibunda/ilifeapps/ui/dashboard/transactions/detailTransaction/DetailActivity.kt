@@ -29,6 +29,7 @@ class DetailActivity : AppCompatActivity() {
         const val SELESAI_FRAGMENT_TAG = "selesai_fragment_tag"
         const val DIBATALKAN_FRAGMENT_TAG = "dibatalkan_fragment_tag"
         const val EXTRA_ORDER = "extra_order"
+        const val EXTRA_USER = "extra_user"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +38,6 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
-
 
         setOrderData()
         setOrderCondition(ordersData.status)

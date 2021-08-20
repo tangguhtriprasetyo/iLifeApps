@@ -15,16 +15,174 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_rv_content_transaction" />
 
-    <TextView
-        android:id="@+id/tes_layout_kosong"
+    <!--    Empty Dibatalkan-->
+    <LinearLayout
+        android:id="@+id/linear_empty_dibatalkan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LAYOUT KOSONG"
-        android:textAlignment="center"
+        android:gravity="center"
         android:visibility="gone"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ilustrasi_pesanan_dibatalkan" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Belum ada Pesanan Dibatalkan"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/Responsive24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Sepertinya kamu belum pernah memesan I-Life. Pesan sekarang yuk!"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+    <!--    End Empty Dibatalkan-->
+
+    <!--    Empty Diproses-->
+    <LinearLayout
+        android:id="@+id/linear_empty_diproses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ilustrasi_pesanan_diproses" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Belum ada Pesanan Diproses"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/Responsive24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Sepertinya kamu belum pernah memesan I-Life. Pesan sekarang yuk!"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!--    End Empty Diproses-->
+
+    <!--    Empty Selesai-->
+    <LinearLayout
+        android:id="@+id/linear_empty_selesai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ilustrasi_pesanan_selesai_3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Belum ada Pesanan Selesai"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/Responsive24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Sepertinya kamu belum pernah memesan I-Life. Pesan sekarang yuk!"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!--    End Empty Selesai-->
+
+    <!--    Empty Pesanan-->
+    <LinearLayout
+        android:id="@+id/linear_empty_pesanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ilustrasi_no_pesanan" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Belum ada Pesanan Apapun"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/Responsive24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Sepertinya kamu belum pernah memesan I-Life. Pesan sekarang yuk!"
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!--    End Empty Pesanan-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

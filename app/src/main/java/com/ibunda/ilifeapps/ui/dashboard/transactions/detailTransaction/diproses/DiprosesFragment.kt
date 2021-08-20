@@ -32,21 +32,6 @@ class DiprosesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        getOrderData()
-        initOnClick()
-    }
-
-    private fun initOnClick() {
-        binding.icBack.setOnClickListener {
-            activity?.onBackPressed()
-        }
-        binding.btnLihatProfil.setOnClickListener {
-
-        }
-    }
-
-    private fun getOrderData() {
         transactionViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
@@ -59,7 +44,19 @@ class DiprosesFragment : Fragment() {
                 }
                 Log.d("ViewModelOrder: ", orders.toString())
             })
+
+        initOnClick()
     }
+
+    private fun initOnClick() {
+        binding.icBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
+        binding.btnLihatProfil.setOnClickListener {
+
+        }
+    }
+
 
     private fun initViewPesananJasa(orderData: Orders) {
         with(binding) {
@@ -74,11 +71,18 @@ class DiprosesFragment : Fragment() {
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
             tvInfoPesananDiproses.visibility = View.VISIBLE
+            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
-            tvInfoMulaiPerjalanan.visibility = View.VISIBLE
-            tvStartAt.text = orderData.startAt
-            tvInfoSampaiTujuan.visibility = View.VISIBLE
-            tvArrivedAt.text = orderData.arrivedAt
+            if (orderData.startAt!= null) {
+                tvInfoMulaiPerjalanan.visibility = View.VISIBLE
+                tvStartAt.visibility = View.VISIBLE
+                tvStartAt.text = orderData.startAt
+            }
+            if (orderData.arrivedAt!= null) {
+                tvInfoSampaiTujuan.visibility = View.VISIBLE
+                tvArrivedAt.visibility = View.VISIBLE
+                tvArrivedAt.text = orderData.arrivedAt
+            }
             //
             tvDate.text = orderData.orderDate
             tvTimeOrder.text = orderData.orderTime
@@ -95,19 +99,28 @@ class DiprosesFragment : Fragment() {
             tvDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.text = orderData.totalPrice
-            //userData
-            btnLihatProfil.visibility = View.GONE
-            imgProfile.loadImage(orderData.userPicture)
-            tvNamaMitra.text = orderData.userName
+            //shopData
+            if (orderData.verified == true) {
+                icVerified.visibility = View.VISIBLE
+            }
+            imgProfile.loadImage(orderData.shopPicture)
+            tvNamaMitra.text = orderData.shopName
             tvKategoriMitra.text = orderData.categoryName
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
             tvInfoPesananDiproses.visibility = View.VISIBLE
+            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
-            tvInfoMulaiPerjalanan.visibility = View.VISIBLE
-            tvStartAt.text = orderData.startAt
-            tvInfoSampaiTujuan.visibility = View.VISIBLE
-            tvArrivedAt.text = orderData.arrivedAt
+            if (orderData.startAt!= null) {
+                tvInfoMulaiPerjalanan.visibility = View.VISIBLE
+                tvStartAt.visibility = View.VISIBLE
+                tvStartAt.text = orderData.startAt
+            }
+            if (orderData.arrivedAt!= null) {
+                tvInfoSampaiTujuan.visibility = View.VISIBLE
+                tvArrivedAt.visibility = View.VISIBLE
+                tvArrivedAt.text = orderData.arrivedAt
+            }
             //
             tvDate.text = orderData.orderDate
             tvTimeOrder.text = orderData.orderTime

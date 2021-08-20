@@ -7,15 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentSelesaiBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
+import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.selesai.penilaian.PenilaianFragment
 import com.ibunda.ilifeapps.utils.loadImage
 
 
 class SelesaiFragment : Fragment() {
 
-    private lateinit var binding : FragmentSelesaiBinding
+    private lateinit var binding: FragmentSelesaiBinding
 
     private val transactionViewModel: TransactionViewModel by activityViewModels()
     private lateinit var orderData: Orders
@@ -32,27 +35,6 @@ class SelesaiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        getOrderData()
-        initOnClick()
-    }
-
-    private fun initOnClick() {
-        binding.icBack.setOnClickListener {
-            activity?.onBackPressed()
-        }
-        binding.btnNilaiUlasan.setOnClickListener {
-
-        }
-        binding.btnPesan.setOnClickListener {
-
-        }
-        binding.btnLihatProfil.setOnClickListener {
-
-        }
-    }
-
-    private fun getOrderData() {
         transactionViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
@@ -65,6 +47,31 @@ class SelesaiFragment : Fragment() {
                 }
                 Log.d("ViewModelOrder: ", orders.toString())
             })
+
+        initOnClick()
+    }
+
+    private fun initOnClick() {
+        binding.icBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
+        binding.btnNilaiUlasan.setOnClickListener {
+            val mFragmentManager = parentFragmentManager
+            val mPenilaianFragment = PenilaianFragment()
+            mFragmentManager.commit {
+                addToBackStack(null)
+                replace(
+                    R.id.host_detail_activity,
+                    mPenilaianFragment
+                )
+            }
+        }
+        binding.btnPesan.setOnClickListener {
+
+        }
+        binding.btnLihatProfil.setOnClickListener {
+
+        }
     }
 
     private fun initViewPesananJasa(orderData: Orders) {
@@ -80,12 +87,16 @@ class SelesaiFragment : Fragment() {
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
             tvInfoPesananDiproses.visibility = View.VISIBLE
+            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
             tvInfoMulaiPerjalanan.visibility = View.VISIBLE
+            tvStartAt.visibility = View.VISIBLE
             tvStartAt.text = orderData.startAt
             tvInfoSampaiTujuan.visibility = View.VISIBLE
+            tvArrivedAt.visibility = View.VISIBLE
             tvArrivedAt.text = orderData.arrivedAt
             tvInfoPesananSelesai.visibility = View.VISIBLE
+            tvFinishedAt.visibility = View.VISIBLE
             tvFinishedAt.text = orderData.finishedAt
             //
             tvDate.text = orderData.orderDate
@@ -103,20 +114,26 @@ class SelesaiFragment : Fragment() {
             tvDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.text = orderData.totalPrice
-            //userData
-            btnLihatProfil.visibility = View.GONE
-            imgProfile.loadImage(orderData.userPicture)
-            tvNamaMitra.text = orderData.userName
+            //shopData
+            if (orderData.verified == true) {
+                icVerified.visibility = View.VISIBLE
+            }
+            imgProfile.loadImage(orderData.shopPicture)
+            tvNamaMitra.text = orderData.shopName
             tvKategoriMitra.text = orderData.categoryName
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
             tvInfoPesananDiproses.visibility = View.VISIBLE
+            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
             tvInfoMulaiPerjalanan.visibility = View.VISIBLE
+            tvStartAt.visibility = View.VISIBLE
             tvStartAt.text = orderData.startAt
             tvInfoSampaiTujuan.visibility = View.VISIBLE
+            tvArrivedAt.visibility = View.VISIBLE
             tvArrivedAt.text = orderData.arrivedAt
             tvInfoPesananSelesai.visibility = View.VISIBLE
+            tvFinishedAt.visibility = View.VISIBLE
             tvFinishedAt.text = orderData.finishedAt
             //
             tvDate.text = orderData.orderDate
@@ -130,6 +147,8 @@ class SelesaiFragment : Fragment() {
             tvValuePenyediaJasa.text = orderData.jobPerson
             //payment
             tvMetodePembayaran.text = orderData.payment
+            //button
+            btnPesan.visibility = View.GONE
         }
     }
 

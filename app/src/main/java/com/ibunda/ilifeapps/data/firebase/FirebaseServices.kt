@@ -131,6 +131,29 @@ class FirebaseServices {
         return orderData
     }
 
+    fun updateOrderData(orderData: Orders): LiveData<Orders> {
+        val editOrderData = MutableLiveData<Orders>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orderData.orderId.toString())
+            docRef.set(orderData, SetOptions.merge()).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    editOrderData.postValue(orderData)
+                } else {
+                    Log.d(
+                        "errorUpdateOrder: ",
+                        it.exception?.message.toString()
+                    )
+                }
+            }
+                .addOnFailureListener {
+                    Log.d(
+                        "errorCreateUser: ", it.message.toString()
+                    )
+                }
+        }
+        return editOrderData
+    }
+
     fun signInWithGoogleFacebook(idToken: AuthCredential): LiveData<Users> {
         val authenticatedUser = MutableLiveData<Users>()
         CoroutineScope(IO).launch {
@@ -396,18 +419,6 @@ class FirebaseServices {
 
     fun getUlasan() {
         //whereEqual
-    }
-
-    fun getListOrder() {
-        //whereEqual
-    }
-
-    fun getDetailOrder() {
-
-    }
-
-    fun updateOrder() {
-
     }
 
     fun updateChat() {

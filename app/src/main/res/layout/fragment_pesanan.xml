@@ -622,7 +622,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_medium"
                 android:text="@string/lokasi_pelanggan"
                 android:textColor="@color/font_default"
                 android:textSize="16sp"
@@ -712,52 +712,66 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/btn_pilih_mitra"
-                style="@style/Responsive16dp"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_btn_blue"
-                android:gravity="center"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_metode_pembayaran">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Pilih Mitra"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btn_batalkan_pesanan"
-                style="@style/Responsive16dp"
+                android:id="@+id/linear_pesanan_selesai"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_white_outline_blue"
-                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/tv_metode_pembayaran"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_pilih_mitra">
+                app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Batalkan Pesanan"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                <LinearLayout
+                    android:id="@+id/btn_pilih_mitra"
+                    style="@style/Responsive16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:visibility="gone"
+                    android:background="@drawable/bg_btn_blue"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_metode_pembayaran">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Pilih Mitra"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/btn_batalkan_pesanan"
+                    style="@style/Responsive16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_white_outline_blue"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_pilih_mitra">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Batalkan Pesanan"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
