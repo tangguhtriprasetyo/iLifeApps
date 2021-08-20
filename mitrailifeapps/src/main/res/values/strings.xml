@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">MitraILifeApps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="daftar_disini">Daftar Disini</string>
+    <string name="masuk">Masuk</string>
+    <string name="kode_otp_sudah_dikirim">Kode OTP sudah dikirim!</string>
+    <string name="kirim_ulang">KIRIM ULANG</string>
+    <string name="pilih">Pilih</string>
+    <string name="silahkan_tambahkan_menu_makanan_atau_minuman_di_toko_anda">Silahkan tambahkan menu makanan atau minuman di toko Anda</string>
+    <string name="belum_ada_menu">Belum Ada Menu</string>
+    <string name="tambah_menu">+ Tambah Menu</string>
+
+
+    <string name="title_activity_maps">Map</string>
+    <string name="url_default_avatar"><![CDATA[https://firebasestorage.googleapis.com/v0/b/i-life-833fa.appspot.com/o/profile_default.png?alt=media&token=6046bdbe-63f3-4ed6-819b-6ea686b25475]]></string>
+    <string name="tv_default_address">Tentukan Lokasi Anda</string>
+    <string name="version_name">Versi 0.7 Beta</string>
+    <string name="harga_deskripsi_kemampuan"><![CDATA[Harga & Deskripsi Kemampuan]]></string>
+    <string name="baca_ketentuan_dan_kebijakan_privasi_kami">Baca ketentuan dan kebijakan privasi kami</string>
+    <string name="disini"> Disini.</string>
+
 </resources>
