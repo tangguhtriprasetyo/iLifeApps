@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +11,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentSearchBinding
+import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.search.adsSearch.AdsSearchAdapter
 import com.ibunda.ilifeapps.ui.dashboard.search.otherlistshop.OtherListShopAdapter
 import com.ibunda.ilifeapps.ui.dashboard.search.promolistshop.PromoListShopAdapter
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 
 
 class SearchFragment : Fragment() {
@@ -56,6 +59,21 @@ class SearchFragment : Fragment() {
         setRvSearch()
         setDataRvListOtherShop()
         setDataRvListPromoShop()
+        initOnClick()
+    }
+
+    private fun initOnClick() {
+        binding.tvLainnyaSemua.setOnClickListener {
+            gotoListShop("Lainnya", userDataProfile)
+        }
+    }
+
+    private fun gotoListShop(categoryName: String, userDataProfile: Users) {
+        val intent =
+            Intent(requireActivity(), ListMitraActivity::class.java)
+        intent.putExtra(ListMitraActivity.EXTRA_CATEGORY_NAME, categoryName)
+        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
+        startActivity(intent)
     }
 
     private fun setRvSearch() {

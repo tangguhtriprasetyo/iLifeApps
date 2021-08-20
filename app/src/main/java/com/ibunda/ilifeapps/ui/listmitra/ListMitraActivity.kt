@@ -43,7 +43,6 @@ class ListMitraActivity : AppCompatActivity() {
             }
         })
 
-
         val listShopFragment = ListShopFragment()
         supportFragmentManager.commit {
             replace(R.id.host_listshop_activity, listShopFragment)

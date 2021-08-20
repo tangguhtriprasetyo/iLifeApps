@@ -1,5 +1,7 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -83,7 +85,23 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
         when (v.id) {
             R.id.ic_back -> activity?.onBackPressed()
             R.id.btn_pesan -> gotoPayment()
+            R.id.ic_instagram -> openInstagram(shopData.instagram!!)
+            R.id.ic_facebook -> openFb(shopData.facebook!!)
         }
+    }
+
+    private fun openFb(facebook: String) {
+        val url = "https://www.facebook.com/$facebook"
+        val uriUrl = Uri.parse(url)
+        val launchBrowser = Intent(Intent.ACTION_VIEW, uriUrl)
+        startActivity(launchBrowser)
+    }
+
+    private fun openInstagram(instagram: String) {
+        val url = "https://www.instagram.com/$instagram"
+        val uriUrl = Uri.parse(url)
+        val launchBrowser = Intent(Intent.ACTION_VIEW, uriUrl)
+        startActivity(launchBrowser)
     }
 
     private fun gotoPayment() {
