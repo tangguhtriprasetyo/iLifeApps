@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="MissingDefaultResource">
+
+    <LinearLayout
+        android:id="@+id/linear_pesanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_profile_mitra"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_profile_default"
+                app:civ_border_width="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearmitra"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout13"
+                app:layout_constraintStart_toEndOf="@+id/img_profile_mitra"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_nama_mitra_pesanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:maxLines="1"
+                        tools:text="PT Sukses Jaya"
+                        android:textColor="@color/font_default"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/tv_kategori_pesanan"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_kategori_pesanan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto"
+                        tools:text="Kebersihan"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_nama_mitra_pesanan" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:maxLines="1"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="8dp"
+                tools:text="Jalan Ngaliyan, Jawa Tengah, Kota Semarang"
+                android:textColor="@color/fontulasan"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout13"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/linearmitra"
+                app:layout_constraintTop_toBottomOf="@+id/linearmitra" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout13"
+                android:layout_width="104dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        tools:text="14 Juni"
+                        android:gravity="end"
+                        android:textColor="@color/fontulasan"
+                        android:textSize="11sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_harga"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        tools:text="Rp. 150.000"
+                        android:gravity="end"
+                        android:textColor="@color/font_default"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        style="@style/Responsive16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_pesanan" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

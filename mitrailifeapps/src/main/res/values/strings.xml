@@ -21,5 +21,20 @@
     <string name="harga_deskripsi_kemampuan"><![CDATA[Harga & Deskripsi Kemampuan]]></string>
     <string name="baca_ketentuan_dan_kebijakan_privasi_kami">Baca ketentuan dan kebijakan privasi kami</string>
     <string name="disini"> Disini.</string>
+    <string name="daftar_sekarang">Daftar Sekarang</string>
+    <string name="alamat_mitra">Alamat Mitra</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="selanjutnya">Selanjutnya</string>
+    <string name="dengan_mendaftar_anda_setuju_dengan_ketentuan_layanan_dan_perlindungan_privasi_pada_aplikasi_mitra_i_life">Dengan mendaftar, Anda setuju dengan ketentuan layanan dan perlindungan privasi pada aplikasi Mitra i-life</string>
+    <string name="buat_akun_anda_sekarang_dan_mulailah_membuka_usaha_di_i_life">Buat akun anda sekarang, dan mulailah membuka usaha di i-life</string>
+    <string name="daftar">Daftar</string>
+    <string name="kata_sandi">Kata Sandi</string>
+    <string name="konfirmasi_kata_sandi">Konfirmasi Kata Sandi</string>
+    <string name="nama_pengguna">Nama Pengguna</string>
+    <string name="email">Email</string>
+    <string name="by_i_bunda">by i-bunda</string>
+    <string name="bergabung_sejak">Bergabung Sejak  </string>
+    <string name="kategori">Kategori</string>
+    <string name="total_pesanan_sukses">Total Pesanan Sukses</string>
 
 </resources>

@@ -389,17 +389,17 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_order"
+        style="@style/Responsive16dp"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        style="@style/Responsive16dp"
-        app:cornerRadius="8dp"
-        android:textAllCaps="false"
         android:text="@string/pesan_sekarang"
+        android:textAllCaps="false"
         android:textSize="16sp"
-        app:layout_constraintVertical_bias="0.925"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.923" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

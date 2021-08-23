@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".ui.dashboard.home.HomeFragment">
+
+    <LinearLayout
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Pesanan Khusus"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                layout="@layout/item_layout_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_chat_blue_24"
+                app:layout_constraintBottom_toBottomOf="@+id/linear_sortby"
+                app:layout_constraintEnd_toStartOf="@+id/notification"
+                app:layout_constraintTop_toTopOf="@+id/linear_sortby" />
+
+            <include
+                android:id="@+id/notification"
+                layout="@layout/item_layout_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/linear_sortby"
+                app:layout_constraintEnd_toStartOf="@+id/linear_sortby"
+                app:layout_constraintTop_toTopOf="@+id/linear_sortby" />
+
+            <View
+                android:id="@+id/viewFirst"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <LinearLayout
+                android:id="@+id/linear_sortby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:background="@drawable/ic_filter_blue_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Seleksi\nKategori"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPesanan"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        tools:listitem="@layout/item_rv_home" />
+
+    <include
+        layout="@layout/item_empty_shop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <LinearLayout
+        android:id="@+id/linear_empty_pesanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_ilustrasi_no_pesanan" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Oops, pesanan kosong..."
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+
+        <TextView
+            style="@style/Responsive24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Saat ini belum ada pesanan khusus dari customer."
+            android:textColor="@color/font_default"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,11 +11,11 @@ class SectionDetailAdapter(fragment: Fragment) :
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-            when (position) {
-                0 -> return KemampuanFragment()
-                1 -> return UlasanFragment()
-            }
-            return Fragment()
+        when (position) {
+            0 -> return KemampuanFragment()
+            1 -> return UlasanFragment()
         }
-
+        return Fragment()
     }
+
+}

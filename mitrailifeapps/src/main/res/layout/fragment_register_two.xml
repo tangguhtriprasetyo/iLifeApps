@@ -1,226 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorBackground"
-    tools:context=".ui.login.RegisterOneFragment">
+    tools:context=".ui.login.RegisterTwoFragment">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/linearbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/daftar"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/buat_akun_anda_sekarang_dan_mulailah_membuka_usaha_di_i_life"
-            android:textColor="@color/font_default"
-            android:textSize="14sp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:focusableInTouchMode="true"
-            android:hint="@string/nama_pengguna"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/font_default"
-            app:hintTextColor="@color/font_default"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:boxStrokeWidth="2.3dp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_username"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:fontFamily="@font/roboto"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:inputType="text"
-                android:textColor="@color/font_default"
-                android:textColorHint="@color/font_default"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:focusableInTouchMode="true"
-            android:hint="@string/email"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/font_default"
-            app:hintTextColor="@color/font_default"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:boxStrokeWidth="2.3dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:fontFamily="@font/roboto"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/font_default"
-                android:textColorHint="@color/font_default"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:focusableInTouchMode="true"
-            android:hint="@string/kata_sandi"
-            android:textColorHint="@color/font_default"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            app:boxStrokeWidth="2.3dp"
-            app:hintTextColor="@color/font_default"
-            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:fontFamily="@font/roboto"
-                android:inputType="textPassword"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:lineSpacingExtra="8dp"
-                android:textColor="@color/font_default"
-                android:textColorHint="@color/font_default"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:focusableInTouchMode="true"
-            android:hint="@string/konfirmasi_kata_sandi"
-            android:textColorHint="@color/font_default"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorPrimaryDark"
-            app:boxStrokeWidth="2.3dp"
-            app:hintTextColor="@color/font_default"
-            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:fontFamily="@font/roboto"
-                android:inputType="textPassword"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:lineSpacingExtra="8dp"
-                android:textColor="@color/font_default"
-                android:textColorHint="@color/font_default"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ic_back"
+                android:layout_width="28dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="@string/dengan_mendaftar_anda_setuju_dengan_ketentuan_layanan_dan_perlindungan_privasi_pada_aplikasi_mitra_i_life"
-                android:textColor="@color/font_default"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/roboto"
-                android:textSize="14sp"
-                android:text="@string/baca_ketentuan_dan_kebijakan_privasi_kami" />
-
-            <TextView
-                android:id="@+id/tvPrivasi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@string/disini"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimaryDark" />
+                android:layout_marginStart="12dp"
+                android:text="@string/alamat_mitra"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ic_back"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <View
+                android:id="@+id/viewFirst"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next"
-            style="@style/ButtonStyle"
-            android:layout_height="52dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/selanjutnya" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearbar">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:hint="Provinsi"
+            android:textColorHint="@color/font_default"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorPrimaryDark"
+            app:boxStrokeWidth="2.3dp"
+            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+            app:hintTextColor="@color/font_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_provinsi"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLength="50"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textColor="@color/font_default"
+                android:textColorHint="@color/font_default"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout4"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:focusableInTouchMode="true"
+            android:hint="Kota/Kabupaten"
+            android:textColorHint="@color/font_default"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorPrimaryDark"
+            app:boxStrokeWidth="2.3dp"
+            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+            app:hintTextColor="@color/font_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_kota_kab"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLength="50"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textColor="@color/font_default"
+                android:textColorHint="@color/font_default"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout5"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:focusableInTouchMode="true"
+            android:hint="Kecamatan"
+            android:textColorHint="@color/font_default"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorPrimaryDark"
+            app:boxStrokeWidth="2.3dp"
+            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+            app:hintTextColor="@color/font_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_kecamatan"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLength="50"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textColor="@color/font_default"
+                android:textColorHint="@color/font_default"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout6"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:focusableInTouchMode="true"
+            android:hint="Kode Pos"
+            android:textColorHint="@color/font_default"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorPrimaryDark"
+            app:boxStrokeWidth="2.3dp"
+            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+            app:hintTextColor="@color/font_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_kodepos"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:fontFamily="@font/roboto"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textColor="@color/font_default"
+                android:textColorHint="@color/font_default"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout7"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:focusableInTouchMode="true"
+            android:hint="Alamat Lengkap"
+            android:textColorHint="@color/font_default"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            app:boxStrokeColor="@color/colorPrimaryDark"
+            app:boxStrokeWidth="2.3dp"
+            app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
+            app:hintTextColor="@color/font_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_alamat_lengkap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:inputType="text"
+                android:maxLength="75"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textColor="@color/font_default"
+                android:textColorHint="@color/font_default"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_register"
+        style="@style/ButtonStyle"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/daftar_sekarang"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+
+    <LinearLayout
+        android:id="@+id/linear_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -252,6 +296,5 @@
 
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
