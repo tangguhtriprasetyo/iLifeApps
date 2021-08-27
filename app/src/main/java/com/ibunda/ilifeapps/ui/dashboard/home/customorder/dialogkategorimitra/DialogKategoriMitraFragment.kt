@@ -47,7 +47,6 @@ class DialogKategoriMitraFragment : DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val fragment = parentFragment

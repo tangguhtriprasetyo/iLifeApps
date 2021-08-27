@@ -39,7 +39,7 @@
                 android:layout_marginStart="12dp"
                 android:text="@string/alamat_mitra"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ic_back"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:hint="Provinsi"
+            android:hint="@string/provinsi"
             android:textColorHint="@color/font_default"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -86,10 +86,7 @@
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:boxStrokeWidth="2.3dp"
             app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:hintTextColor="@color/font_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+            app:hintTextColor="@color/font_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_provinsi"
@@ -105,7 +102,6 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout4"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -113,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:focusableInTouchMode="true"
-            android:hint="Kota/Kabupaten"
+            android:hint="@string/kota_kabupaten"
             android:textColorHint="@color/font_default"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -122,10 +118,7 @@
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:boxStrokeWidth="2.3dp"
             app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:hintTextColor="@color/font_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+            app:hintTextColor="@color/font_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_kota_kab"
@@ -141,7 +134,6 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout5"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -149,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:focusableInTouchMode="true"
-            android:hint="Kecamatan"
+            android:hint="@string/kecamatan"
             android:textColorHint="@color/font_default"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -158,10 +150,7 @@
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:boxStrokeWidth="2.3dp"
             app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:hintTextColor="@color/font_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+            app:hintTextColor="@color/font_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_kecamatan"
@@ -177,7 +166,6 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout6"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -185,7 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:focusableInTouchMode="true"
-            android:hint="Kode Pos"
+            android:hint="@string/kode_pos"
             android:textColorHint="@color/font_default"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -194,10 +182,7 @@
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:boxStrokeWidth="2.3dp"
             app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:hintTextColor="@color/font_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+            app:hintTextColor="@color/font_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_kodepos"
@@ -220,7 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:focusableInTouchMode="true"
-            android:hint="Alamat Lengkap"
+            android:hint="@string/alamat_lengkap"
             android:textColorHint="@color/font_default"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -229,10 +214,7 @@
             app:boxStrokeColor="@color/colorPrimaryDark"
             app:boxStrokeWidth="2.3dp"
             app:hintTextAppearance="@style/hint_edit_profile_xxhdpi"
-            app:hintTextColor="@color/font_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_toko_mitra">
+            app:hintTextColor="@color/font_default">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_alamat_lengkap"
@@ -250,51 +232,14 @@
 
     </LinearLayout>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_register"
         style="@style/ButtonStyle"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/daftar_sekarang"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
-    <LinearLayout
-        android:id="@+id/linear_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.925">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="@string/sudah_punya_akun"
-            android:textColor="@color/font_default"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/masuk"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

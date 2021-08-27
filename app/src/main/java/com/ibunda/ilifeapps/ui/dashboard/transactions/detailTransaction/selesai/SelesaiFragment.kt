@@ -86,17 +86,9 @@ class SelesaiFragment : Fragment() {
             tvKategoriMitra.text = orderData.categoryName
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
-            tvInfoPesananDiproses.visibility = View.VISIBLE
-            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
-            tvInfoMulaiPerjalanan.visibility = View.VISIBLE
-            tvStartAt.visibility = View.VISIBLE
             tvStartAt.text = orderData.startAt
-            tvInfoSampaiTujuan.visibility = View.VISIBLE
-            tvArrivedAt.visibility = View.VISIBLE
             tvArrivedAt.text = orderData.arrivedAt
-            tvInfoPesananSelesai.visibility = View.VISIBLE
-            tvFinishedAt.visibility = View.VISIBLE
             tvFinishedAt.text = orderData.finishedAt
             //
             tvDate.text = orderData.orderDate
@@ -123,17 +115,9 @@ class SelesaiFragment : Fragment() {
             tvKategoriMitra.text = orderData.categoryName
             //scheduleOrder
             tvCreatedAt.text = orderData.createdAt
-            tvInfoPesananDiproses.visibility = View.VISIBLE
-            tvProcessedAt.visibility = View.VISIBLE
             tvProcessedAt.text = orderData.processedAt
-            tvInfoMulaiPerjalanan.visibility = View.VISIBLE
-            tvStartAt.visibility = View.VISIBLE
             tvStartAt.text = orderData.startAt
-            tvInfoSampaiTujuan.visibility = View.VISIBLE
-            tvArrivedAt.visibility = View.VISIBLE
             tvArrivedAt.text = orderData.arrivedAt
-            tvInfoPesananSelesai.visibility = View.VISIBLE
-            tvFinishedAt.visibility = View.VISIBLE
             tvFinishedAt.text = orderData.finishedAt
             //
             tvDate.text = orderData.orderDate

@@ -62,6 +62,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "196001597991-1sqk38ui6t5jtvev8puohtghfbmovl6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ibunda.mitrailifeapps",
+            "certificate_hash": "9afc142e1c45b00206bba25c7446d7dc30d6731b"
+          }
+        },
+        {
           "client_id": "196001597991-obj094q6j968tiho3g3ljbo0d8sn8squ.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

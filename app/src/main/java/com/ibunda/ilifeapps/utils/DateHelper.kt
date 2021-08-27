@@ -3,9 +3,6 @@ package com.ibunda.ilifeapps.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-
-
 object DateHelper {
 
     fun getCurrentDateTime(): String {
