@@ -95,6 +95,12 @@ class PaymentFragment : Fragment() {
 
     private fun setDataOrder() {
         val orderId = "${userData.userId}${shopData.shopId}-${userData.totalOrder}"
+        val price: String?
+        if(shopData.promo == true) {
+            price = PriceFormatHelper.getPriceFormat(shopData.shopPromo)
+        } else {
+            price = PriceFormatHelper.getPriceFormat(shopData.price)
+        }
         orders = Orders(
             orderId = orderId,
             address = userData.address,
@@ -109,7 +115,7 @@ class PaymentFragment : Fragment() {
             shopName = shopData.shopName,
             shopPicture = shopData.shopPicture,
             status = "Pesanan",
-            totalPrice = PriceFormatHelper.getPriceFormat(shopData.price),
+            totalPrice = price,
             userId = userData.userId,
             userName = userData.name,
             userPicture = userData.avatar,

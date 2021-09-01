@@ -66,6 +66,17 @@ class SearchFragment : Fragment() {
         binding.tvLainnyaSemua.setOnClickListener {
             gotoListShop("Lainnya", userDataProfile)
         }
+        binding.tvDiskonSemua.setOnClickListener {
+            goListShop(true, userDataProfile)
+        }
+    }
+
+    private fun goListShop(promo: Boolean, userDataProfile: Users) {
+        val intent =
+            Intent(requireActivity(), ListMitraActivity::class.java)
+        intent.putExtra(ListMitraActivity.EXTRA_PROMO, promo)
+        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
+        startActivity(intent)
     }
 
     private fun gotoListShop(categoryName: String, userDataProfile: Users) {

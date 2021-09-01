@@ -13,10 +13,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import com.ibunda.ilifeapps.data.model.Ads
-import com.ibunda.ilifeapps.data.model.Orders
-import com.ibunda.ilifeapps.data.model.Shops
-import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.data.model.*
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_SUCCESS
 import com.ibunda.ilifeapps.utils.DateHelper.getCurrentDate
 import kotlinx.coroutines.*
@@ -34,6 +31,7 @@ class FirebaseServices {
     private val usersRef: CollectionReference = firestoreRef.collection("users")
     private val shopsRef: CollectionReference = firestoreRef.collection("shops")
     private val ordersRef: CollectionReference = firestoreRef.collection("orders")
+    private val ulasanRef: CollectionReference = firestoreRef.collection("ulasan")
 
     private var STATUS_ERROR = "error"
 
@@ -80,6 +78,49 @@ class FirebaseServices {
                             if (it.isSuccessful) {
                                 usersRef.document(orders.userId.toString())
                                     .update("totalOrder", FieldValue.increment(1))
+                                    .addOnCompleteListener {
+                                        statusOrder.postValue(STATUS_SUCCESS)
+                                    }
+                                    .addOnFailureListener { error ->
+                                        STATUS_ERROR = error.message.toString()
+                                        statusOrder.postValue(STATUS_ERROR)
+                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                                    }
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                }
+        }
+
+
+        return statusOrder
+    }
+
+    fun uploadUlasan(ulasan: Ulasan, rating: Double): LiveData<String> {
+        val statusOrder = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ulasanRef.document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(ulasan).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                shopsRef.document(ulasan.shopId.toString())
+                                    .update("totalUlasan", FieldValue.increment(1), "rating", rating)
                                     .addOnCompleteListener {
                                         statusOrder.postValue(STATUS_SUCCESS)
                                     }
@@ -405,6 +446,35 @@ class FirebaseServices {
 
     }
 
+    fun getListUlasan(role: String, query: String, collectionRef: String): Flow<List<Ulasan>?> {
+
+        return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val listenerRegistration =
+                collectionRef.whereEqualTo(role, query)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listShops = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Ulasan>()
+                        }
+                        offer(listShops)
+                        Log.d("Shops", listShops.toString())
+                    }
+            awaitClose {
+                Log.d(TAG, "getListShops: ")
+                listenerRegistration.remove()
+            }
+        }
+
+    }
+
     fun getNotifications() {
 
     }
@@ -417,19 +487,13 @@ class FirebaseServices {
 
     }
 
-    fun getUlasan() {
-        //whereEqual
-    }
+
 
     fun updateChat() {
 
     }
 
     fun uploadNotification() {
-
-    }
-
-    fun uploadUlasan() {
 
     }
 

@@ -14,6 +14,7 @@ import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentLoginBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
+import com.ibunda.mitrailifeapps.ui.login.register.RegisterOneFragment
 
 
 class LoginFragment : Fragment() {

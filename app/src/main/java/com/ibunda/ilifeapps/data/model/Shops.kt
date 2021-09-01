@@ -19,7 +19,7 @@ data class Shops(
     var longitude: Int? = null,
     var mitraId: String? = null,
     var price: Int? = null,
-    var rating: Int? = null,
+    var rating: Double? = null,
     var registeredAt: String? = null,
     var shopId: String? = null,
     var shopName: String? = null,

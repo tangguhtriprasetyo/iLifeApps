@@ -644,6 +644,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_terima_pekerjaan"
             android:text="@string/terima_pekerjaan"
+            app:cornerRadius="8dp"
             style="@style/ButtonStyle" />
 
         <LinearLayout

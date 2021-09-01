@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -27,13 +28,22 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvNamaMitra.text = (data.shopName)
 
-            tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.price)
+            if (data.promo == true) {
+                tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.shopPromo)
+                tvHargaMitraSebelum.visibility = View.VISIBLE
+                tvHargaMitraSebelum.text = PriceFormatHelper.getPriceFormat(data.price)
+                tvHargaMitraSebelum.paintFlags =
+                    tvHargaMitraSebelum.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.price)
+            }
 
             with(itemView) {
                 setOnClickListener {
                     val mDetailShopFragment = DetailShopFragment()
                     val mBundle = Bundle()
                     mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, data)
+                    mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, false)
                     mDetailShopFragment.arguments = mBundle
                     val manager: FragmentManager =
                         (context as AppCompatActivity).supportFragmentManager

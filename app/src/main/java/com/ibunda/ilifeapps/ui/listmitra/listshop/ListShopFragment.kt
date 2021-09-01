@@ -22,6 +22,10 @@ class ListShopFragment : Fragment() {
     private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private val listShopAdapter = ListShopAdapter()
 
+    companion object {
+        const val EXTRA_PROMO = "extra_promo"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,12 +38,21 @@ class ListShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listMitraViewModel.dataCategory?.observe(viewLifecycleOwner, Observer {
-            binding.tvListKategoriMitra.text = listMitraViewModel.dataCategory.value
-        })
+        if (arguments != null) {
+
+            if (requireArguments().getBoolean(EXTRA_PROMO)) {
+                binding.tvListKategoriMitra.text = "Sedang Diskon"
+                setDataRvListPromoShop()
+            } else {
+                listMitraViewModel.dataCategory?.observe(viewLifecycleOwner, Observer {
+                    binding.tvListKategoriMitra.text = listMitraViewModel.dataCategory.value
+                })
+                setDataRvListShop()
+            }
+
+        }
 
         initView()
-        setDataRvListShop()
 
     }
 
@@ -61,11 +74,45 @@ class ListShopFragment : Fragment() {
     private fun setDataRvListShop() {
         listMitraViewModel.dataCategory.value?.let {
             listShopViewModel.getListShop(it).observe(viewLifecycleOwner, { listShops ->
-                if (listShops != null) {
+                if (listShops != null && listShops.isNotEmpty()) {
                     listShopAdapter.setListShops(listShops)
                     setShopsAdapter()
+                    showEmptyListShop(false)
+                } else {
+                    showEmptyListShop(true)
                 }
             })
         }
     }
+
+    private fun setDataRvListPromoShop() {
+        listShopViewModel.getListPromoShop(true).observe(viewLifecycleOwner, { listShops ->
+            if (listShops != null && listShops.isNotEmpty()) {
+                listShopAdapter.setListShops(listShops)
+                setPromoShopsAdapter()
+                showEmptyListShop(false)
+            } else {
+                showEmptyListShop(true)
+            }
+        })
+    }
+
+    private fun setPromoShopsAdapter() {
+        with(binding.rvListMitra) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = listShopAdapter
+            Log.d(TAG, "setAdapter: ")
+        }
+    }
+
+    private fun showEmptyListShop(state: Boolean) {
+        if (state) {
+            binding.rvListMitra.visibility = View.GONE
+            binding.linearEmptyMitra.visibility = View.VISIBLE
+        } else {
+            binding.rvListMitra.visibility = View.VISIBLE
+        }
+    }
+
 }

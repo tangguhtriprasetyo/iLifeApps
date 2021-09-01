@@ -303,6 +303,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_change"
             style="@style/ButtonStyle"
+            app:cornerRadius="8dp"
             android:layout_marginTop="40dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
@@ -423,6 +424,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_change_password"
             style="@style/ButtonStyle"
+            app:cornerRadius="8dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginTop="40dp"

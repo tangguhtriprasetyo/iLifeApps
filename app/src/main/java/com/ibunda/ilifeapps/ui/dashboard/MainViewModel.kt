@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
-import com.ibunda.ilifeapps.data.model.Ads
-import com.ibunda.ilifeapps.data.model.Orders
-import com.ibunda.ilifeapps.data.model.Shops
-import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.data.model.*
 
 class MainViewModel : ViewModel() {
     private val firebaseServices: FirebaseServices = FirebaseServices()
@@ -43,6 +40,11 @@ class MainViewModel : ViewModel() {
 
     fun getListPromoShop(promo: Boolean): LiveData<List<Shops>?> {
         return firebaseServices.getListPromoShop(promo, "shops").asLiveData()
+    }
+
+    //Ulasan
+    fun getListUlasan(userId: String): LiveData<List<Ulasan>?> {
+        return firebaseServices.getListUlasan("userId", userId, "ulasan").asLiveData()
     }
 
 }

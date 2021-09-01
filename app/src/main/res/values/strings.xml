@@ -57,6 +57,7 @@
     <string name="dibatalkan_oleh">Dibatalkan oleh</string>
     <string name="alasan_dibatalkan">Alasan Dibatalkan</string>
     <string name="pesanan_dibatalkan">Pesanan Dibatalkan</string>
+    <string name="edit_akun">Edit Akun</string>
 
 
 </resources>

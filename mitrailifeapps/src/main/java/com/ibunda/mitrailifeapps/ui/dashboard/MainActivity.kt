@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> {
+                R.id.beranda -> {
                     setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
                 }
                 R.id.pesanan -> {

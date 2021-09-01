@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -23,10 +24,12 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDetailShopBinding
     private val listMitraViewModel: ListMitraViewModel by activityViewModels()
-    private lateinit var shopData: Shops
+    private var shopData: Shops? = null
 
     companion object {
         const val EXTRA_SHOP_DATA = "extra_shop_data"
+        const val EXTRA_SHOP_PRICE = "extra_shop_price"
+        const val FROM_TRANSACTION = "from_transaction"
     }
 
     override fun onCreateView(
@@ -43,16 +46,22 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
 
         shopData = Shops()
         if (arguments != null) {
-            shopData = requireArguments().getParcelable(EXTRA_SHOP_DATA)!!
-        }
-        Log.d(shopData.shopId.toString(), "shopId")
+            shopData = requireArguments().getParcelable(EXTRA_SHOP_DATA)
+            listMitraViewModel.setShopData(shopData!!.shopId.toString())
+                .observe(viewLifecycleOwner, { shops ->
+                    if (shops != null) {
+                        shopData = shops
+                        Log.e(shops.price.toString(), "detailShopPrice")
+                    }
+                })
 
-        listMitraViewModel.setShopData(shopData.shopId.toString())
-            .observe(viewLifecycleOwner, { shops ->
-                if (shops != null) {
-                    shopData = shops
-                }
-            })
+            if (requireArguments().getBoolean(FROM_TRANSACTION)) {
+                binding.linearPilihanMitra.visibility = View.GONE
+            } else {
+                binding.linearPilihanMitra.visibility = View.VISIBLE
+            }
+
+        }
 
         initView()
         initTabLayout()
@@ -85,8 +94,8 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
         when (v.id) {
             R.id.ic_back -> activity?.onBackPressed()
             R.id.btn_pesan -> gotoPayment()
-            R.id.ic_instagram -> openInstagram(shopData.instagram!!)
-            R.id.ic_facebook -> openFb(shopData.facebook!!)
+            R.id.ic_instagram -> openInstagram(shopData?.instagram!!)
+            R.id.ic_facebook -> openFb(shopData?.facebook!!)
         }
     }
 
@@ -121,7 +130,7 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             .observe(viewLifecycleOwner, { shops ->
                 if (shops != null) {
                     shopData = shops
-                    setShopData(shopData)
+                    setShopData(shopData!!)
                 }
                 Log.d("ViewModelShopData: ", shops.toString())
             })
@@ -134,9 +143,19 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             if (shopData.verified == true) {
                 icVerified.visibility = View.VISIBLE
             }
+
+            if (shopData.promo == true) {
+                tvHargaMitraSebelum.visibility = View.VISIBLE
+                tvHargaMitraSebelum.text = PriceFormatHelper.getPriceFormat(shopData.price)
+                tvHargaMitraSebelum.paintFlags =
+                    tvHargaMitraSebelum.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                tvHargaMitra.text = PriceFormatHelper.getPriceFormat(shopData.shopPromo)
+            } else {
+                tvHargaMitra.text = PriceFormatHelper.getPriceFormat(shopData.price)
+            }
+
             tvNilaiRating.text = shopData.rating.toString()
             tvJumlahUlasanMitra.text = shopData.totalUlasan.toString() + " Ulasan"
-            tvHargaMitra.text = PriceFormatHelper.getPriceFormat(shopData.price)
             tvKategoriMitra.text = shopData.categoryName
             tvMitraBergabung.text = "Bergabung sejak " + shopData.registeredAt
             tvLokasiMitra.text = shopData.address

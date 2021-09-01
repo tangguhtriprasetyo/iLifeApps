@@ -18,6 +18,7 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentProfileBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
+import com.ibunda.ilifeapps.ui.dashboard.profile.review.ReviewFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.loadImage
 
@@ -92,6 +93,19 @@ class ProfileFragment : Fragment() {
                 replace(
                     R.id.host_fragment_activity_main,
                     mEditProfileFragment,
+                    MainActivity.CHILD_FRAGMENT
+                )
+            }
+        }
+
+        binding.linearPenilaianSaya.setOnClickListener {
+            val mFragmentManager = parentFragmentManager
+            val mReviewFragment = ReviewFragment()
+            mFragmentManager.commit {
+                addToBackStack(null)
+                replace(
+                    R.id.host_fragment_activity_main,
+                    mReviewFragment,
                     MainActivity.CHILD_FRAGMENT
                 )
             }

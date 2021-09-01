@@ -703,6 +703,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_status_pekerjaan"
                     android:layout_marginTop="16dp"
+                    app:cornerRadius="8dp"
                     android:text="@string/mulai_pekerjaan"
                     style="@style/ButtonStyle" />
 

@@ -69,7 +69,7 @@
                             android:maxLength="25"
                             android:text="PT Sukses Jaya"
                             android:textColor="@color/font_default"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="@+id/textView3"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,18 +120,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Rp. 550.000"
+                        tools:text="Rp. 550.000"
                         android:textColor="@color/font_default"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_harga_mitra_sebelum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:layout_marginTop="2dp"
+                        tools:text="Rp. 550.000"
+                        android:visibility="gone"
+                        android:textColor="@color/fontDiskon"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_harga_mitra" />
 
                     <TextView
                         android:id="@+id/tv_jarak_mitra"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="340 m"
+                        tools:text="340 m"
                         android:textColor="@color/font_default"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"

@@ -67,7 +67,6 @@ class EditAkunMitraFragment : Fragment() {
             initChangePassword()
         }
 
-
     }
 
     private fun updateProfileData() {
@@ -117,7 +116,6 @@ class EditAkunMitraFragment : Fragment() {
         binding.tvTitle.text = getString(R.string.ubah_kata_sandi)
         binding.linearEditPassword.visibility = View.VISIBLE
     }
-
 
     private fun setProfileData(mitraDataProfile: Mitras) {
         with(binding) {

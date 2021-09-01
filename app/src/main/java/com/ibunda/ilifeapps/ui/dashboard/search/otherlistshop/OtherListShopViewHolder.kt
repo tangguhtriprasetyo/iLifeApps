@@ -1,9 +1,11 @@
 package com.ibunda.ilifeapps.ui.dashboard.search.otherlistshop
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvShopLainnyaBinding
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
 
@@ -22,7 +24,10 @@ class OtherListShopViewHolder(private val binding: ItemRvShopLainnyaBinding) :
 
             with(itemView) {
                 setOnClickListener {
-
+                    val intent =
+                        Intent(context, ListMitraActivity::class.java)
+                    intent.putExtra(ListMitraActivity.EXTRA_SHOP, data.shopId)
+                    context.startActivity(intent)
                 }
             }
 

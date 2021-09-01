@@ -1,4 +1,4 @@
-package com.ibunda.mitrailifeapps.ui.login
+package com.ibunda.mitrailifeapps.ui.login.register
 
 import android.os.Bundle
 import android.view.LayoutInflater

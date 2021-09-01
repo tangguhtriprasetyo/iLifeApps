@@ -99,5 +99,8 @@
     <string name="kata_sandi_lama">Kata Sandi Lama</string>
     <string name="ubah_kata_sandi">Ubah Kata Sandi</string>
     <string name="ulasan_pelanggan">Ulasan Pelanggan</string>
+    <string name="kamu_belom_memiliki_toko_disini_nyuk_segera_bikin_toko_kamu">Kamu belom memiliki toko disini.\nYuk segera bikin Toko kamu!</string>
+    <string name="tambah_toko">+ Tambah Toko</string>
+    <string name="image_empty_toko">Image Empty Toko</string>
 
 </resources>

@@ -66,8 +66,6 @@
                         app:layout_constraintStart_toStartOf="@+id/tv_kategori_pesanan"
                         app:layout_constraintTop_toTopOf="parent" />
 
-
-
                     <TextView
                         android:id="@+id/tv_kategori_pesanan"
                         android:layout_width="wrap_content"

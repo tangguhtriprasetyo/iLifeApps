@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorBackground"
-    tools:context=".ui.login.RegisterOneFragment">
+    tools:context=".ui.login.register.RegisterOneFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -214,6 +214,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
             style="@style/ButtonStyle"
+            app:cornerRadius="8dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginTop="32dp"

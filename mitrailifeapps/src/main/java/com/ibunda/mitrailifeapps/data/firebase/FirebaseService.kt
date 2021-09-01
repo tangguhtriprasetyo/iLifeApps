@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.data.firebase
 
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,11 +9,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.utils.DateHelper.getCurrentDate
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 
 @ExperimentalCoroutinesApi
@@ -134,6 +136,55 @@ class FirebaseServices {
                 }
         }
         return editedUserData
+    }
+
+    fun getListOrderKhususData(query: Boolean, collectionRef: String): Flow<List<Orders>?> {
+
+        return callbackFlow {
+
+            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val listenerRegistration =
+                collectionRef.whereEqualTo("orderKhusus", query)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listShops = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Orders>()
+                        }
+                        offer(listShops)
+                        Log.d("Shops", listShops.toString())
+                    }
+            awaitClose {
+                Log.d(ContentValues.TAG, "getListShops: ")
+                listenerRegistration.remove()
+            }
+        }
+
+    }
+
+    fun getOrdersData(orderId: String): LiveData<Orders> {
+        val docRef: DocumentReference = ordersRef.document(orderId)
+        val orderData = MutableLiveData<Orders>()
+        CoroutineScope(Dispatchers.IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val ordersData = document.toObject<Orders>()
+                    orderData.postValue(ordersData!!)
+                    Log.d("getShopData: ", ordersData.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return orderData
     }
 
 

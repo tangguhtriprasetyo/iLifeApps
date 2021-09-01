@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ibunda.mitrailifeapps.databinding.FragmentDialogTawarJasaBinding
+import com.ibunda.mitrailifeapps.utils.PriceFormatHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -53,8 +54,9 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
         })
 
         binding.btnTawar.setOnClickListener {
-            val tawarPrice: Int = binding.etTawar.text.toString().toInt()
-            Toast.makeText(requireContext(), tawarPrice.toString(), Toast.LENGTH_SHORT).show()
+            val tawar: Int = binding.etTawar.text.toString().toInt()
+            val tawarPrice = PriceFormatHelper.getPriceFormat(tawar)
+            Toast.makeText(requireContext(), tawarPrice, Toast.LENGTH_SHORT).show()
         }
 
     }

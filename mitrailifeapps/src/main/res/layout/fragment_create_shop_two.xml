@@ -60,7 +60,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_buat_toko"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearBar">
@@ -336,15 +336,13 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_buat_toko"
         style="@style/ButtonStyle"
-        android:enabled="false"
+        app:cornerRadius="8dp"
         android:text="Buat Toko"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.925" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

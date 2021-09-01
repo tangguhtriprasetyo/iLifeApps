@@ -1,4 +1,4 @@
-package com.ibunda.mitrailifeapps.ui.login
+package com.ibunda.mitrailifeapps.ui.login.register
 
 import android.content.ContentValues
 import android.content.Intent
@@ -16,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentRegisterTwoBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
+import com.ibunda.mitrailifeapps.ui.login.LoginViewModel
 import com.ibunda.mitrailifeapps.utils.DateHelper
 
 class RegisterTwoFragment : Fragment() {

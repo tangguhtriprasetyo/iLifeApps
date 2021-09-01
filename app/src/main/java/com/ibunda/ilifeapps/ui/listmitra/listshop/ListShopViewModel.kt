@@ -15,8 +15,10 @@ class ListShopViewModel : ViewModel() {
     fun getListShop(categoryName: String): LiveData<List<Shops>?> {
         return firebaseServices.getListShopData(categoryName, "shops").asLiveData()
     }
+
     fun getListPromoShop(promo: Boolean): LiveData<List<Shops>?> {
         return firebaseServices.getListPromoShop(promo, "shops").asLiveData()
     }
+
 
 }

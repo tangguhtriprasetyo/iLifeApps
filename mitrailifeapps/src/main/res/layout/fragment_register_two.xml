@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.login.RegisterTwoFragment">
+    tools:context=".ui.login.register.RegisterTwoFragment">
 
     <LinearLayout
         android:id="@+id/linearbar"
@@ -235,6 +235,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_register"
         style="@style/ButtonStyle"
+        app:cornerRadius="8dp"
         android:text="@string/daftar_sekarang"
         android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"

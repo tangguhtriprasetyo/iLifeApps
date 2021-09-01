@@ -9,12 +9,22 @@
     tools:context=".ui.listmitra.listshop.detailshop.ulasan.UlasanFragment"
     tools:ignore="MissingDefaultResource">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_ulasan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_rv_ulasan" />
+
     <LinearLayout
-        android:id="@+id/linear_empty_pilih_mitra"
+        android:id="@+id/linear_empty_ulasan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +36,7 @@
             android:background="@drawable/img_empty_penilaian" />
 
         <TextView
+            android:id="@+id/tv_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -37,14 +48,5 @@
 
 
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_ulasan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_rv_ulasan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

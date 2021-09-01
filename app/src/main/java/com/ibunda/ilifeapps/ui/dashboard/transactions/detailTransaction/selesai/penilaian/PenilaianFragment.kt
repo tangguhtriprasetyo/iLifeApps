@@ -5,11 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.ilifeapps.data.model.Orders
+import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Ulasan
 import com.ibunda.ilifeapps.databinding.FragmentPenilaianBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
+import com.ibunda.ilifeapps.utils.AppConstants
+import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
 
 class PenilaianFragment : Fragment() {
@@ -17,7 +22,8 @@ class PenilaianFragment : Fragment() {
     private lateinit var binding : FragmentPenilaianBinding
 
     private val transactionViewModel: TransactionViewModel by activityViewModels()
-    private lateinit var orderData: Orders
+    private  var shopData = Shops()
+    private  var ordersData = Orders()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,25 +40,31 @@ class PenilaianFragment : Fragment() {
         transactionViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
-                    orderData = orders
-                    setDataShop(orderData)
+                    ordersData = orders
+                    orders.shopId?.let {
+                        transactionViewModel.setShopData(it).observe(viewLifecycleOwner, {
+                            if (it != null) {
+                                shopData = it
+                                setDataShop(shopData)
+                            }
+                        })
+                    }
                 }
                 Log.d("ViewModelOrder: ", orders.toString())
             })
 
         initOnClick()
 
-
     }
 
-    private fun setDataShop(orderData: Orders) {
+    private fun setDataShop(shopData: Shops) {
         with(binding) {
-            if (orderData.verified == true) {
+            if (shopData.verified == true) {
                 icVerified.visibility = View.VISIBLE
             }
-            imgProfile.loadImage(orderData.shopPicture)
-            tvNamaMitra.text = orderData.shopName
-            tvKategoriMitra.text = orderData.categoryName
+            imgProfile.loadImage(shopData.shopPicture)
+            tvNamaMitra.text = shopData.shopName
+            tvKategoriMitra.text = shopData.categoryName
         }
     }
 
@@ -66,8 +78,35 @@ class PenilaianFragment : Fragment() {
     }
 
     private fun sendUlasan() {
-        val valueRating: Float = binding.ratingBar.rating
-        Log.e(valueRating.toString(), "valueRating")
+        val rating = shopData.rating?.plus(binding.ratingBar.rating)
+        val totalUlasan = shopData.totalUlasan?.plus(1)
+        val totalRating = rating?.div(totalUlasan?.toDouble()!!)
+        val ulasan = Ulasan (
+        date = DateHelper.getCurrentDate(),
+        rating = binding.ratingBar.rating.toDouble(),
+        shopId = shopData.shopId,
+        shopName = shopData.shopName,
+        shopPicture = shopData.shopPicture,
+        ulasan = binding.etUlasan.text.toString().trim(),
+        userId = ordersData.userId,
+        userName = ordersData.userName,
+        userPicture = ordersData.userPicture,
+        verified = shopData.verified
+            )
+        transactionViewModel.uploadPenilaian(ulasan, totalRating!!).observe(viewLifecycleOwner, { status ->
+
+            if (status == AppConstants.STATUS_SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    "Penilaian berhasil dilakukan. Terima kasih telah menilai mitra kami.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                activity?.onBackPressed()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
 }
