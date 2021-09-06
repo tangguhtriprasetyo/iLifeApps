@@ -14,8 +14,10 @@ import com.ibunda.mitrailifeapps.databinding.FragmentDetailPesananKhususBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment
 import com.ibunda.mitrailifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class DetailPesananKhususFragment : Fragment() {
 
     private lateinit var binding : FragmentDetailPesananKhususBinding
@@ -59,7 +61,7 @@ class DetailPesananKhususFragment : Fragment() {
     }
 
     private fun getOrderData() {
-        mainViewModel.getOrderKhususData()
+        mainViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     ordersData = orders

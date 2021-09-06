@@ -14,7 +14,9 @@ import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentTransactionBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class TransactionFragment : Fragment() {
 
     private lateinit var binding : FragmentTransactionBinding
@@ -85,7 +87,6 @@ class TransactionFragment : Fragment() {
             }
         }.attach()
     }
-
 
     override fun onResume() {
         super.onResume()

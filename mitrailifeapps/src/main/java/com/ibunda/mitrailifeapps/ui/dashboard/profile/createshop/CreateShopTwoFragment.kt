@@ -1,30 +1,41 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentCreateShopTwoBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
+import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.dialogkategorishop.DialogKategoriShopFragment
 import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.ui.maps.MapsViewModel
+import com.ibunda.mitrailifeapps.utils.DateHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlin.math.roundToInt
 
+@ExperimentalCoroutinesApi
 class CreateShopTwoFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateShopTwoBinding
 
     private val mapsViewModel: MapsViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var shopsData: Shops
+    private lateinit var mitraDataProfile: Mitras
 
     companion object {
         const val EXTRA_SHOP = "extra_shop"
+        const val PREFS_NAME = "mitra_pref"
     }
 
     override fun onCreateView(
@@ -39,16 +50,24 @@ class CreateShopTwoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainViewModel.getProfileData()
+                .observe(viewLifecycleOwner, { userProfile ->
+                    if (userProfile != null) {
+                        mitraDataProfile = userProfile
+                        initView(mitraDataProfile)
+                    }
+                    Log.d("ViewModelProfile: ", userProfile.toString())
+                })
+
         val bundle = arguments
         if (bundle != null) {
             shopsData = bundle.getParcelable(EXTRA_SHOP)!!
         }
-
-        initView()
+        Log.e(shopsData.shopName, "shopName")
 
     }
 
-    private fun initView() {
+    private fun initView(mitraDataProfile: Mitras) {
 
         binding.icBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
@@ -63,23 +82,68 @@ class CreateShopTwoFragment : Fragment() {
         }
 
         binding.btnBuatToko.setOnClickListener {
-            createShop()
+            if (validateInput()) {
+                createShop(mitraDataProfile)
+            }
         }
 
     }
 
-    private fun createShop() {
+    private fun createShop(mitraDataProfile : Mitras) {
+        //Preference
+        val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        var totalShops = preferences.getInt("totalShop", 0)
+        totalShops+=1
 
-        mapsViewModel.shopAdress.observe(viewLifecycleOwner, Observer {
-            binding.etLokasiToko.setText(mapsViewModel.shopAdress.value)
-        })
-        mapsViewModel.shopLatitude.observe(viewLifecycleOwner, Observer {
-            Log.e(mapsViewModel.shopLatitude.value.toString(), "shopLatitude")
-        })
-        mapsViewModel.shopLongitude.observe(viewLifecycleOwner, Observer {
-            Log.e(mapsViewModel.shopLongitude.value.toString(), "shopLangitude")
-        })
+        Log.e(totalShops.toString(), "totalShops")
+        //End Preference
+        val shopId = mitraDataProfile.mitraId + String.format("TOKO%s", String.format("%01d", totalShops.toDouble().roundToInt()))
+        Log.e(shopId, "shopId")
+        shopsData = Shops(
+                shopId = shopId,
+                address = binding.etLokasiToko.text.toString(),
+                categoryName = binding.etKategoriJasa.text.toString(),
+                facebook = shopsData.facebook,
+                instagram = shopsData.instagram,
+                promo = false,
+                verified = false,
+                kemampuan1 = binding.etKemampuan1.text.toString(),
+                kemampuan2 = binding.etKemampuan2.text.toString(),
+                kemampuan3 = binding.etKemampuan3.text.toString(),
+                latitude = 0,
+                longitude = 0,
+                mitraId = mitraDataProfile.mitraId,
+                price = binding.etHargaJasa.text.toString().toInt(),
+                rating = 0.toDouble(),
+                registeredAt = DateHelper.getCurrentDate(),
+                shopName = shopsData.shopName,
+                shopPicture = shopsData.shopPicture,
+                shopPromo = 0,
+                totalPesananSukses = 0,
+                totalUlasan = 0
+        )
+        val editor = preferences.edit()
+        editor.putString("shopId", shopId)
+        editor.putInt("totalShop", totalShops)
+        editor.apply()
+        uploadShops(shopsData)
+    }
 
+    private fun uploadShops(shopsData: Shops) {
+        Log.d("createdNewUser", shopsData.shopName.toString())
+        mainViewModel.createdNewShop(shopsData).observe(viewLifecycleOwner, { newUser ->
+            if (newUser.isCreated == true) {
+                val intent =
+                Intent(requireActivity(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+                Toast.makeText(
+                        requireContext(),
+                        "Selamat anda telah berhasil membuat toko baru. Silahkan melihat pekerjaan dan pesanan dari customer.",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
     private fun openMaps() {
@@ -112,19 +176,19 @@ class CreateShopTwoFragment : Fragment() {
         val categoryName = binding.etKategoriJasa.text.toString().trim()
         val address = binding.etLokasiToko.text.toString().trim()
         val price = binding.etHargaJasa.text.toString().trim()
-        val kemampuan1 = binding.etHargaJasa.text.toString().trim()
-        val kemampuan2 = binding.etHargaJasa.text.toString().trim()
-        val kemampuan3 = binding.etHargaJasa.text.toString().trim()
+        val kemampuan1 = binding.etKemampuan1.text.toString().trim()
+        val kemampuan2 = binding.etKemampuan2.text.toString().trim()
+        val kemampuan3 = binding.etKemampuan3.text.toString().trim()
 
         return when {
             categoryName.isEmpty() -> {
                 binding.etKategoriJasa.error = "Kategori Toko tidak boleh kosong."
                 false
             }
-            address.isEmpty() -> {
-                binding.etLokasiToko.error = "Alamat Toko tidak boleh kosong."
-                false
-            }
+//            address.isEmpty() -> {
+//                binding.etLokasiToko.error = "Alamat Toko tidak boleh kosong."
+//                false
+//            }
             price.isEmpty() -> {
                 binding.etHargaJasa.error = "Harga Toko tidak boleh kosong."
                 false

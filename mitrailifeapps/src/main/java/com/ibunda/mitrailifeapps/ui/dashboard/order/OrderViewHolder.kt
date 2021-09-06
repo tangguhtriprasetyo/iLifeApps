@@ -6,7 +6,9 @@ import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.ItemRvPesananBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailActivity
 import com.ibunda.mitrailifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class OrderViewHolder (private val binding: ItemRvPesananBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Orders) {

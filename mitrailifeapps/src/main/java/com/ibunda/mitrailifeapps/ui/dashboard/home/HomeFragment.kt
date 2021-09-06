@@ -16,8 +16,10 @@ import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.home.dialogseleksiberdasarkan.DialogSeleksiBerdasarkanFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_PESANAN
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
+@ExperimentalCoroutinesApi
 class HomeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentHomeBinding
@@ -81,7 +83,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setDataRvListOrders() {
-        mainViewModel.getListOrderKhusus(true).observe(viewLifecycleOwner, { listOrders ->
+        mainViewModel.getListOrderKhusus(true, STATUS_PESANAN).observe(viewLifecycleOwner, { listOrders ->
             if (listOrders != null) {
                 homeAdapter.setListOrders(listOrders)
                 setOrdersAdapter()

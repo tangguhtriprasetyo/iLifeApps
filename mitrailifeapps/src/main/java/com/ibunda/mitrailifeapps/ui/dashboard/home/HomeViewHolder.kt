@@ -9,7 +9,9 @@ import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.ItemRvHomeBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.DetailPesananKhususFragment
 import com.ibunda.mitrailifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class HomeViewHolder (private val binding: ItemRvHomeBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Orders) {

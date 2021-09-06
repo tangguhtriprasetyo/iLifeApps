@@ -79,9 +79,9 @@
                         android:id="@+id/tv_info_harga_jasa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/dana"
+                        android:text="@string/total_harga"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_jasa"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tv_info_harga_jasa"
-                        tools:text="Rp 180.000" />
+                        tools:text="Rp 1.000.000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -141,7 +141,7 @@
                             android:layout_height="match_parent">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/img_profile"
+                                android:id="@+id/img_profile_user"
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
                                 android:src="@drawable/bg_profile_default"
@@ -160,11 +160,11 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/img_profile"
+                                app:layout_constraintStart_toEndOf="@+id/img_profile_user"
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <TextView
-                                    android:id="@+id/tv_nama_mitra"
+                                    android:id="@+id/tv_nama_user"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
@@ -687,7 +687,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:paddingEnd="16dp"
-                        android:maxLines="2"
+                        ellipsize="end"
+                        android:maxLines="4"
                         android:fontFamily="@font/roboto"
                         tools:text="Mitra sedang dalam pekerjaan"
                         android:textColor="@color/fontulasan"

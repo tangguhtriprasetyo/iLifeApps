@@ -76,12 +76,12 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_dana_pesanan_khusus"
+                        android:id="@+id/tv_info_harga_jasa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="14dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/dana"
+                        android:text="@string/total_harga"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,16 +89,16 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_total_dana_pesanan_khusus"
+                        android:id="@+id/tv_total_harga_jasa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_dana_pesanan_khusus"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_info_harga_jasa"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tv_dana_pesanan_khusus"
-                        tools:text="Rp 150.000 - Rp 1.000.000" />
+                        app:layout_constraintTop_toTopOf="@+id/tv_info_harga_jasa"
+                        tools:text="Rp 1.000.000" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -141,7 +141,7 @@
                             android:layout_height="match_parent">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/img_profile"
+                                android:id="@+id/img_profile_user"
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
                                 android:src="@drawable/bg_profile_default"
@@ -160,11 +160,11 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
-                                app:layout_constraintStart_toEndOf="@+id/img_profile"
+                                app:layout_constraintStart_toEndOf="@+id/img_profile_user"
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <TextView
-                                    android:id="@+id/tv_nama_mitra"
+                                    android:id="@+id/tv_nama_user"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_medium"
@@ -672,46 +672,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView25"
                 tools:text="Bayar Ditempat" />
 
-            <LinearLayout
-                android:id="@+id/linear_pesanan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="40dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_metode_pembayaran"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <LinearLayout
-                    android:id="@+id/btn_hubungi_pelanggan"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    style="@style/Responsive16dp"
-                    android:background="@drawable/bg_btn_white_outline_blue"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/hubungi_pelanggan"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_status_pekerjaan"
-                    android:layout_marginTop="16dp"
-                    app:cornerRadius="8dp"
-                    android:text="@string/mulai_pekerjaan"
-                    style="@style/ButtonStyle" />
-
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linear_pesanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/btn_hubungi_pelanggan"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            style="@style/Responsive16dp"
+            android:background="@drawable/bg_btn_white_outline_blue"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/hubungi_pelanggan"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_status_pekerjaan"
+            android:layout_marginTop="16dp"
+            app:cornerRadius="8dp"
+            style="@style/ButtonStyle" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

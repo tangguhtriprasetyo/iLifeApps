@@ -102,5 +102,6 @@
     <string name="kamu_belom_memiliki_toko_disini_nyuk_segera_bikin_toko_kamu">Kamu belom memiliki toko disini.\nYuk segera bikin Toko kamu!</string>
     <string name="tambah_toko">+ Tambah Toko</string>
     <string name="image_empty_toko">Image Empty Toko</string>
+    <string name="total_harga">Total Harga</string>
 
 </resources>

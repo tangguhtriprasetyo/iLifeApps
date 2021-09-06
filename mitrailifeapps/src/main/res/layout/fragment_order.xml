@@ -60,9 +60,9 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:background="@drawable/bg_badge_notification"
-                        app:layout_constraintHorizontal_bias="1.2"
                         android:gravity="center"
                         app:layout_constraintEnd_toEndOf="@+id/ic_message"
+                        app:layout_constraintHorizontal_bias="1.2"
                         app:layout_constraintStart_toStartOf="@+id/ic_message"
                         app:layout_constraintTop_toTopOf="@+id/ic_message" />
 
@@ -96,9 +96,9 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:background="@drawable/bg_badge_notification"
-                        app:layout_constraintHorizontal_bias="1.2"
                         android:gravity="center"
                         app:layout_constraintEnd_toEndOf="@+id/ic_notification"
+                        app:layout_constraintHorizontal_bias="1.2"
                         app:layout_constraintStart_toStartOf="@+id/ic_notification"
                         app:layout_constraintTop_toTopOf="@+id/ic_notification" />
 

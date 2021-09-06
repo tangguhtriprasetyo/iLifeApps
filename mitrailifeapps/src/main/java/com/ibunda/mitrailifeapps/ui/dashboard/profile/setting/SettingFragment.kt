@@ -16,8 +16,10 @@ import com.ibunda.mitrailifeapps.databinding.FragmentSettingBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.setting.editakunmitra.EditAkunMitraFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class SettingFragment : Fragment() {
 
     private lateinit var binding : FragmentSettingBinding

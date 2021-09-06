@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class MainViewModel : ViewModel() {
     private val firebaseServices: FirebaseServices = FirebaseServices()
     private var _userProfile = MutableLiveData<Users>()

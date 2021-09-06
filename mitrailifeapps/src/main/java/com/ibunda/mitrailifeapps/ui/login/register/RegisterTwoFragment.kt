@@ -1,6 +1,9 @@
 package com.ibunda.mitrailifeapps.ui.login.register
 
+import android.app.Dialog
 import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,17 +11,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentRegisterTwoBinding
-import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
+import com.ibunda.mitrailifeapps.ui.login.LoginActivity
 import com.ibunda.mitrailifeapps.ui.login.LoginViewModel
 import com.ibunda.mitrailifeapps.utils.DateHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class RegisterTwoFragment : Fragment() {
 
     private lateinit var binding : FragmentRegisterTwoBinding
@@ -30,6 +38,7 @@ class RegisterTwoFragment : Fragment() {
 
     companion object {
         const val EXTRA_USER = "extra_user"
+        const val PREFS_NAME = "mitra_pref"
     }
 
     override fun onCreateView(
@@ -109,22 +118,40 @@ class RegisterTwoFragment : Fragment() {
         Log.d("createdNewUser", mitras.name.toString())
         loginViewModel.createdNewUser(mitras).observe(viewLifecycleOwner, { newUser ->
             if (newUser.isCreated == true) {
-                Toast.makeText(
-                    requireContext(),
-                    "Hello ${mitras.name}, Your Account Successfully Created!",
-                    Toast.LENGTH_SHORT
-                ).show()
-                gotoMainActivity(newUser)
+                Log.d(TAG, "Hello ${mitras.name}, Your Account Successfully Created!")
+                val user = mAuth.currentUser
+                //Preference
+                val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                val editor = preferences.edit()
+                editor.putInt("totalShop", mitras.totalShop!!)
+                editor.apply()
+
+                sendEmailVerification(user)
             }
         })
     }
 
-    private fun gotoMainActivity(mitraData: Mitras) {
-        val intent =
-            Intent(requireActivity(), MainActivity::class.java)
-        intent.putExtra(MainActivity.EXTRA_USER, mitraData)
-        startActivity(intent)
-        requireActivity().finish()
+    private fun sendEmailVerification(user: FirebaseUser?) {
+        user!!.sendEmailVerification()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // email sent
+                        val dialog = AlertDialog.Builder(requireContext(), R.style.Theme_AppCompat_DayNight_Dialog).create()
+                        dialog.setTitle("Registrasi Berhasil")
+                        dialog.setMessage("Silahkan untuk verifikasi email anda agar dapat masuk ke Mitra i-life.")
+                        dialog.setButton(Dialog.BUTTON_POSITIVE, "Ok") { dialog, which ->
+                            mAuth.signOut()
+                            val intent =
+                                    Intent(requireActivity(), LoginActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                        dialog.show()
+                        dialog.setCancelable(false)
+                        dialog.setCanceledOnTouchOutside(false)
+                        Log.d(TAG, "Email sent.")
+                    }
+                }
     }
 
     private fun validateName(): Boolean {

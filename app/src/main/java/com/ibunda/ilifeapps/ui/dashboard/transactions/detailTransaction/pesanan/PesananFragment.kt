@@ -152,8 +152,6 @@ class PesananFragment : Fragment() {
                 ).show()
             }
         })
-
-
     }
 
 }

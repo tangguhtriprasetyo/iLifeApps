@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class LoginViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()
