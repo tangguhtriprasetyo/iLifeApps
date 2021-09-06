@@ -33,14 +33,12 @@
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/bg_story_mitra.xml" value="0.37948717948717947" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/bg_white_outline_blue.xml" value="0.37948717948717947" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/color_states_materialbutton.xml" value="0.37948717948717947" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/ic_error.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/ic_loading.xml" value="0.2569444444444444" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/drawable/radio_flat_selector.xml" value="0.3854166666666667" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_chat.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_detail.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_list_mitra.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_login.xml" value="0.2884963768115942" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_main.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/activity_maps.xml" value="0.17958459979736577" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/dialog_batalkan_pesan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/dialog_first_login.xml" value="0.3692708333333333" />
@@ -50,115 +48,47 @@
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/dialog_pilih_mitra.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/dialog_seleksi_berdasarkan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/dialog_tawar_mitra.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_chat_room.xml" value="0.16" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_content_transaction.xml" value="0.2" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_chat_room.xml" value="0.67" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_custom_order.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_detail_shop.xml" value="0.5" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_detail_shop.xml" value="0.33" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_batalkan_pesanan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_edit_profile.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_kategori_mitra.xml" value="0.25" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_kategori_mitra.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_order.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_seleksi_berdasarkan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dialog_tawar_mitra.xml" value="0.33" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dibatalkan.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_diproses.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_edit_profile.xml" value="0.22" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_dibatalkan.xml" value="0.3692708333333333" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_diproses.xml" value="0.33" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_edit_profile.xml" value="0.2807971014492754" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_home.xml" value="0.2884963768115942" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_kemampuan.xml" value="0.22" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_kemampuan.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_list_shop.xml" value="0.22" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_login.xml" value="0.2884963768115942" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_otp.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_payment.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_penilaian.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_pesanan.xml" value="0.25" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_payment.xml" value="0.33" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_pesanan.xml" value="0.33" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_review.xml" value="0.22" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_search.xml" value="0.2884963768115942" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_selesai.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_transactions.xml" value="0.33" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_ulasan.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_onboarding.xml" value="0.3692708333333333" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_selesai.xml" value="0.33" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_transactions.xml" value="0.2884963768115942" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/fragment_ulasan.xml" value="0.17958459979736577" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_ads_home.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_ads_search.xml" value="0.16530054644808742" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_content_transaction.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_list_shop.xml" value="0.22" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_content_transaction.xml" value="0.25" />
+        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_list_shop.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_notification.xml" value="0.37604166666666666" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_penilaian.xml" value="0.24618055555555557" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_sedang_diskon.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_shop_lainnya.xml" value="0.5" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_story_mitra.xml" value="0.3692708333333333" />
         <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/app/src/main/res/layout/item_rv_ulasan.xml" value="0.3692708333333333" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_badge_notification.xml" value="0.3854166666666667" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_btn_blue.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_btn_blue_r4.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_btn_blue_r8.xml" value="0.3854166666666667" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_btn_white_outline_blue.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_btn_white_r8.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_chat_send.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_edit_profile.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_message_date.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_message_outline.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_message_tawar.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_message_tawar_send.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_profile_default.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_promo_blue.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_search_maps.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_shadow.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_shadow_profile.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/bg_transparant.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/ic_error.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/drawable/ic_loading.xml" value="0.2569444444444444" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_chat.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_detail.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_login.xml" value="0.18" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_main.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_maps.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_notifications.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_add_toko_two.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_chat_room.xml" value="0.1" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_content_transaction.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_create_shop_one.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_create_shop_two.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_detail_pesanan_khusus.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dialog_kategori_shop.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dialog_kelola_shop.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dialog_seleksi_berdasarkan.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dialog_tawar_jasa.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dialog_tolak_pesanan.xml" value="0.22" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_dibatalkan.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_diproses.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_edit_akun_mitra.xml" value="0.1687158469945355" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_edit_shop.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_home.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_list_chat_room.xml" value="0.33" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_login.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_order.xml" value="0.23680555555555555" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_pesanan.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_pesanan2.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_profile.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_register_one.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_register_two.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_selesai.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_setting.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_transaction.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/fragment_ulasan.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_empty_shop.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_layout_chat.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_layout_notification.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_content_transaction.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_dialog_kelola_toko.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_home.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_list_chat.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_notification.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_pesanan.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_room_chat.xml" value="0.24618055555555557" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/layout/item_rv_ulasan.xml" value="0.25" />
-        <entry key="..\:/KULIAH/TUGAS AKHIR/iLifeApps/mitrailifeapps/src/main/res/menu/bottom_navigation.xml" value="0.24618055555555557" />
+        <entry key="app/src/main/res/drawable/bg_dana_custom.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/drawable/ic_loading.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_content_transaction.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_custom_order.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_detail_shop.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_dialog_batalkan_pesanan.xml" value="0.3578125" />
+        <entry key="app/src/main/res/layout/fragment_dialog_edit_profile.xml" value="0.3578125" />
         <entry key="app/src/main/res/layout/fragment_dialog_tawar_mitra.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_dibatalkan.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18333333333333332" />
@@ -170,6 +100,8 @@
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_transactions.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/item_rv_content_transaction.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/item_rv_list_shop.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/item_rv_sedang_diskon.xml" value="0.3578125" />
       </map>
     </option>
   </component>

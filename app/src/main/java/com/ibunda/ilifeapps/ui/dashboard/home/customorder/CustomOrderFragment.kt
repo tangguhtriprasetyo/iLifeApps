@@ -112,19 +112,20 @@ class CustomOrderFragment : Fragment() {
         binding.etKategori.setOnClickListener {
             val mDialogKategoriMitraFragment = DialogKategoriMitraFragment()
             val mFragmentManager = childFragmentManager
-            mDialogKategoriMitraFragment.show(mFragmentManager, DialogKategoriMitraFragment::class.java.simpleName)
+            mDialogKategoriMitraFragment.show(
+                mFragmentManager,
+                DialogKategoriMitraFragment::class.java.simpleName
+            )
         }
 
-        binding.rangeSlider.addOnChangeListener(object : RangeSlider.OnChangeListener{
-            override fun onValueChange(slider: RangeSlider, value: Float, fromUser: Boolean) {
-                val format = NumberFormat.getCurrencyInstance()
-                format.maximumFractionDigits = 0
-                format.currency = Currency.getInstance("USD")
-                format.format(value.toDouble())
-                val values = (binding.rangeSlider.values)
-                binding.tvValueMin.text = PriceFormatHelper.getPriceFormat(values[0].roundToInt())
-                binding.tvValueMax.text = PriceFormatHelper.getPriceFormat(values[1].roundToInt())
-            }
+        binding.rangeSlider.addOnChangeListener(RangeSlider.OnChangeListener { slider, value, fromUser ->
+            val format = NumberFormat.getCurrencyInstance()
+            format.maximumFractionDigits = 0
+            format.currency = Currency.getInstance("USD")
+            format.format(value.toDouble())
+            val values = (binding.rangeSlider.values)
+            binding.tvValueMin.text = PriceFormatHelper.getPriceFormat(values[0].roundToInt())
+            binding.tvValueMax.text = PriceFormatHelper.getPriceFormat(values[1].roundToInt())
         })
 
         binding.btnBuatPesanan.setOnClickListener {

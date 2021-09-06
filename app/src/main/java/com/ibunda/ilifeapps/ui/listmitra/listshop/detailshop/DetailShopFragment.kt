@@ -2,6 +2,7 @@ package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop
 
 import android.content.Intent
 import android.graphics.Paint
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,21 +15,23 @@ import androidx.fragment.app.commit
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentDetailShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlin.math.roundToInt
 
 class DetailShopFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDetailShopBinding
     private val listMitraViewModel: ListMitraViewModel by activityViewModels()
     private var shopData: Shops? = null
+    private var userData: Users? = null
 
     companion object {
         const val EXTRA_SHOP_DATA = "extra_shop_data"
-        const val EXTRA_SHOP_PRICE = "extra_shop_price"
         const val FROM_TRANSACTION = "from_transaction"
     }
 
@@ -131,9 +134,41 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
                 if (shops != null) {
                     shopData = shops
                     setShopData(shopData!!)
+
+                    listMitraViewModel.getProfileData()
+                        .observe(viewLifecycleOwner, { users ->
+                            if (users != null) {
+                                userData = users
+                                setLocationDistance()
+                            }
+                        })
                 }
-                Log.d("ViewModelShopData: ", shops.toString())
             })
+    }
+
+    private fun setLocationDistance() {
+        if (userData!!.latitude != null && userData!!.longitude != null) {
+            val userLocation = Location("userLocation")
+            userLocation.latitude = userData!!.latitude!!
+            userLocation.longitude = userData!!.longitude!!
+
+            val shopLocation = Location("shopLocation")
+            shopLocation.latitude = shopData!!.latitude!!
+            shopLocation.longitude = shopData!!.longitude!!
+
+            var distance: Int = (userLocation.distanceTo(shopLocation) / 1000).roundToInt()
+            if (distance >= 1000) {
+                distance /= 1000
+                val distanceText = "$distance Meter"
+                binding.tvJarakMitra.text = distanceText
+            } else {
+                val distanceText = "$distance Km"
+                binding.tvJarakMitra.text = distanceText
+            }
+
+        } else {
+            binding.tvJarakMitra.text = "-"
+        }
     }
 
     private fun setShopData(shopData: Shops) {

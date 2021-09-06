@@ -72,6 +72,7 @@ class PesananFragment : Fragment() {
                 Intent(requireActivity(), ListMitraActivity::class.java)
             intent.putExtra(ListMitraActivity.EXTRA_SHOP, orderData.shopId)
             intent.putExtra(ListMitraActivity.EXTRA_TRANSACTION, true)
+            intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
             startActivity(intent)
         }
     }

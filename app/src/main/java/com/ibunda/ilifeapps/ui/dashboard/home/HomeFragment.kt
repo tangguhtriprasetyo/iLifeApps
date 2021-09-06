@@ -177,7 +177,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val intent =
             Intent(requireActivity(), ListMitraActivity::class.java)
         intent.putExtra(ListMitraActivity.EXTRA_CATEGORY_NAME, categoryName)
-        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
+        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile.userId)
         startActivity(intent)
     }
 

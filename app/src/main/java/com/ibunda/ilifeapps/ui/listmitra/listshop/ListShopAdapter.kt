@@ -4,15 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 
 class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
     private var listShops = ArrayList<Shops>()
+    private var userData = Users()
 
-    fun setListShops(shops: List<Shops>?) {
+    fun setListShops(shops: List<Shops>?, user: Users) {
         if (shops == null) return
         this.listShops.clear()
         this.listShops.addAll(shops)
+        this.userData = user
         notifyDataSetChanged()
     }
 
@@ -24,7 +27,7 @@ class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
 
     override fun onBindViewHolder(holder: ListShopViewHolder, position: Int) {
         val shops = listShops[position]
-        holder.bind(shops)
+        holder.bind(shops, userData)
     }
 
     override fun getItemCount(): Int = listShops.size

@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
 import android.graphics.Paint
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,15 +10,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlin.math.roundToInt
 
 
-class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
+class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Shops) {
+    fun bind(data: Shops, userData: Users) {
         with(binding) {
 
             if (data.verified == true) {
@@ -27,6 +30,29 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
             imgProfileShops.loadImage(data.shopPicture)
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvNamaMitra.text = (data.shopName)
+
+            if (userData.latitude != null && userData.longitude != null) {
+                val userLocation = Location("userLocation")
+                userLocation.latitude = userData.latitude!!
+                userLocation.longitude = userData.longitude!!
+
+                val shopLocation = Location("shopLocation")
+                shopLocation.latitude = data.latitude!!
+                shopLocation.longitude = data.longitude!!
+
+                var distance: Int = (userLocation.distanceTo(shopLocation) / 1000).roundToInt()
+                if (distance >= 1000) {
+                    distance /= 1000
+                    val distanceText = "$distance Meter"
+                    tvJarakMitra.text = distanceText
+                } else {
+                    val distanceText = "$distance Km"
+                    tvJarakMitra.text = distanceText
+                }
+
+            } else {
+                tvJarakMitra.text = "-"
+            }
 
             if (data.promo == true) {
                 tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.shopPromo)
@@ -49,13 +75,14 @@ class ListShopViewHolder (private val binding: ItemRvListShopBinding) :
                         (context as AppCompatActivity).supportFragmentManager
                     manager.commit {
                         addToBackStack(null)
-                        replace(com.ibunda.ilifeapps.R.id.host_listshop_activity, mDetailShopFragment)
+                        replace(
+                            com.ibunda.ilifeapps.R.id.host_listshop_activity,
+                            mDetailShopFragment
+                        )
                     }
                 }
             }
 
         }
     }
-
-
 }

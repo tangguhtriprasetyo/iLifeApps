@@ -12,6 +12,7 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityListMitraBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.ListShopFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
 
 class ListMitraActivity : AppCompatActivity() {
 
@@ -20,6 +21,7 @@ class ListMitraActivity : AppCompatActivity() {
     private val listMitraViewModel: ListMitraViewModel by viewModels()
     private lateinit var user: Users
     private var shopData = Shops()
+    private var userId: String? = null
 
     companion object {
         const val EXTRA_CATEGORY_NAME = "extra_category_name"
@@ -27,6 +29,7 @@ class ListMitraActivity : AppCompatActivity() {
         const val EXTRA_SHOP = "extra_shop"
         const val EXTRA_PROMO = "extra_promo"
         const val EXTRA_TRANSACTION = "extra_transaction"
+        const val EXTRA_ORDER_AGAIN = "extra_order_again"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,28 +43,48 @@ class ListMitraActivity : AppCompatActivity() {
         listMitraViewModel.dataCategory.value = categoryName
 
         if (intent.hasExtra(EXTRA_USER)) {
-            user = intent.getParcelableExtra<Users>(EXTRA_USER) as Users
+            userId = intent.getStringExtra(EXTRA_USER)
 
-            listMitraViewModel.setUserProfile(user.userId.toString()).observe(this, { userProfile ->
+            listMitraViewModel.setUserProfile(userId.toString()).observe(this, { userProfile ->
                 if (userProfile != null) {
                     user = userProfile
                 }
             })
         }
+
         if (intent.hasExtra(EXTRA_SHOP)) {
             val shopId = intent.getStringExtra(EXTRA_SHOP)
             var transaction = false
-            if (intent.hasExtra(EXTRA_TRANSACTION)) {
-                transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
+
+            listMitraViewModel.setShopData(shopId.toString())
+                .observe(this, { shops ->
+                    if (shops != null) {
+                        shopData = shops
+                        Log.e(shops.price.toString(), "detailShopPrice")
+                    }
+                })
+
+
+            if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
+                val paymentFragment = PaymentFragment()
+                setCurrentFragment(paymentFragment, paymentFragment::class.java.simpleName)
+            } else {
+                if (intent.hasExtra(EXTRA_TRANSACTION)) {
+                    transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
+                }
+
+                val profileShopFragment = DetailShopFragment()
+                shopData.shopId = shopId
+
+                val mBundle = Bundle()
+                mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
+                mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
+                profileShopFragment.arguments = mBundle
+                setCurrentFragment(
+                    profileShopFragment,
+                    DetailShopFragment::class.java.simpleName
+                )
             }
-            val profileShopFragment = DetailShopFragment()
-            shopData.shopId = shopId
-            val mBundle = Bundle()
-            mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
-            mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
-            profileShopFragment.arguments = mBundle
-            setCurrentFragment(profileShopFragment,
-                DetailShopFragment::class.java.simpleName)
 
         } else {
             var promo = false

@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.selesai
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentSelesaiBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.selesai.penilaian.PenilaianFragment
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.loadImage
 
 
@@ -70,7 +72,12 @@ class SelesaiFragment : Fragment() {
 
         }
         binding.btnLihatProfil.setOnClickListener {
-
+            val intent =
+                Intent(requireActivity(), ListMitraActivity::class.java)
+            intent.putExtra(ListMitraActivity.EXTRA_SHOP, orderData.shopId)
+            intent.putExtra(ListMitraActivity.EXTRA_TRANSACTION, true)
+            intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
+            startActivity(intent)
         }
     }
 

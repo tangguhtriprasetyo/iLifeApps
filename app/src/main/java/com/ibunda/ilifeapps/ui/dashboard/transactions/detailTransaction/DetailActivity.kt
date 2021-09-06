@@ -29,7 +29,6 @@ class DetailActivity : AppCompatActivity() {
         const val SELESAI_FRAGMENT_TAG = "selesai_fragment_tag"
         const val DIBATALKAN_FRAGMENT_TAG = "dibatalkan_fragment_tag"
         const val EXTRA_ORDER = "extra_order"
-        const val EXTRA_USER = "extra_user"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

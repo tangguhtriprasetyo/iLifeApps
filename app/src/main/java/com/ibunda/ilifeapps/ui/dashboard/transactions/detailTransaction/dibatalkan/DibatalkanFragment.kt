@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.dibatalkan
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentDibatalkanBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.loadImage
 
 
@@ -53,10 +55,20 @@ class DibatalkanFragment : Fragment() {
             activity?.onBackPressed()
         }
         binding.btnLihatProfil.setOnClickListener {
-
+            val intent =
+                Intent(requireActivity(), ListMitraActivity::class.java)
+            intent.putExtra(ListMitraActivity.EXTRA_SHOP, orderData.shopId)
+            intent.putExtra(ListMitraActivity.EXTRA_TRANSACTION, true)
+            intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
+            startActivity(intent)
         }
         binding.btnPesan.setOnClickListener {
-
+            val intent =
+                Intent(requireActivity(), ListMitraActivity::class.java)
+            intent.putExtra(ListMitraActivity.EXTRA_SHOP, orderData.shopId)
+            intent.putExtra(ListMitraActivity.EXTRA_ORDER_AGAIN, true)
+            intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
+            startActivity(intent)
         }
     }
 
