@@ -1,17 +1,31 @@
 package com.ibunda.mitrailifeapps.ui.detailorder
 
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.ActivityDetailBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.detailorder.dibatalkan.DibatalkanFragment
+import com.ibunda.mitrailifeapps.ui.detailorder.diproses.DiprosesFragment
+import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.PesananFragment
+import com.ibunda.mitrailifeapps.ui.detailorder.selesai.SelesaiFragment
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIBATALKAN
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIPROSES
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_PESANAN
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_SELESAI
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var ordersData: Orders
 
     companion object {
@@ -30,11 +44,55 @@ class DetailActivity : AppCompatActivity() {
 
         ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
 
+        setOrderData()
+        setOrderCondition(ordersData.status)
     }
 
     private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {
         supportFragmentManager.commit {
             replace(R.id.host_detail_activity, fragment, fragmentTag)
+        }
+    }
+
+    private fun setOrderData() {
+        mainViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
+            if (orders != null) {
+                ordersData = orders
+                Log.e(ordersData.status, "statusOrder")
+            }
+        })
+    }
+
+    private fun setOrderCondition(status: String?) {
+
+        val pesananFragment = PesananFragment()
+        val diprosesFragment = DiprosesFragment()
+        val selesaiFragment = SelesaiFragment()
+        val dibatalkanFragment = DibatalkanFragment()
+
+        when(status) {
+            STATUS_PESANAN -> {
+                setCurrentFragment(pesananFragment, PESANAN_FRAGMENT_TAG)
+            }
+            STATUS_DIPROSES -> {
+                setCurrentFragment(diprosesFragment, DIPROSES_FRAGMENT_TAG)
+            }
+            STATUS_SELESAI -> {
+                setCurrentFragment(selesaiFragment, SELESAI_FRAGMENT_TAG)
+            }
+            STATUS_DIBATALKAN -> {
+                setCurrentFragment(dibatalkanFragment, DIBATALKAN_FRAGMENT_TAG)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
         }
     }
 

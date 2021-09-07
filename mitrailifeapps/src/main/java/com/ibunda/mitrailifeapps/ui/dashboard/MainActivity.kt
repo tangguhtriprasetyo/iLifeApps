@@ -1,9 +1,11 @@
 package com.ibunda.mitrailifeapps.ui.dashboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -13,29 +15,42 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.ActivityMainBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.home.HomeFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.order.OrderFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.ProfileFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopTwoFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.transaction.TransactionFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.verification.FragmentVerification
 import com.ibunda.mitrailifeapps.ui.login.LoginActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.text.DateFormat
+import java.util.*
 
+@ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     private lateinit var binding: ActivityMainBinding
     private var doubleBackToExit = false
 
     private lateinit var mitra: Mitras
+    private lateinit var shops: Shops
     private val mainViewModel: MainViewModel by viewModels()
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    private val firestoreRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     companion object {
         const val HOME_FRAGMENT_TAG = "home_fragment_tag"
         const val ORDER_FRAGMENT_TAG = "order_fragment_tag"
         const val TRANSACTIONS_FRAGMENT_TAG = "transactions_fragment_tag"
         const val PROFILE_FRAGMENT_TAG = "profile_fragment_tag"
+        const val VERIFICATION_FRAGMENT_TAG = "verification_fragment_tag"
         const val CHILD_FRAGMENT = "child_fragment"
         const val EXTRA_USER = "extra_user"
     }
@@ -48,18 +63,28 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         mitra = intent.getParcelableExtra<Mitras>(EXTRA_USER) as Mitras
 
         setMitraDataProfile()
+//        initNotification()
 
         val homeFragment = HomeFragment()
         val orderFragment = OrderFragment()
         val transactionsFragment = TransactionFragment()
         val profileFragment = ProfileFragment()
+        val verificationFragment = FragmentVerification()
 
         if (savedInstanceState != null) {
             supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
                 ?.let { setCurrentFragment(it, HOME_FRAGMENT_TAG) }
         } else {
-
-            setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
+            mainViewModel.setMitraProfile(mitra.mitraId.toString()).observe(this, { mitraProfile ->
+                if (mitraProfile != null) {
+                    mitra = mitraProfile
+                    if (mitra.verified == true) {
+                        setCurrentFragment(homeFragment, HOME_FRAGMENT_TAG)
+                    } else {
+                        setCurrentFragment(verificationFragment, VERIFICATION_FRAGMENT_TAG)
+                    }
+                }
+            })
         }
 
         binding.bottomNavigation.setOnItemSelectedListener {
@@ -116,8 +141,22 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         mainViewModel.setMitraProfile(mitra.mitraId.toString()).observe(this, { mitraProfile ->
             if (mitraProfile != null) {
                 mitra = mitraProfile
+                setShopData()
             }
         })
+    }
+
+    private fun setShopData() {
+        val preferences = this.getSharedPreferences(CreateShopTwoFragment.PREFS_NAME, Context.MODE_PRIVATE)
+        val shopId = preferences.getString("shopId", "none")
+        Log.e(shopId, "shopIdMain")
+        if (!shopId.equals("none")) {
+            mainViewModel.setShopsProfile(shopId.toString()).observe(this, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shops = shopsProfile
+                }
+            })
+        }
     }
 
     override fun onStop() {
@@ -132,6 +171,42 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun initNotification() {
+
+        firestoreRef.collection("mitras")
+            .document(mitra.mitraId!!)
+            .collection("Notifications")
+            .addSnapshotListener(EventListener<QuerySnapshot?> { snapshots, e ->
+                if (e != null) {
+                    return@EventListener
+                }
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.MINUTE, -5)
+                val before = calendar.time
+                val calendar1 = Calendar.getInstance()
+                val until = calendar1.time
+                for (dc in snapshots!!.documentChanges) {
+                    val dateFormat = DateFormat.getDateTimeInstance()
+                    val date = dc.document.getDate("notificationDate")
+                    if (dc.type == DocumentChange.Type.ADDED) {
+                        if (!before.after(date) && !until.before(date)) {
+                            Log.d("life", "Data: $date")
+                            val title = dc.document.data["notificationTitle"].toString()
+                            val body = dc.document.data["notificationBody"].toString()
+//                            getNotification(title, body)
+                            Log.e(title, "titleNotif")
+                            Log.e(body, "bodyNotif")
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Notifikasi akan keluar",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            })
     }
 
 

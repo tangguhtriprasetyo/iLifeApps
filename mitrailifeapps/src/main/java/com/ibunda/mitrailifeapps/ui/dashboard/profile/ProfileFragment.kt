@@ -10,14 +10,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentProfileBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.setting.SettingFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.ulasan.UlasanFragment
+import com.ibunda.mitrailifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
+@ExperimentalCoroutinesApi
 class ProfileFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding : FragmentProfileBinding
@@ -25,6 +28,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var mitraDataProfile: Mitras
+    private lateinit var shopsDataProfile: Shops
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +49,11 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     if (mitraDataProfile.totalShop == 0) {
                         initEmptyShop()
                     } else {
-                        initView()
+                        initShops()
                     }
                 }
-                Log.d("ViewModelProfile: ", userProfile.toString())
+                Log.d("ViewModelMitraProfile: ", userProfile.toString())
             })
-
 
     }
 
@@ -73,9 +76,16 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initView() {
+    private fun initShops() {
 
-        binding.linearToko.visibility = View.VISIBLE
+        mainViewModel.getShopData()
+            .observe(viewLifecycleOwner, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shopsDataProfile = shopsProfile
+                    setDataShops(shopsDataProfile)
+                }
+                Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+            })
 
         binding.linearMessage.setOnClickListener(this)
         binding.linearNotification.setOnClickListener(this)
@@ -84,6 +94,20 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         binding.linearEditAkun.setOnClickListener(this)
         binding.linearUlasanToko.setOnClickListener(this)
         binding.btnKelolaToko.setOnClickListener(this)
+    }
+
+    private fun setDataShops(shopsDataProfile: Shops) {
+        with(binding) {
+            linearToko.visibility = View.VISIBLE
+
+            imgProfileToko.loadImage(shopsDataProfile.shopPicture)
+            tvNamaToko.text = shopsDataProfile.shopName
+            tvBergabungSejak.text = shopsDataProfile.registeredAt
+            tvKategoriToko.text = shopsDataProfile.categoryName
+            tvRatingMitra.text = shopsDataProfile.rating.toString()
+            tvTotalPesanan.text = shopsDataProfile.totalPesananSukses.toString()
+
+        }
     }
 
     override fun onClick(v: View) {
@@ -149,7 +173,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     if (mitraDataProfile.totalShop == 0) {
                         initEmptyShop()
                     } else {
-                        initView()
+                        initShops()
                     }
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())

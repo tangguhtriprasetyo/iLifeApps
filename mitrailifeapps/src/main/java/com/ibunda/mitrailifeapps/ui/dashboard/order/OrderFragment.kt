@@ -8,20 +8,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentOrderBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_PESANAN
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class OrderFragment : Fragment() {
 
     private lateinit var binding : FragmentOrderBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
+    private val orderAdapter = OrderAdapter()
+
     private lateinit var mitraDataProfile: Mitras
+    private lateinit var shopsDataProfile: Shops
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +50,7 @@ class OrderFragment : Fragment() {
                     if (mitraDataProfile.totalShop == 0) {
                         initEmptyShop()
                     } else {
-                        initView()
+                        initShops()
                     }
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
@@ -68,8 +76,45 @@ class OrderFragment : Fragment() {
         }
     }
 
-    private fun initView() {
+    private fun initShops() {
+        mainViewModel.getShopData()
+            .observe(viewLifecycleOwner, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shopsDataProfile = shopsProfile
+                    setDataRvListOrders(shopsDataProfile)
+                }
+                Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+            })
+
         binding.rvPesanan.visibility = View.VISIBLE
+    }
+
+    private fun setDataRvListOrders(shopsDataProfile: Shops) {
+        mainViewModel.getListOrders(STATUS_PESANAN, shopsDataProfile.shopId.toString()).observe(viewLifecycleOwner, { listOrders ->
+            if (listOrders != null && listOrders.isNotEmpty()) {
+                showEmptyOrder(false)
+                orderAdapter.setListOrders(listOrders)
+                setOrderAdapter()
+            } else {
+                showEmptyOrder(true)
+            }
+        })
+    }
+
+    private fun setOrderAdapter() {
+        with(binding.rvPesanan) {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = orderAdapter
+        }
+    }
+
+    private fun showEmptyOrder(state: Boolean) {
+        if (state) {
+            binding.linearEmptyPesanan.visibility = View.VISIBLE
+        } else {
+            binding.rvPesanan.visibility = View.VISIBLE
+        }
     }
 
     override fun onResume() {
@@ -81,7 +126,7 @@ class OrderFragment : Fragment() {
                     if (mitraDataProfile.totalShop == 0) {
                         initEmptyShop()
                     } else {
-                        initView()
+                        initShops()
                     }
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
