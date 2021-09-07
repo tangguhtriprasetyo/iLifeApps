@@ -156,13 +156,12 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             shopLocation.latitude = shopData!!.latitude!!
             shopLocation.longitude = shopData!!.longitude!!
 
-            var distance: Int = (userLocation.distanceTo(shopLocation) / 1000).roundToInt()
+            var distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
             if (distance >= 1000) {
-                distance /= 1000
-                val distanceText = "$distance Meter"
+                val distanceText = "${distance.div(1000)} Km"
                 binding.tvJarakMitra.text = distanceText
             } else {
-                val distanceText = "$distance Km"
+                val distanceText = "$distance Meter"
                 binding.tvJarakMitra.text = distanceText
             }
 

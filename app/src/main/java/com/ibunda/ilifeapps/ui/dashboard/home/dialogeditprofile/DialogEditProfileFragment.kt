@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
-import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentDialogEditProfileBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
-import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.profile.EditProfileFragment
 
 
@@ -20,9 +17,6 @@ class DialogEditProfileFragment : DialogFragment() {
     private var mView: View? = null
     private var _binding: FragmentDialogEditProfileBinding? = null
     private val binding get() = _binding!!
-
-    private val mainViewModel: MainViewModel by activityViewModels()
-    private lateinit var userDataProfile: Users
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.run {

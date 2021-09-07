@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ItemRvSedangDiskonBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
@@ -12,7 +13,7 @@ import com.ibunda.ilifeapps.utils.loadImage
 
 class PromoListShopViewHolder(private val binding: ItemRvSedangDiskonBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Shops) {
+    fun bind(data: Shops, userData: Users) {
         with(binding) {
 
             if (data.verified == true) {
@@ -32,6 +33,7 @@ class PromoListShopViewHolder(private val binding: ItemRvSedangDiskonBinding) :
                     val intent =
                         Intent(context, ListMitraActivity::class.java)
                     intent.putExtra(ListMitraActivity.EXTRA_SHOP, data.shopId)
+                    intent.putExtra(ListMitraActivity.EXTRA_USER, userData.userId)
                     context.startActivity(intent)
                 }
             }

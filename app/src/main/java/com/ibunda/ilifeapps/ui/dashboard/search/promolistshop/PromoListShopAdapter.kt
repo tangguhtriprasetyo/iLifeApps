@@ -4,16 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ItemRvSedangDiskonBinding
 
 class PromoListShopAdapter : RecyclerView.Adapter<PromoListShopViewHolder>() {
 
     private var listShops = ArrayList<Shops>()
+    private var userData = Users()
 
-    fun setListShops(shops: List<Shops>?) {
+    fun setListShops(shops: List<Shops>?, userDataProfile: Users) {
         if (shops == null) return
         this.listShops.clear()
         this.listShops.addAll(shops)
+        this.userData = userDataProfile
         notifyDataSetChanged()
     }
 
@@ -25,7 +28,7 @@ class PromoListShopAdapter : RecyclerView.Adapter<PromoListShopViewHolder>() {
 
     override fun onBindViewHolder(holder: PromoListShopViewHolder, position: Int) {
         val shops = listShops[position]
-        holder.bind(shops)
+        holder.bind(shops, userData)
     }
 
     override fun getItemCount(): Int = listShops.size

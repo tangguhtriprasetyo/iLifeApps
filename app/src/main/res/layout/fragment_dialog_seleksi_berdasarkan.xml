@@ -42,13 +42,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView11">
 
             <RadioButton
-                android:id="@+id/rb_rekomendasi"
+                android:id="@+id/rb_popularitas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="8dp"
-                android:text="Rekomendasi"
+                android:text="Popularitas"
                 android:textColor="@color/font_default"
                 android:textSize="16sp" />
 
@@ -59,9 +59,8 @@
                 android:buttonTint="@color/colorPrimaryDark"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingStart="8dp"
-                android:clickable="false"
                 android:text="Jarah Dekat ke Jauh"
-                android:textColor="@color/colorLine"
+                android:textColor="@color/font_default"
                 android:textSize="16sp" />
 
             <RadioButton

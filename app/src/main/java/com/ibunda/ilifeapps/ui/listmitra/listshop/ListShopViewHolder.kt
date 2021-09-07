@@ -1,7 +1,6 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop
 
 import android.graphics.Paint
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,7 +14,6 @@ import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
-import kotlin.math.roundToInt
 
 
 class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
@@ -31,22 +29,13 @@ class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvNamaMitra.text = (data.shopName)
 
-            if (userData.latitude != null && userData.longitude != null) {
-                val userLocation = Location("userLocation")
-                userLocation.latitude = userData.latitude!!
-                userLocation.longitude = userData.longitude!!
+            if (data.distance != null) {
 
-                val shopLocation = Location("shopLocation")
-                shopLocation.latitude = data.latitude!!
-                shopLocation.longitude = data.longitude!!
-
-                var distance: Int = (userLocation.distanceTo(shopLocation) / 1000).roundToInt()
-                if (distance >= 1000) {
-                    distance /= 1000
-                    val distanceText = "$distance Meter"
+                if (data.distance!! >= 1000) {
+                    val distanceText = "${data.distance!!.div(1000)} Km"
                     tvJarakMitra.text = distanceText
                 } else {
-                    val distanceText = "$distance Km"
+                    val distanceText = "${data.distance} Meter"
                     tvJarakMitra.text = distanceText
                 }
 

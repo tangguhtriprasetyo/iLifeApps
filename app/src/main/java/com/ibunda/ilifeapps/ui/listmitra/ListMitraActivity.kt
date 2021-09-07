@@ -22,12 +22,14 @@ class ListMitraActivity : AppCompatActivity() {
     private lateinit var user: Users
     private var shopData = Shops()
     private var userId: String? = null
+    private var search: String? = null
 
     companion object {
         const val EXTRA_CATEGORY_NAME = "extra_category_name"
         const val EXTRA_USER = "extra_user"
         const val EXTRA_SHOP = "extra_shop"
         const val EXTRA_PROMO = "extra_promo"
+        const val EXTRA_SEARCH = "extra_search"
         const val EXTRA_TRANSACTION = "extra_transaction"
         const val EXTRA_ORDER_AGAIN = "extra_order_again"
     }
@@ -37,14 +39,15 @@ class ListMitraActivity : AppCompatActivity() {
         binding = ActivityListMitraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var categoryName: String? = null
-        categoryName = intent.getStringExtra(EXTRA_CATEGORY_NAME)
+        val categoryName: String? = intent.getStringExtra(EXTRA_CATEGORY_NAME)
+        search = intent.getStringExtra(EXTRA_SEARCH)
         Log.d(categoryName, "categoryName")
-        listMitraViewModel.dataCategory.value = categoryName
+        if (categoryName != null) {
+            listMitraViewModel.setCategory(categoryName)
+        }
 
         if (intent.hasExtra(EXTRA_USER)) {
             userId = intent.getStringExtra(EXTRA_USER)
-
             listMitraViewModel.setUserProfile(userId.toString()).observe(this, { userProfile ->
                 if (userProfile != null) {
                     user = userProfile
@@ -54,37 +57,34 @@ class ListMitraActivity : AppCompatActivity() {
 
         if (intent.hasExtra(EXTRA_SHOP)) {
             val shopId = intent.getStringExtra(EXTRA_SHOP)
-            var transaction = false
+            val transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
 
             listMitraViewModel.setShopData(shopId.toString())
                 .observe(this, { shops ->
                     if (shops != null) {
                         shopData = shops
-                        Log.e(shops.price.toString(), "detailShopPrice")
+
+                        if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
+                            val paymentFragment = PaymentFragment()
+                            setCurrentFragment(
+                                paymentFragment,
+                                paymentFragment::class.java.simpleName
+                            )
+                        } else {
+                            val profileShopFragment = DetailShopFragment()
+                            shopData.shopId = shopId
+
+                            val mBundle = Bundle()
+                            mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
+                            mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
+                            profileShopFragment.arguments = mBundle
+                            setCurrentFragment(
+                                profileShopFragment,
+                                DetailShopFragment::class.java.simpleName
+                            )
+                        }
                     }
                 })
-
-
-            if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
-                val paymentFragment = PaymentFragment()
-                setCurrentFragment(paymentFragment, paymentFragment::class.java.simpleName)
-            } else {
-                if (intent.hasExtra(EXTRA_TRANSACTION)) {
-                    transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
-                }
-
-                val profileShopFragment = DetailShopFragment()
-                shopData.shopId = shopId
-
-                val mBundle = Bundle()
-                mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
-                mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
-                profileShopFragment.arguments = mBundle
-                setCurrentFragment(
-                    profileShopFragment,
-                    DetailShopFragment::class.java.simpleName
-                )
-            }
 
         } else {
             var promo = false
@@ -94,6 +94,7 @@ class ListMitraActivity : AppCompatActivity() {
             val listShopFragment = ListShopFragment()
             val mBundle = Bundle()
             mBundle.putBoolean(ListShopFragment.EXTRA_PROMO, promo)
+            mBundle.putString(ListShopFragment.EXTRA_SEARCH, search)
             listShopFragment.arguments = mBundle
             supportFragmentManager.commit {
                 replace(R.id.host_listshop_activity, listShopFragment)

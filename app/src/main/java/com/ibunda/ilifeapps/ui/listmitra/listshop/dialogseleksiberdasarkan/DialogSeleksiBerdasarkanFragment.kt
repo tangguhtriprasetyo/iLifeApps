@@ -3,16 +3,19 @@ package com.ibunda.ilifeapps.ui.listmitra.listshop.dialogseleksiberdasarkan
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.ibunda.ilifeapps.databinding.FragmentDialogSeleksiBerdasarkanBinding
+import com.ibunda.ilifeapps.ui.listmitra.listshop.ListShopViewModel
 
 class DialogSeleksiBerdasarkanFragment : DialogFragment() {
 
     private var mView: View? = null
     private var _binding: FragmentDialogSeleksiBerdasarkanBinding? = null
     private val binding get() = _binding!!
+
+    private val listShopViewModel: ListShopViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.run {
@@ -22,23 +25,22 @@ class DialogSeleksiBerdasarkanFragment : DialogFragment() {
                 icClose.setOnClickListener {
                     dialog?.dismiss()
                 }
-                var sort: String? = null
 
-                rbRekomendasi.setOnCheckedChangeListener { buttonView, isChecked ->
-                    sort = "Rekomendasi"
-                    Toast.makeText(requireContext(), sort, Toast.LENGTH_SHORT).show()
+                rbPopularitas.setOnCheckedChangeListener { buttonView, isChecked ->
+                    val sort = "Popularitas"
+                    listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()
                 }
 
                 rbJarak.setOnCheckedChangeListener { buttonView, isChecked ->
-                    sort = "Jarak"
-                    Toast.makeText(requireContext(), sort, Toast.LENGTH_SHORT).show()
+                    val sort = "Distance"
+                    listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()
                 }
 
                 rbRating.setOnCheckedChangeListener { buttonView, isChecked ->
-                    sort = "Rating"
-                    Toast.makeText(requireContext(), sort, Toast.LENGTH_SHORT).show()
+                    val sort = "Rating"
+                    listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()
                 }
 

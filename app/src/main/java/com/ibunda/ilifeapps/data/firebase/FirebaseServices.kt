@@ -120,7 +120,12 @@ class FirebaseServices {
                         docRef.set(ulasan).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 shopsRef.document(ulasan.shopId.toString())
-                                    .update("totalUlasan", FieldValue.increment(1), "rating", rating)
+                                    .update(
+                                        "totalUlasan",
+                                        FieldValue.increment(1),
+                                        "rating",
+                                        rating
+                                    )
                                     .addOnCompleteListener {
                                         statusOrder.postValue(STATUS_SUCCESS)
                                     }
@@ -324,27 +329,39 @@ class FirebaseServices {
         return shopData
     }
 
-    fun getListShopData(query: String, collectionRef: String): Flow<List<Shops>?> {
+    fun getListShopData(
+        query: String?,
+        collectionRef: String,
+        promo: Boolean,
+        search: String?
+    ): Flow<List<Shops>?> {
 
         return callbackFlow {
 
             val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
-            val listenerRegistration =
+            val listenerQuery = if (promo || query == null) {
+                collectionRef.whereEqualTo("promo", promo)
+            } else if (search != null) {
+                collectionRef.whereEqualTo("shopName", search)
+            } else {
                 collectionRef.whereEqualTo("categoryName", query)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
-                        if (firestoreException != null) {
-                            cancel(
-                                message = "Error fetching posts",
-                                cause = firestoreException
-                            )
-                            return@addSnapshotListener
-                        }
-                        val listShops = querySnapshot?.documents?.mapNotNull {
-                            it.toObject<Shops>()
-                        }
-                        offer(listShops)
-                        Log.d("Shops", listShops.toString())
+            }
+
+            val listenerRegistration =
+                listenerQuery.addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                    if (firestoreException != null) {
+                        cancel(
+                            message = "Error fetching posts",
+                            cause = firestoreException
+                        )
+                        return@addSnapshotListener
                     }
+                    val listShops = querySnapshot?.documents?.mapNotNull {
+                        it.toObject<Shops>()
+                    }
+                    offer(listShops)
+                    Log.d("Shops", listShops.toString())
+                }
             awaitClose {
                 Log.d(TAG, "getListShops: ")
                 listenerRegistration.remove()
@@ -417,35 +434,6 @@ class FirebaseServices {
 
     }
 
-    fun getListPromoShop(query: Boolean, collectionRef: String): Flow<List<Shops>?> {
-
-        return callbackFlow {
-
-            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
-            val listenerRegistration =
-                collectionRef.whereEqualTo("promo", query)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
-                        if (firestoreException != null) {
-                            cancel(
-                                message = "Error fetching posts",
-                                cause = firestoreException
-                            )
-                            return@addSnapshotListener
-                        }
-                        val listAds = querySnapshot?.documents?.mapNotNull {
-                            it.toObject<Shops>()
-                        }
-                        offer(listAds)
-                        Log.d("Ads", listAds.toString())
-                    }
-            awaitClose {
-                Log.d(TAG, "getListAds: ")
-                listenerRegistration.remove()
-            }
-        }
-
-    }
-
     fun getListUlasan(role: String, query: String, collectionRef: String): Flow<List<Ulasan>?> {
 
         return callbackFlow {
@@ -486,7 +474,6 @@ class FirebaseServices {
     fun getChatRoom() {
 
     }
-
 
 
     fun updateChat() {

@@ -6,12 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentSearchBinding
-import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.search.adsSearch.AdsSearchAdapter
 import com.ibunda.ilifeapps.ui.dashboard.search.otherlistshop.OtherListShopAdapter
@@ -64,26 +65,34 @@ class SearchFragment : Fragment() {
 
     private fun initOnClick() {
         binding.tvLainnyaSemua.setOnClickListener {
-            gotoListShop("Lainnya", userDataProfile)
+            gotoListShop("Lainnya", userDataProfile, false, null)
         }
         binding.tvDiskonSemua.setOnClickListener {
-            goListShop(true, userDataProfile)
+            gotoListShop("Sedang Diskon", userDataProfile, true, null)
         }
+
+        binding.etSearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val searchQuery = binding.etSearch.text.toString()
+                gotoListShop("Hasil Pencarian", userDataProfile, false, searchQuery)
+                return@OnEditorActionListener true
+            }
+            false
+        })
     }
 
-    private fun goListShop(promo: Boolean, userDataProfile: Users) {
-        val intent =
-            Intent(requireActivity(), ListMitraActivity::class.java)
-        intent.putExtra(ListMitraActivity.EXTRA_PROMO, promo)
-        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
-        startActivity(intent)
-    }
-
-    private fun gotoListShop(categoryName: String, userDataProfile: Users) {
+    private fun gotoListShop(
+        categoryName: String?,
+        userDataProfile: Users,
+        promo: Boolean,
+        search: String?
+    ) {
         val intent =
             Intent(requireActivity(), ListMitraActivity::class.java)
         intent.putExtra(ListMitraActivity.EXTRA_CATEGORY_NAME, categoryName)
-        intent.putExtra(MainActivity.EXTRA_USER, userDataProfile)
+        intent.putExtra(ListMitraActivity.EXTRA_USER, userDataProfile.userId)
+        intent.putExtra(ListMitraActivity.EXTRA_PROMO, promo)
+        intent.putExtra(ListMitraActivity.EXTRA_SEARCH, search)
         startActivity(intent)
     }
 
@@ -102,14 +111,14 @@ class SearchFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = adsSearchAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 
     private fun setDataRvListPromoShop() {
         mainViewModel.getListPromoShop(true).observe(viewLifecycleOwner, { listShops ->
             if (listShops != null) {
-                promoListShopAdapter.setListShops(listShops)
+                promoListShopAdapter.setListShops(listShops, userDataProfile)
                 setPromoShopsAdapter()
             }
         })
@@ -121,7 +130,7 @@ class SearchFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = promoListShopAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 
@@ -129,7 +138,7 @@ class SearchFragment : Fragment() {
     private fun setDataRvListOtherShop() {
         mainViewModel.getListOtherShop("Lainnya").observe(viewLifecycleOwner, { listShops ->
             if (listShops != null) {
-                otherListShopAdapter.setListShops(listShops)
+                otherListShopAdapter.setListShops(listShops, userDataProfile)
                 setOtherShopsAdapter()
             }
         })
@@ -141,7 +150,7 @@ class SearchFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = otherListShopAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 }

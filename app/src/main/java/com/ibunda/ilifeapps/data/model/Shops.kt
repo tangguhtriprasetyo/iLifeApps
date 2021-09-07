@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.data.model
 
 import android.os.Parcelable
+import com.google.firebase.firestore.Exclude
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -26,6 +27,9 @@ data class Shops(
     var shopPicture: String? = null,
     var shopPromo: Int? = null,
     var totalPesananSukses: Int? = null,
-    var totalUlasan: Int? = null
+    var totalUlasan: Int? = null,
+
+    @get:Exclude
+    var distance: Int? = null
 
 ) : Parcelable

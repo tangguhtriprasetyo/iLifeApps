@@ -35,11 +35,11 @@ class MainViewModel : ViewModel() {
         firebaseServices.uploadFiles(uri, uid, type, name)
 
     fun getListOtherShop(categoryName: String): LiveData<List<Shops>?> {
-        return firebaseServices.getListShopData(categoryName, "shops").asLiveData()
+        return firebaseServices.getListShopData(categoryName, "shops", false, null).asLiveData()
     }
 
     fun getListPromoShop(promo: Boolean): LiveData<List<Shops>?> {
-        return firebaseServices.getListPromoShop(promo, "shops").asLiveData()
+        return firebaseServices.getListShopData(null, "shops", promo, null).asLiveData()
     }
 
     //Ulasan

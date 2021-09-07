@@ -14,6 +14,13 @@ class ListMitraViewModel : ViewModel() {
     private var _shopData = MutableLiveData<Shops>()
     private var _userProfile = MutableLiveData<Users>()
 
+    private val _dataCategory = MutableLiveData<String>()
+    val dataCategory: LiveData<String> = _dataCategory
+
+    fun setCategory(category: String) {
+        _dataCategory.value = category
+    }
+
     fun uploadOrder(orders: Orders): LiveData<String> =
         firebaseServices.uploadOrder(orders)
 
@@ -34,7 +41,5 @@ class ListMitraViewModel : ViewModel() {
     fun getProfileData(): LiveData<Users> {
         return _userProfile
     }
-
-    val dataCategory = MutableLiveData<String>()
 
 }
