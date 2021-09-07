@@ -24,7 +24,7 @@ import java.util.*
 
 class EditProfileFragment : Fragment() {
 
-    private lateinit var binding : FragmentEditProfileBinding
+    private lateinit var binding: FragmentEditProfileBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
@@ -48,7 +48,6 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         datePicker = DatePickerHelper(requireContext())
         val getImage =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uriImage ->
@@ -82,7 +81,8 @@ class EditProfileFragment : Fragment() {
 
         binding.etJenisKelamin.setOnClickListener {
             val dialog = Dialog(requireContext())
-            val binding : DialogJenisKelaminBinding = DialogJenisKelaminBinding.inflate(LayoutInflater.from(context))
+            val binding: DialogJenisKelaminBinding =
+                DialogJenisKelaminBinding.inflate(LayoutInflater.from(context))
             dialog.setContentView(binding.root)
             binding.btnPilihGender.setOnClickListener {
                 val checkedRadioButtonId = binding.rgGender.checkedRadioButtonId
@@ -105,7 +105,12 @@ class EditProfileFragment : Fragment() {
             val y = cal.get(Calendar.YEAR)
             datePicker.setMaxDate(cal.timeInMillis)
             datePicker.showDialog(d, m, y, object : DatePickerHelper.Callback {
-                override fun onDateSelected(datePicker: View, dayofMonth: Int, month: Int, year: Int) {
+                override fun onDateSelected(
+                    datePicker: View,
+                    dayofMonth: Int,
+                    month: Int,
+                    year: Int
+                ) {
                     val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "${dayofMonth}"
                     val mon = month + 1
                     val monthStr = if (mon < 10) "0${mon}" else "${mon}"
@@ -167,9 +172,11 @@ class EditProfileFragment : Fragment() {
                 }
             )
         }
+        setLoading(false)
     }
 
     private fun updateProfileData() {
+        setLoading(true)
         with(binding) {
             userDataProfile.name = etNamaUser.text.toString()
             userDataProfile.email = etEmailUser.text.toString()
@@ -209,6 +216,7 @@ class EditProfileFragment : Fragment() {
     private fun uploadData() {
         mainViewModel.editProfileUser(userDataProfile).observe(viewLifecycleOwner, { newUserData ->
             if (newUserData != null) {
+                mainViewModel.setUserProfile(userDataProfile.userId.toString())
                 Toast.makeText(
                     requireActivity(),
                     "Profile Updated",
@@ -217,6 +225,7 @@ class EditProfileFragment : Fragment() {
                 val bottomNav: BottomNavigationView =
                     requireActivity().findViewById(R.id.bottom_navigation)
                 bottomNav.visibility = View.VISIBLE
+                setLoading(false)
                 requireActivity().supportFragmentManager.popBackStackImmediate()
             } else {
                 Toast.makeText(
@@ -226,6 +235,16 @@ class EditProfileFragment : Fragment() {
                 ).show()
             }
         })
+    }
+
+    private fun setLoading(loading: Boolean) {
+        if (loading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnSimpan.isClickable = false
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.btnSimpan.isClickable = true
+        }
     }
 
 

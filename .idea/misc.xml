@@ -92,6 +92,7 @@
         <entry key="app/src/main/res/layout/fragment_dialog_seleksi_berdasarkan.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/fragment_dialog_tawar_mitra.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_dibatalkan.xml" value="0.34375" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/fragment_list_shop.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.34375" />
@@ -103,6 +104,8 @@
         <entry key="app/src/main/res/layout/item_rv_content_transaction.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/item_rv_list_shop.xml" value="0.34375" />
         <entry key="app/src/main/res/layout/item_rv_sedang_diskon.xml" value="0.3578125" />
+        <entry key="mitrailifeapps/src/main/res/layout/fragment_create_shop_one.xml" value="0.2171875" />
+        <entry key="mitrailifeapps/src/main/res/layout/fragment_create_shop_two.xml" value="0.2171875" />
       </map>
     </option>
   </component>

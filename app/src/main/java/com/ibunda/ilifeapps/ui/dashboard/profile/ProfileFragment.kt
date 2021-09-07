@@ -46,6 +46,11 @@ class ProfileFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getUserData()
+    }
+
     private fun getUserData() {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
