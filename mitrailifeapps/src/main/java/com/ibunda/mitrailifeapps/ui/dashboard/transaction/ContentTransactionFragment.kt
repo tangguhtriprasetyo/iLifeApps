@@ -25,6 +25,7 @@ class ContentTransactionFragment : Fragment() {
 
     private lateinit var shopsDataProfile: Shops
     private val mainViewModel: MainViewModel by activityViewModels()
+    private val transactionViewModel: TransactionViewModel by activityViewModels()
     private val orderAdapter = OrderAdapter()
 
     private var shopId: String? = null
@@ -81,7 +82,7 @@ class ContentTransactionFragment : Fragment() {
     private fun setDataTransaction(statusOrder: String) {
 
         Log.d("ORDERS", "shopId $shopId")
-        mainViewModel.getListOrders(statusOrder, shopId.toString())
+        transactionViewModel.getListOrders(statusOrder, shopId.toString())
             .observe(viewLifecycleOwner, { listOrders ->
                 when (statusOrder) {
                     STATUS_DIPROSES -> {

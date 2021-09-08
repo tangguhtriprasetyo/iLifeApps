@@ -2,6 +2,7 @@ package com.ibunda.mitrailifeapps.ui.maps
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
@@ -32,6 +33,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.ibunda.mitrailifeapps.BuildConfig.MAPS_API_KEY
 import com.ibunda.mitrailifeapps.R
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.ActivityMapsBinding
 import java.io.IOException
 import java.util.*
@@ -41,6 +43,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private lateinit var binding: ActivityMapsBinding
     private lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var shops: Shops
 
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
@@ -178,10 +181,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     private fun postNewLocation() {
 
-        mapsViewModel.shopAdress.value = lastKnownAddress
-        mapsViewModel.shopLatitude.value = lastKnownLocation?.latitude
-        mapsViewModel.shopLongitude.value = lastKnownLocation?.longitude
-        Log.e(lastKnownAddress, "shopAdrress")
+        val address = lastKnownAddress
+        val latitude = lastKnownLocation?.latitude
+        val longitude = lastKnownLocation?.longitude
+
+        val intent = Intent()
+        intent.putExtra("address", address)
+        intent.putExtra("latitude", latitude)
+        intent.putExtra("longitude", longitude)
+        setResult(Activity.RESULT_OK, intent)
         finish()
 
     }

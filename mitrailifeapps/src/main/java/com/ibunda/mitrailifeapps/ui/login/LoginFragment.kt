@@ -1,7 +1,9 @@
 package com.ibunda.mitrailifeapps.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,11 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding : FragmentLoginBinding
     private val loginViewModel: LoginViewModel by activityViewModels()
+    private lateinit var mitra: Mitras
+
+    companion object {
+        const val PREFS_NAME = "mitra_pref"
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +78,7 @@ class LoginFragment : Fragment() {
                     val user = FirebaseAuth.getInstance().currentUser
                     if (user!!.isEmailVerified) {
                         progressDialog(false)
+                        initMitra(mitraData)
                         gotoMainActivity(mitraData)
                     } else {
                         progressDialog(false)
@@ -88,6 +96,24 @@ class LoginFragment : Fragment() {
                 }
             })
 
+    }
+
+    private fun initMitra(mitraData: Mitras) {
+        Log.e(mitraData.mitraId.toString(), "shopsTotal")
+        loginViewModel.setMitraProfile(mitraData.mitraId.toString()).observe(this, { mitraProfile ->
+            if (mitraProfile != null) {
+                mitra = mitraProfile
+                //Preference
+                if (mitra.totalShop!! > 0) {
+                    val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    val shopId = mitraData.mitraId + "TOKO1"
+                    val editor = preferences.edit()
+                    editor.putString("shopId", shopId)
+                    editor.apply()
+                    Log.e(shopId, "shopIdLogin")
+                }
+            }
+        })
     }
 
     private fun gotoMainActivity(mitraData: Mitras) {

@@ -9,7 +9,6 @@ import androidx.fragment.app.commit
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.ActivityDetailBinding
-import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.detailorder.dibatalkan.DibatalkanFragment
 import com.ibunda.mitrailifeapps.ui.detailorder.diproses.DiprosesFragment
 import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.PesananFragment
@@ -25,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val detailViewModel: DetailViewModel by viewModels()
     private lateinit var ordersData: Orders
 
     companion object {
@@ -55,7 +54,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setOrderData() {
-        mainViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
+        detailViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
             if (orders != null) {
                 ordersData = orders
                 Log.e(ordersData.status, "statusOrder")

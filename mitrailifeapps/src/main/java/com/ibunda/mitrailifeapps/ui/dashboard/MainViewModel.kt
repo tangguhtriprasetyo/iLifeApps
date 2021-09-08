@@ -8,6 +8,7 @@ import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
+import com.ibunda.mitrailifeapps.data.model.Ulasan
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -41,14 +42,20 @@ class MainViewModel: ViewModel() {
     fun createdNewShop(shops: Shops): LiveData<Shops> =
             firebaseServices.createShops(shops)
 
-    //EditProfile
+    //EditMitraData
     fun editProfileMitra(authUser: Mitras): LiveData<Mitras> =
         firebaseServices.editMitraData(authUser)
+
+    //EditShopData
+    fun editShopData(authUser: Shops): LiveData<Shops> =
+        firebaseServices.editShopData(authUser)
 
     //Home
     fun getListOrderKhusus(orderKhusus: Boolean, status: String): LiveData<List<Orders>?> {
         return firebaseServices.getListOrderKhususData(orderKhusus, status, "orders").asLiveData()
     }
+
+    //Detail Order Khusus
     fun setOrderData(orderId: String): LiveData<Orders> {
         _orderData = firebaseServices.getOrdersData(orderId) as MutableLiveData<Orders>
         return _orderData
@@ -57,13 +64,19 @@ class MainViewModel: ViewModel() {
         return _orderData
     }
 
-    //Order
+    //ListOrder
     fun getListOrders(statusOrder: String, shopId: String): LiveData<List<Orders>?> {
         return firebaseServices.getListOrdersData(statusOrder, shopId, "orders").asLiveData()
     }
 
-    fun updateOrderData(orderId: Orders): LiveData<Orders> =
-        firebaseServices.updateOrderData(orderId)
+    //listShops
+    fun getListShops(mitraId: String): LiveData<List<Shops>?> {
+        return firebaseServices.getListShop(mitraId, "shops").asLiveData()
+    }
 
+    //listUlasan
+    fun getListUlasan(shopId: String): LiveData<List<Ulasan>?> {
+        return firebaseServices.getListUlasan(shopId, "ulasan").asLiveData()
+    }
 
 }

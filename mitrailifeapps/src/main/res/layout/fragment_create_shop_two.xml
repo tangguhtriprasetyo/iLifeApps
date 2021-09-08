@@ -60,7 +60,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_buat_toko"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearBar">
@@ -68,8 +68,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="56dp">
-
+            android:paddingBottom="24dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
@@ -146,10 +145,11 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:fontFamily="@font/roboto"
-                    android:inputType="text"
-                    android:maxLines="5"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:ellipsize="end"
                     android:paddingStart="24dp"
-                    android:paddingEnd="24dp"
+                    android:paddingEnd="40dp"
                     android:singleLine="false"
                     android:textColor="@color/font_default"
                     android:textColorHint="@color/font_default"
@@ -160,6 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="2dp"
                 android:background="@drawable/ic_next_arrow"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
@@ -167,6 +168,7 @@
 
 
             <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -329,20 +331,21 @@
 
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_buat_toko"
+                style="@style/ButtonStyle"
+                android:layout_marginTop="40dp"
+                android:text="Buat Toko"
+                app:cornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_buat_toko"
-        style="@style/ButtonStyle"
-        app:cornerRadius="8dp"
-        android:text="Buat Toko"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.925" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

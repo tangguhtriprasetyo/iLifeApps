@@ -146,7 +146,7 @@ class CustomOrderFragment : Fragment() {
                     "Pesanan berhasil diproses, silahkan lihat status pesanan anda di halaman Transaksi",
                     Toast.LENGTH_SHORT
                 ).show()
-                requireActivity().finish()
+                requireActivity().supportFragmentManager.popBackStackImmediate()
             } else {
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
@@ -222,6 +222,7 @@ class CustomOrderFragment : Fragment() {
             Log.e(isLainnya.toString(), "isLainnya")
         }
     }
+    
 
 
 }

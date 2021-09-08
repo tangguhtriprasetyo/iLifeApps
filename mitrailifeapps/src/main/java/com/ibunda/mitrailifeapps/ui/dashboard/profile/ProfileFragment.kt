@@ -1,13 +1,19 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -15,13 +21,16 @@ import com.ibunda.mitrailifeapps.databinding.FragmentProfileBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.profile.dialogkelolashop.DialogKelolaShopFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.profile.editshop.EditShopFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.setting.SettingFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.ulasan.UlasanFragment
+import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class ProfileFragment : Fragment(), View.OnClickListener {
+class ProfileFragment : Fragment(), View.OnClickListener  {
 
     private lateinit var binding : FragmentProfileBinding
 
@@ -42,6 +51,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getMitraData()
+    }
+
+    private fun getMitraData() {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -54,14 +67,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 }
                 Log.d("ViewModelMitraProfile: ", userProfile.toString())
             })
-
     }
 
     private fun initEmptyShop() {
         binding.linearEmptyToko.visibility = View.VISIBLE
         binding.linearMessage.visibility = View.GONE
         binding.linearNotification.visibility = View.GONE
-        binding.icSetting.visibility = View.GONE
+
+        binding.icSetting.setOnClickListener(this)
 
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
@@ -94,6 +107,40 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         binding.linearEditAkun.setOnClickListener(this)
         binding.linearUlasanToko.setOnClickListener(this)
         binding.btnKelolaToko.setOnClickListener(this)
+        binding.linearLokasiToko.setOnClickListener(this)
+    }
+
+    private val getResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+
+                    mainViewModel.getShopData()
+                        .observe(viewLifecycleOwner, { shopsProfile ->
+                            if (shopsProfile != null) {
+                                shopsDataProfile = shopsProfile
+                                shopsDataProfile.address = result.data?.getStringExtra("address")
+                                shopsDataProfile.latitude = result.data?.getDoubleExtra("latitude", 0.0)
+                                shopsDataProfile.longitude = result.data?.getDoubleExtra("longitude", 0.0)
+                                updateShopLocation(shopsProfile)
+                            }
+                            Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+                        })
+
+
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    // TODO: Handle the error.
+                    val status = result.data?.let { Autocomplete.getStatusFromIntent(it) }
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
+            }
+        }
+
+    private fun updateShopLocation(shopsProfile: Shops) {
+
     }
 
     private fun setDataShops(shopsDataProfile: Shops) {
@@ -119,40 +166,38 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             R.id.linear_edit_akun -> editAkun("EditShop")
             R.id.linear_ulasan_toko -> openUlasan()
             R.id.btn_kelola_toko -> kelolaToko()
+            R.id.linear_lokasi_toko -> getResult.launch(Intent(requireActivity(), MapsActivity::class.java))
         }
     }
 
     private fun kelolaToko() {
-
+        val mDialogKelolaShopFragment = DialogKelolaShopFragment()
+        val mFragmentManager = parentFragmentManager
+        mDialogKelolaShopFragment.show(mFragmentManager, DialogKelolaShopFragment::class.java.simpleName)
     }
 
     private fun openUlasan() {
-        val mFragmentManager = parentFragmentManager
         val mUlasanFragment = UlasanFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mUlasanFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
-        }
+        setCurrentFragment(mUlasanFragment)
     }
 
     private fun editAkun(value: String) {
-
+        val mEditShopFragment = EditShopFragment()
+        val mBundle = Bundle()
+        mBundle.putString(EditShopFragment.EXTRA_EDIT, value)
+        mEditShopFragment.arguments = mBundle
+        setCurrentFragment(mEditShopFragment)
     }
 
     private fun openSetting() {
         val mSettingFragment = SettingFragment()
-        val mFragmentManager = parentFragmentManager
-        mFragmentManager.commit {
+        setCurrentFragment(mSettingFragment)
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        parentFragmentManager.commit {
             addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mSettingFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
+            replace(R.id.host_fragment_activity_main, fragment, MainActivity.CHILD_FRAGMENT)
         }
     }
 
@@ -163,21 +208,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private fun openMessage() {
     }
 
-
     override fun onResume() {
         super.onResume()
-        mainViewModel.getProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    mitraDataProfile = userProfile
-                    if (mitraDataProfile.totalShop == 0) {
-                        initEmptyShop()
-                    } else {
-                        initShops()
-                    }
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+        getMitraData()
     }
 
 }

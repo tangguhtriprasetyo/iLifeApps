@@ -13,8 +13,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentCreateShopOneBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class CreateShopOneFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateShopOneBinding

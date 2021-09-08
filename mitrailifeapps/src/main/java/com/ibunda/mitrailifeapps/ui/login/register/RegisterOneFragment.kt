@@ -10,8 +10,10 @@ import androidx.fragment.app.commit
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentRegisterOneBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class RegisterOneFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterOneBinding

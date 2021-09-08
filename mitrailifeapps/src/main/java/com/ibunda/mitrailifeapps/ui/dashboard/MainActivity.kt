@@ -24,7 +24,6 @@ import com.ibunda.mitrailifeapps.databinding.ActivityMainBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.home.HomeFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.order.OrderFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.ProfileFragment
-import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopTwoFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.transaction.TransactionFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.verification.FragmentVerification
 import com.ibunda.mitrailifeapps.ui.login.LoginActivity
@@ -53,6 +52,8 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         const val VERIFICATION_FRAGMENT_TAG = "verification_fragment_tag"
         const val CHILD_FRAGMENT = "child_fragment"
         const val EXTRA_USER = "extra_user"
+        const val PREFS_NAME = "mitra_pref"
+        const val EXTRA_CHANGE_SHOP = "extra_change_shop"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,7 +148,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
     }
 
     private fun setShopData() {
-        val preferences = this.getSharedPreferences(CreateShopTwoFragment.PREFS_NAME, Context.MODE_PRIVATE)
+        val preferences = this.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val shopId = preferences.getString("shopId", "none")
         Log.e(shopId, "shopIdMain")
         if (!shopId.equals("none")) {

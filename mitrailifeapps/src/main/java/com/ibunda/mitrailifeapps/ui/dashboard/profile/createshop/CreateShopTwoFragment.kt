@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentCreateShopTwoBinding
@@ -17,7 +22,6 @@ import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.dialogkategorishop.DialogKategoriShopFragment
 import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
-import com.ibunda.mitrailifeapps.ui.maps.MapsViewModel
 import com.ibunda.mitrailifeapps.utils.DateHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
@@ -27,11 +31,34 @@ class CreateShopTwoFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateShopTwoBinding
 
-    private val mapsViewModel: MapsViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var shopsData: Shops
     private lateinit var mitraDataProfile: Mitras
+
+
+    private var address: String? = null
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+
+    private val getResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    address = result.data?.getStringExtra("address")
+                    latitude = result.data?.getDoubleExtra("latitude", 0.0)
+                    longitude = result.data?.getDoubleExtra("longitude", 0.0)
+                    binding.etLokasiToko.setText(address)
+                }
+                AutocompleteActivity.RESULT_ERROR -> {
+                    // TODO: Handle the error.
+                    val status = result.data?.let { Autocomplete.getStatusFromIntent(it) }
+                }
+                Activity.RESULT_CANCELED -> {
+                    // The user canceled the operation.
+                }
+            }
+        }
 
     companion object {
         const val EXTRA_SHOP = "extra_shop"
@@ -87,6 +114,7 @@ class CreateShopTwoFragment : Fragment() {
             }
         }
 
+
     }
 
     private fun createShop(mitraDataProfile : Mitras) {
@@ -110,8 +138,8 @@ class CreateShopTwoFragment : Fragment() {
                 kemampuan1 = binding.etKemampuan1.text.toString(),
                 kemampuan2 = binding.etKemampuan2.text.toString(),
                 kemampuan3 = binding.etKemampuan3.text.toString(),
-                latitude = 0,
-                longitude = 0,
+                latitude = latitude,
+                longitude = longitude,
                 mitraId = mitraDataProfile.mitraId,
                 price = binding.etHargaJasa.text.toString().toInt(),
                 rating = 0.toDouble(),
@@ -147,9 +175,7 @@ class CreateShopTwoFragment : Fragment() {
     }
 
     private fun openMaps() {
-        val intent =
-            Intent(requireActivity(), MapsActivity::class.java)
-        startActivity(intent)
+        getResult.launch(Intent(requireActivity(), MapsActivity::class.java))
     }
 
     private fun dialogKategoriShop() {

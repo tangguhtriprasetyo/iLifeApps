@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.ItemRvPesananBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class OrderAdapter : RecyclerView.Adapter<OrderViewHolder>() {
     private var listOrders = ArrayList<Orders>()
 

@@ -12,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentDiprosesBinding
 import com.ibunda.mitrailifeapps.databinding.ItemDialogFinishOrderBinding
-import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
@@ -24,7 +24,7 @@ class DiprosesFragment : Fragment() {
 
     private lateinit var binding : FragmentDiprosesBinding
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
 
     companion object {
@@ -50,7 +50,7 @@ class DiprosesFragment : Fragment() {
     }
 
     private fun getOrdersData() {
-        mainViewModel.getOrderData()
+        detailViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     ordersData = orders
@@ -119,7 +119,7 @@ class DiprosesFragment : Fragment() {
         ordersData.finishedAt = DateHelper.getCurrentDateTime()
         ordersData.status = AppConstants.STATUS_SELESAI
 
-        mainViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
+        detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
                 progressDialog(false)
                 activity?.onBackPressed()
@@ -138,7 +138,7 @@ class DiprosesFragment : Fragment() {
         progressDialog(true)
         ordersData.arrivedAt = DateHelper.getCurrentDateTime()
 
-        mainViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
+        detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
                 progressDialog(false)
                 activity?.onBackPressed()
@@ -157,7 +157,7 @@ class DiprosesFragment : Fragment() {
         progressDialog(true)
         ordersData.startAt = DateHelper.getCurrentDateTime()
 
-        mainViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
+        detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
                 progressDialog(false)
                 activity?.onBackPressed()

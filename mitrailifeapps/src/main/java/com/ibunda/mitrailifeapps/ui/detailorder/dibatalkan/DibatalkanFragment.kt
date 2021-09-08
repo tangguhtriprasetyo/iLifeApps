@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentDibatalkanBinding
-import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -18,7 +18,7 @@ class DibatalkanFragment : Fragment() {
 
     private lateinit var binding : FragmentDibatalkanBinding
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
 
     override fun onCreateView(
@@ -38,7 +38,7 @@ class DibatalkanFragment : Fragment() {
     }
 
     private fun getOrdersData() {
-        mainViewModel.getOrderData()
+        detailViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     ordersData = orders

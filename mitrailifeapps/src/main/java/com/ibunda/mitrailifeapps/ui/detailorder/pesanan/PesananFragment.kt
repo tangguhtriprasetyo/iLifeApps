@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentPesananBinding
-import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.dialogtolakpesanan.DialogTolakPesananFragment
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIPROSES
@@ -24,7 +24,7 @@ class PesananFragment : Fragment() {
 
     private lateinit var binding : FragmentPesananBinding
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
 
     private var reasonCancel: String? = null
@@ -46,7 +46,7 @@ class PesananFragment : Fragment() {
     }
 
     private fun getOrdersData() {
-        mainViewModel.getOrderData()
+        detailViewModel.getOrderData()
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     ordersData = orders
@@ -88,7 +88,7 @@ class PesananFragment : Fragment() {
         ordersData.processedAt = DateHelper.getCurrentDateTime()
         ordersData.status = STATUS_DIPROSES
 
-        mainViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
+        detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
                 progressDialog(false)
                 Toast.makeText(requireContext(), "Pesanan berhasil diproses, silahkan cek di Transaksi", Toast.LENGTH_SHORT).show()
@@ -118,7 +118,7 @@ class PesananFragment : Fragment() {
         ordersData.canceledAt = DateHelper.getCurrentDateTime()
         ordersData.status = STATUS_DIBATALKAN
 
-        mainViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
+        detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
                 progressDialog(false)
                 Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()

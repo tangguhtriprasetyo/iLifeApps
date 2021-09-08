@@ -22,9 +22,9 @@
         <ImageView
             android:id="@+id/ic_back"
             android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_height="26dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/ic_baseline_arrow_back_24" />
+            android:background="@drawable/ic_back" />
 
         <TextView
             android:layout_width="wrap_content"
