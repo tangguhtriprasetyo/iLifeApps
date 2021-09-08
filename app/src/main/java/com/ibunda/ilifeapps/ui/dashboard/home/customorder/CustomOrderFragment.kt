@@ -134,6 +134,7 @@ class CustomOrderFragment : Fragment() {
     }
 
     private fun uploadOrderKhusus() {
+        setLoading(true)
         setDataOrder()
         order(orders)
     }
@@ -151,6 +152,7 @@ class CustomOrderFragment : Fragment() {
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
+        setLoading(false)
     }
 
     private fun setDataOrder() {
@@ -222,7 +224,15 @@ class CustomOrderFragment : Fragment() {
             Log.e(isLainnya.toString(), "isLainnya")
         }
     }
-    
 
+    private fun setLoading(loading: Boolean) {
+        if (loading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnBuatPesanan.isClickable = false
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.btnBuatPesanan.isClickable = true
+        }
+    }
 
 }

@@ -28,6 +28,8 @@ data class Shops(
     var shopPromo: Int? = null,
     var totalPesananSukses: Int? = null,
     var totalUlasan: Int? = null,
+    //PilihMitra
+    var priceTawar: String? = null,
 
     @get:Exclude
     var distance: Int? = null

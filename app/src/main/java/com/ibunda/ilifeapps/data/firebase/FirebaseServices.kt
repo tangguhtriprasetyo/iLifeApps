@@ -338,13 +338,13 @@ class FirebaseServices {
 
         return callbackFlow {
 
-            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val reference: CollectionReference = firestoreRef.collection(collectionRef)
             val listenerQuery = if (promo || query == null) {
-                collectionRef.whereEqualTo("promo", promo)
+                reference.whereEqualTo("promo", promo)
             } else if (search != null) {
-                collectionRef.whereEqualTo("shopName", search)
+                reference.whereEqualTo("shopName", search)
             } else {
-                collectionRef.whereEqualTo("categoryName", query)
+                reference.whereEqualTo("categoryName", query)
             }
 
             val listenerRegistration =
@@ -378,10 +378,10 @@ class FirebaseServices {
 
         return callbackFlow {
 
-            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val reference: CollectionReference = firestoreRef.collection(collectionRef)
             Log.d(TAG, "getListOrdersData: $collectionRef, $query, $userId")
             val listenerRegistration =
-                collectionRef.whereEqualTo("status", query)
+                reference.whereEqualTo("status", query)
                     .whereEqualTo("userId", userId)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
@@ -409,9 +409,9 @@ class FirebaseServices {
 
         return callbackFlow {
 
-            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val reference: CollectionReference = firestoreRef.collection(collectionRef)
             val listenerRegistration =
-                collectionRef.whereEqualTo("category", query)
+                reference.whereEqualTo("category", query)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
                             cancel(
@@ -438,9 +438,9 @@ class FirebaseServices {
 
         return callbackFlow {
 
-            val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val reference: CollectionReference = firestoreRef.collection(collectionRef)
             val listenerRegistration =
-                collectionRef.whereEqualTo(role, query)
+                reference.whereEqualTo(role, query)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
                             cancel(
