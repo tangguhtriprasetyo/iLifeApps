@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile.editshop
 
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentEditShopBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
+import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -29,6 +31,8 @@ class EditShopFragment : Fragment() {
 
     private var valueType: String? = null
     private var uriImagePath: Uri? = null
+
+    private lateinit var progressDialog : Dialog
 
     companion object {
         const val EXTRA_EDIT = "extra_edit"
@@ -46,6 +50,8 @@ class EditShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+
         val getImage =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uriImage ->
                 if (uriImage.path != null) {
@@ -54,21 +60,21 @@ class EditShopFragment : Fragment() {
                 }
             }
 
-        initView()
-        getShopData()
-
-    }
-
-    private fun initView() {
-
         val bottomNav: BottomNavigationView =
             requireActivity().findViewById(R.id.bottom_navigation)
         bottomNav.visibility = View.GONE
+
+        binding.icChangeImage.setOnClickListener {
+            getImage.launch(arrayOf("image/*"))
+        }
 
         binding.icBack.setOnClickListener {
             bottomNav.visibility = View.VISIBLE
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
+
+        getShopData()
+
     }
 
     //Initialize Shop Data
@@ -139,6 +145,7 @@ class EditShopFragment : Fragment() {
 
     }
     private fun updateShopKemampuan() {
+        progressDialog.show()
         with(binding) {
             shopsDataProfile.price = etHargaJasa.text.toString().toInt()
             shopsDataProfile.kemampuan1 = etKemampuan1.text.toString()
@@ -151,6 +158,7 @@ class EditShopFragment : Fragment() {
     //Update Shop Data
     private fun initEditShop(shopsDataProfile : Shops) {
         with(binding) {
+            imgTokoMitra.loadImage(shopsDataProfile.shopPicture)
             etNamaToko.setText(shopsDataProfile.shopName)
             etFacebook.setText(shopsDataProfile.facebook)
             etInstagram.setText(shopsDataProfile.instagram)
@@ -161,7 +169,6 @@ class EditShopFragment : Fragment() {
             btnSimpanShop.setOnClickListener{
                 if (validateInputEditShop()) {
                     updateShopData()
-                    progressDialog(true)
                 }
             }
         }
@@ -203,10 +210,8 @@ class EditShopFragment : Fragment() {
         }
 
     }
-    private fun uploadShopsPicture() {
-        TODO("Not yet implemented")
-    }
     private fun updateShopData() {
+        progressDialog.show()
         with(binding) {
             shopsDataProfile.shopName = etNamaToko.text.toString()
             shopsDataProfile.facebook = etFacebook.text.toString()
@@ -218,23 +223,42 @@ class EditShopFragment : Fragment() {
             uploadShopData()
         }
     }
-
+    private fun uploadShopsPicture() {
+        mainViewModel.uploadImages(
+            uriImagePath!!,
+            "${shopsDataProfile.shopId.toString()}${shopsDataProfile.shopName}",
+            "Images",
+            "profilePicture"
+        ).observe(viewLifecycleOwner, { downloadUrl ->
+            if (downloadUrl != null) {
+                shopsDataProfile.shopPicture = downloadUrl.toString()
+                uploadShopData()
+            } else {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    requireActivity(),
+                    "Update Profile Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
     //Upload Shop Data
     private fun uploadShopData() {
         mainViewModel.editShopData(shopsDataProfile).observe(viewLifecycleOwner, { newShopData ->
             if (newShopData != null) {
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Shop Data Successfull Updated",
                     Toast.LENGTH_SHORT
                 ).show()
-                progressDialog(false)
                 val bottomNav: BottomNavigationView =
                     requireActivity().findViewById(R.id.bottom_navigation)
                 bottomNav.visibility = View.VISIBLE
                 requireActivity().supportFragmentManager.popBackStackImmediate()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Shop Failed",
@@ -244,13 +268,7 @@ class EditShopFragment : Fragment() {
         })
     }
 
-    private fun progressDialog(state: Boolean) {
-        val dialog = ProgressDialogHelper.setProgressDialog(requireContext(), "Loading...")
-        if (state) {
-            dialog.show()
-        } else {
-            dialog.dismiss()
-        }
-    }
+
+
 
 }

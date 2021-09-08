@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.data.model
 
+import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
 import kotlinx.parcelize.Parcelize
@@ -33,6 +34,8 @@ data class Shops(
     @get:Exclude
     var isCreated: Boolean? = null,
     @get:Exclude
-    var errorMessage: String? = null
+    var errorMessage: String? = null,
+    @get:Exclude
+    var uriPath: Uri? = null
 
 ) : Parcelable

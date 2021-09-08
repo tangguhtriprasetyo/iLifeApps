@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.detailorder.pesanan
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,6 +30,8 @@ class PesananFragment : Fragment() {
 
     private var reasonCancel: String? = null
 
+    private lateinit var progressDialog : Dialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +43,8 @@ class PesananFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
 
         getOrdersData()
         initOnClick()
@@ -84,17 +89,17 @@ class PesananFragment : Fragment() {
     }
 
     private fun orderProcessed() {
-        progressDialog(true)
+        progressDialog.show()
         ordersData.processedAt = DateHelper.getCurrentDateTime()
         ordersData.status = STATUS_DIPROSES
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil diproses, silahkan cek di Transaksi", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
@@ -112,7 +117,7 @@ class PesananFragment : Fragment() {
     }
 
     private fun cancelOrder(reasonCancel: String?) {
-        progressDialog(true)
+        progressDialog.show()
         ordersData.canceledReason = reasonCancel
         ordersData.canceledBy = "Mitra"
         ordersData.canceledAt = DateHelper.getCurrentDateTime()
@@ -120,11 +125,11 @@ class PesananFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
@@ -132,15 +137,6 @@ class PesananFragment : Fragment() {
                 ).show()
             }
         })
-    }
-
-    private fun progressDialog(state: Boolean) {
-        val dialog = ProgressDialogHelper.setProgressDialog(requireActivity(), "Loading...")
-        if (state) {
-            dialog.show()
-        } else {
-            dialog.dismiss()
-        }
     }
 
 }

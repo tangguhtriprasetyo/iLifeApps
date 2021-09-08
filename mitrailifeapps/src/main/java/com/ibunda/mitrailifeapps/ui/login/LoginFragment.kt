@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.login
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +18,7 @@ import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentLoginBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.login.register.RegisterOneFragment
-import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
+import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper.Companion.progressDialog
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -27,6 +28,8 @@ class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
     private val loginViewModel: LoginViewModel by activityViewModels()
     private lateinit var mitra: Mitras
+
+    private lateinit var progressDialog : Dialog
 
     companion object {
         const val PREFS_NAME = "mitra_pref"
@@ -43,6 +46,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = progressDialog(requireContext())
 
         binding.btnLogin.setOnClickListener {
             if (validateEmail() && validatePassword()) {
@@ -66,7 +71,7 @@ class LoginFragment : Fragment() {
 
     private fun userLogin() {
 
-        progressDialog(true)
+        progressDialog.show()
 
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
@@ -77,17 +82,17 @@ class LoginFragment : Fragment() {
                     // Login sukses, masuk ke Main Activity
                     val user = FirebaseAuth.getInstance().currentUser
                     if (user!!.isEmailVerified) {
-                        progressDialog(false)
+                        progressDialog.dismiss()
                         initMitra(mitraData)
                         gotoMainActivity(mitraData)
                     } else {
-                        progressDialog(false)
+                        progressDialog.dismiss()
                         FirebaseAuth.getInstance().signOut()
                         Toast.makeText(requireContext(), "Silahkan verifikasi email anda.", Toast.LENGTH_SHORT).show()
                         //restart this activity
                     }
                 } else if (mitraData.errorMessage != null) {
-                    progressDialog(false)
+                    progressDialog.dismiss()
                     Toast.makeText(
                         requireContext(),
                         mitraData.errorMessage,
@@ -100,17 +105,26 @@ class LoginFragment : Fragment() {
 
     private fun initMitra(mitraData: Mitras) {
         Log.e(mitraData.mitraId.toString(), "shopsTotal")
-        loginViewModel.setMitraProfile(mitraData.mitraId.toString()).observe(this, { mitraProfile ->
+        loginViewModel.setMitraProfile(mitraData.mitraId.toString()).observe(viewLifecycleOwner, { mitraProfile ->
             if (mitraProfile != null) {
                 mitra = mitraProfile
                 //Preference
-                if (mitra.totalShop!! > 0) {
+                if (mitra.totalShop!! == 0) {
                     val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                    val shopId = mitraData.mitraId + "TOKO1"
+                    val editor = preferences.edit()
+                    editor.putString("shopId", "none")
+                    editor.putInt("totalShop", 0)
+                    editor.apply()
+                } else {
+                    val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                    val shopId = mitra.mitraId + "TOKO1"
+                    val totalShops = mitra.totalShop
                     val editor = preferences.edit()
                     editor.putString("shopId", shopId)
+                    editor.putInt("totalShop", totalShops!!)
                     editor.apply()
                     Log.e(shopId, "shopIdLogin")
+                    Log.e(totalShops.toString(), "totalShopLogin")
                 }
             }
         })
@@ -171,12 +185,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun progressDialog(state: Boolean) {
-        val dialog = ProgressDialogHelper.setProgressDialog(requireActivity(), "Loading...")
-        if (state) {
-            dialog.show()
-        } else {
-            dialog.dismiss()
-        }
-    }
+
+
+
 }

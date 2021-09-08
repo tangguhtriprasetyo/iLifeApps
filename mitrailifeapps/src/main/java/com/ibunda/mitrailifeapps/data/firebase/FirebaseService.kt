@@ -2,6 +2,7 @@ package com.ibunda.mitrailifeapps.data.firebase
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -160,6 +164,33 @@ class FirebaseServices {
         return editedShopData
     }
 
+    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
+        val mStorage: FirebaseStorage = Firebase.storage
+        val storageRef = mStorage.reference
+        val fileRef = storageRef.child("$uid/$type/$name")
+        val downloadUrl = MutableLiveData<String>()
+
+        fileRef.putFile(uri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            fileRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                downloadUrl.postValue(downloadUri.toString())
+                Log.d("uploadFiles: ", downloadUri.toString())
+            } else {
+                task.exception?.let {
+                    throw it
+                }
+            }
+        }
+        return downloadUrl
+    }
+
     fun updatePasswordMitra(newPassword: String?): LiveData<Mitras> {
         val authenticatedUser = MutableLiveData<Mitras>()
         val user: FirebaseUser? = firebaseAuth.currentUser
@@ -247,6 +278,7 @@ class FirebaseServices {
                                 mitraRef.document(shops.mitraId.toString())
                                     .update("totalShop", FieldValue.increment(1))
                                     .addOnCompleteListener {
+                                        shops.isCreated = true
                                         createdShopData.postValue(shops)
                                     }
                                     .addOnFailureListener { error ->

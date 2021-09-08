@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -49,6 +50,10 @@ class MainViewModel: ViewModel() {
     //EditShopData
     fun editShopData(authUser: Shops): LiveData<Shops> =
         firebaseServices.editShopData(authUser)
+
+    //uploadImages
+    fun uploadImages(uri: Uri, uid: String, type: String, name: String): LiveData<String> =
+        firebaseServices.uploadFiles(uri, uid, type, name)
 
     //Home
     fun getListOrderKhusus(orderKhusus: Boolean, status: String): LiveData<List<Orders>?> {

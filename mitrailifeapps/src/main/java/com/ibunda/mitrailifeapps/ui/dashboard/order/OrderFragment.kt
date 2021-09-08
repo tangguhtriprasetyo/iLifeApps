@@ -31,6 +31,7 @@ class OrderFragment : Fragment() {
     private lateinit var mitraDataProfile: Mitras
     private lateinit var shopsDataProfile: Shops
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +43,7 @@ class OrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->

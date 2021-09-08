@@ -166,8 +166,16 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             R.id.linear_edit_akun -> editAkun("EditShop")
             R.id.linear_ulasan_toko -> openUlasan()
             R.id.btn_kelola_toko -> kelolaToko()
-            R.id.linear_lokasi_toko -> getResult.launch(Intent(requireActivity(), MapsActivity::class.java))
+            R.id.linear_lokasi_toko -> openMaps()
         }
+    }
+
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, shopsDataProfile)
+        intent.putExtra(MapsActivity.EXTRA_SHOPS_DATA, true)
+        startActivity(intent)
     }
 
     private fun kelolaToko() {

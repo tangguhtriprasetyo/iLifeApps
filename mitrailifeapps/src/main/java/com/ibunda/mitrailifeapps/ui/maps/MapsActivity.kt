@@ -6,12 +6,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,7 +55,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var mapMarker: Marker? = null
 
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
-    private val mapsViewModel: MapsViewModel by viewModels()
 
     private val getResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -91,6 +92,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
+            shops = intent.getParcelableExtra<Shops>(EXTRA_USER_MAPS) as Shops
+            lastKnownAddress = shops.address
+            binding.btnKonfirmasiLokasi.visibility = View.GONE
+            binding.searchLocation.visibility = View.GONE
+        }
 
         // Initialize the SDK
         Places.initialize(applicationContext, MAPS_API_KEY)
@@ -130,31 +137,40 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onCameraIdle() {
-        if (locationPermissionGranted) {
-            val cameraPosition = map?.cameraPosition?.target
-            val localeID = Locale("in", "ID")
-            val geocoder = Geocoder(this@MapsActivity, localeID)
-            try {
-                lastKnownAddress =
-                    cameraPosition?.let {
-                        geocoder.getFromLocation(
-                            it.latitude,
-                            cameraPosition.longitude,
-                            1
-                        )[0].getAddressLine(0)
-                    }
-            } catch (e: IOException) {
-                e.printStackTrace();
-            }
+        val service = getSystemService(LOCATION_SERVICE) as LocationManager
+        val enabled = service
+            .isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if (!enabled) {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
+        if (enabled) {
+            if (locationPermissionGranted) {
+                val cameraPosition = map?.cameraPosition?.target
+                val localeID = Locale("in", "ID")
+                val geocoder = Geocoder(this@MapsActivity, localeID)
+                try {
+                    lastKnownAddress =
+                        cameraPosition?.let {
+                            geocoder.getFromLocation(
+                                it.latitude,
+                                cameraPosition.longitude,
+                                1
+                            )[0].getAddressLine(0)
+                        }
+                } catch (e: IOException) {
+                    e.printStackTrace();
+                }
 
-            mapMarker?.remove()
-            mapMarker = map?.addMarker(
-                MarkerOptions()
-                    .position(cameraPosition)
-                    .title("Posisi Anda Saat Ini")
-                    .snippet(lastKnownAddress)
-            )
-            mapMarker?.showInfoWindow()
+                mapMarker?.remove()
+                mapMarker = map?.addMarker(
+                    MarkerOptions()
+                        .position(cameraPosition)
+                        .title("Posisi Anda Saat Ini")
+                        .snippet(lastKnownAddress)
+                )
+                mapMarker?.showInfoWindow()
+            }
         }
     }
 
@@ -287,11 +303,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         private const val DEFAULT_ZOOM = 17
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         const val EXTRA_USER_MAPS = "extra_user_maps"
+        const val EXTRA_SHOPS_DATA = "extra_shops_data"
 
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
 
     }
+
+
 
 }

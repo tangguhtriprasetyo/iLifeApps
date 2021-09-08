@@ -1,6 +1,7 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -23,6 +24,7 @@ import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.dialogkategorishop.DialogKategoriShopFragment
 import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.utils.DateHelper
+import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
 
@@ -36,19 +38,16 @@ class CreateShopTwoFragment : Fragment() {
     private lateinit var shopsData: Shops
     private lateinit var mitraDataProfile: Mitras
 
-
-    private var address: String? = null
-    private var latitude: Double? = null
-    private var longitude: Double? = null
+    private lateinit var progressDialog : Dialog
 
     private val getResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
-                    address = result.data?.getStringExtra("address")
-                    latitude = result.data?.getDoubleExtra("latitude", 0.0)
-                    longitude = result.data?.getDoubleExtra("longitude", 0.0)
-                    binding.etLokasiToko.setText(address)
+                    shopsData.address = result.data?.getStringExtra("address")
+                    shopsData.latitude = result.data?.getDoubleExtra("latitude", 0.0)
+                    shopsData.longitude = result.data?.getDoubleExtra("longitude", 0.0)
+                    binding.etLokasiToko.setText(shopsData.address)
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
                     // TODO: Handle the error.
@@ -77,14 +76,16 @@ class CreateShopTwoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+
         mainViewModel.getProfileData()
-                .observe(viewLifecycleOwner, { userProfile ->
-                    if (userProfile != null) {
-                        mitraDataProfile = userProfile
-                        initView(mitraDataProfile)
-                    }
-                    Log.d("ViewModelProfile: ", userProfile.toString())
-                })
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+                    mitraDataProfile = userProfile
+                    initView(mitraDataProfile)
+                }
+                Log.d("ViewModelProfile: ", userProfile.toString())
+            })
 
         val bundle = arguments
         if (bundle != null) {
@@ -113,47 +114,73 @@ class CreateShopTwoFragment : Fragment() {
                 createShop(mitraDataProfile)
             }
         }
-
-
     }
 
     private fun createShop(mitraDataProfile : Mitras) {
+        progressDialog.show()
         //Preference
         val preferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         var totalShops = preferences.getInt("totalShop", 0)
         totalShops+=1
-
         Log.e(totalShops.toString(), "totalShops")
         //End Preference
-        val shopId = mitraDataProfile.mitraId + String.format("TOKO%s", String.format("%01d", totalShops.toDouble().roundToInt()))
-        Log.e(shopId, "shopId")
-        shopsData = Shops(
-                shopId = shopId,
-                address = binding.etLokasiToko.text.toString(),
-                categoryName = binding.etKategoriJasa.text.toString(),
-                facebook = shopsData.facebook,
-                instagram = shopsData.instagram,
-                promo = false,
-                verified = false,
-                kemampuan1 = binding.etKemampuan1.text.toString(),
-                kemampuan2 = binding.etKemampuan2.text.toString(),
-                kemampuan3 = binding.etKemampuan3.text.toString(),
-                latitude = latitude,
-                longitude = longitude,
-                mitraId = mitraDataProfile.mitraId,
-                price = binding.etHargaJasa.text.toString().toInt(),
-                rating = 0.toDouble(),
-                registeredAt = DateHelper.getCurrentDate(),
-                shopName = shopsData.shopName,
-                shopPicture = shopsData.shopPicture,
-                shopPromo = 0,
-                totalPesananSukses = 0,
-                totalUlasan = 0
-        )
+        shopsData.shopId = mitraDataProfile.mitraId + String.format("TOKO%s", String.format("%01d", totalShops.toDouble().roundToInt()))
+        Log.e(shopsData.shopId, "shopId")
+        //Upload Images
+        uploadImageData()
+        //Set Preference
         val editor = preferences.edit()
-        editor.putString("shopId", shopId)
+        editor.putString("shopId", shopsData.shopId)
         editor.putInt("totalShop", totalShops)
         editor.apply()
+    }
+
+    private fun uploadImageData() {
+        mainViewModel.uploadImages(
+            shopsData.uriPath!!,
+            "${shopsData.shopId.toString()}${shopsData.shopName}",
+            "Images",
+            "profilePicture"
+        ).observe(viewLifecycleOwner, { downloadUrl ->
+            if (downloadUrl != null) {
+                Toast.makeText(requireContext(), "upload image success", Toast.LENGTH_SHORT).show()
+                shopsData.shopPicture = downloadUrl.toString()
+                uploadShopData()
+            } else {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    requireActivity(),
+                    "Update Profile Failed",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    private fun uploadShopData() {
+        shopsData = Shops(
+            shopId = shopsData.shopId,
+            address = binding.etLokasiToko.text.toString(),
+            categoryName = binding.etKategoriJasa.text.toString(),
+            facebook = shopsData.facebook,
+            instagram = shopsData.instagram,
+            promo = false,
+            verified = false,
+            kemampuan1 = binding.etKemampuan1.text.toString(),
+            kemampuan2 = binding.etKemampuan2.text.toString(),
+            kemampuan3 = binding.etKemampuan3.text.toString(),
+            latitude = shopsData.latitude,
+            longitude = shopsData.longitude,
+            mitraId = mitraDataProfile.mitraId,
+            price = binding.etHargaJasa.text.toString().toInt(),
+            rating = 0.toDouble(),
+            registeredAt = DateHelper.getCurrentDate(),
+            shopName = shopsData.shopName,
+            shopPicture = shopsData.shopPicture,
+            shopPromo = 0,
+            totalPesananSukses = 0,
+            totalUlasan = 0
+        )
         uploadShops(shopsData)
     }
 
@@ -161,14 +188,16 @@ class CreateShopTwoFragment : Fragment() {
         Log.d("createdNewUser", shopsData.shopName.toString())
         mainViewModel.createdNewShop(shopsData).observe(viewLifecycleOwner, { newUser ->
             if (newUser.isCreated == true) {
+                progressDialog.dismiss()
                 val intent =
-                Intent(requireActivity(), MainActivity::class.java)
+                    Intent(requireActivity(), MainActivity::class.java)
+                intent.putExtra(MainActivity.EXTRA_USER, mitraDataProfile)
                 startActivity(intent)
                 requireActivity().finish()
                 Toast.makeText(
-                        requireContext(),
-                        "Selamat anda telah berhasil membuat toko baru. Silahkan melihat pekerjaan dan pesanan dari customer.",
-                        Toast.LENGTH_SHORT
+                    requireContext(),
+                    "Selamat anda telah berhasil membuat toko baru. Silahkan melihat pekerjaan dan pesanan dari customer.",
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         })
@@ -211,10 +240,10 @@ class CreateShopTwoFragment : Fragment() {
                 binding.etKategoriJasa.error = "Kategori Toko tidak boleh kosong."
                 false
             }
-//            address.isEmpty() -> {
-//                binding.etLokasiToko.error = "Alamat Toko tidak boleh kosong."
-//                false
-//            }
+            address.isEmpty() -> {
+                binding.etLokasiToko.error = "Alamat Toko tidak boleh kosong."
+                false
+            }
             price.isEmpty() -> {
                 binding.etHargaJasa.error = "Harga Toko tidak boleh kosong."
                 false

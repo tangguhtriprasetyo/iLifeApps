@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile.setting.editakunmitra
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,6 +27,8 @@ class EditAkunMitraFragment : Fragment() {
 
     private var valueType: String? = null
 
+    private lateinit var progressDialog : Dialog
+
     companion object {
         const val EXTRA_NAME = "extra_name"
     }
@@ -41,6 +44,8 @@ class EditAkunMitraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
 
         initView()
         getProfileData()
@@ -80,6 +85,7 @@ class EditAkunMitraFragment : Fragment() {
     }
 
     private fun updateProfileData() {
+        progressDialog.show()
         with(binding) {
             mitraDataProfile.name = etUsername.text.toString()
             mitraDataProfile.provinsi = etProvinsi.text.toString()
@@ -92,10 +98,9 @@ class EditAkunMitraFragment : Fragment() {
     }
 
     private fun uploadData() {
-        progressDialog(true)
         mainViewModel.editProfileMitra(mitraDataProfile).observe(viewLifecycleOwner, { newUserData ->
             if (newUserData != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Profile Successfull Updated",
@@ -106,7 +111,7 @@ class EditAkunMitraFragment : Fragment() {
                 bottomNav.visibility = View.VISIBLE
                 requireActivity().supportFragmentManager.popBackStackImmediate()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Profile Failed",
@@ -195,13 +200,6 @@ class EditAkunMitraFragment : Fragment() {
 
     }
 
-    private fun progressDialog(state: Boolean) {
-        val dialog = ProgressDialogHelper.setProgressDialog(requireActivity(), "Loading...")
-        if (state) {
-            dialog.show()
-        } else {
-            dialog.dismiss()
-        }
-    }
+
 
 }

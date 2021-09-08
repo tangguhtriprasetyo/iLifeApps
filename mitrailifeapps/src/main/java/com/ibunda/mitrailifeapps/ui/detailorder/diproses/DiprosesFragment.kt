@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.detailorder.diproses
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,6 +28,8 @@ class DiprosesFragment : Fragment() {
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
 
+    private lateinit var progressDialog : Dialog
+
     companion object {
         const val MULAI_PERJALANAN = "Mulai Perjalanan"
         const val SAMPAI_TUJUAN = "Sampai Tujuan"
@@ -44,6 +47,8 @@ class DiprosesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
 
         getOrdersData()
         initOnClick()
@@ -115,16 +120,16 @@ class DiprosesFragment : Fragment() {
     }
 
     private fun finishOrder() {
-        progressDialog(true)
+        progressDialog.show()
         ordersData.finishedAt = DateHelper.getCurrentDateTime()
         ordersData.status = AppConstants.STATUS_SELESAI
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 activity?.onBackPressed()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
@@ -135,15 +140,15 @@ class DiprosesFragment : Fragment() {
     }
 
     private fun sampaiTujuan() {
-        progressDialog(true)
+        progressDialog.show()
         ordersData.arrivedAt = DateHelper.getCurrentDateTime()
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 activity?.onBackPressed()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
@@ -154,15 +159,15 @@ class DiprosesFragment : Fragment() {
     }
 
     private fun mulaiPerjalanan() {
-        progressDialog(true)
+        progressDialog.show()
         ordersData.startAt = DateHelper.getCurrentDateTime()
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog(false)
+                progressDialog.dismiss()
                 activity?.onBackPressed()
             } else {
-                progressDialog(false)
+                progressDialog.dismiss()
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
@@ -172,13 +177,5 @@ class DiprosesFragment : Fragment() {
         })
     }
 
-    private fun progressDialog(state: Boolean) {
-        val dialog = ProgressDialogHelper.setProgressDialog(requireActivity(), "Loading...")
-        if (state) {
-            dialog.show()
-        } else {
-            dialog.dismiss()
-        }
-    }
 
 }

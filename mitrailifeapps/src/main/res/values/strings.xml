@@ -105,5 +105,6 @@
     <string name="total_harga">Total Harga</string>
     <string name="toko_anda_belum_mempunyai_penilaian_dan_ulasan_dari_pelanggan">Toko anda belum mempunyai penilaian dan ulasan dari pelanggan.</string>
     <string name="belum_ada_penilaian">Belum ada Penilaian</string>
+    <string name="loading">Loading...</string>
 
 </resources>

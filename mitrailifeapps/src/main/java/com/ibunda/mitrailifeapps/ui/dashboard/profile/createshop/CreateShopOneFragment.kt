@@ -77,7 +77,7 @@ class CreateShopOneFragment : Fragment() {
         val instagram = binding.etInstagram.text.toString().trim()
         val facebook = binding.etFacebook.text.toString().trim()
 
-        val shops = Shops(shopPicture = uriImagePath.toString(),
+        val shops = Shops(uriPath = uriImagePath,
             shopName = shopName,
             instagram = instagram,
             facebook = facebook)
@@ -103,7 +103,6 @@ class CreateShopOneFragment : Fragment() {
         val shopName = binding.etNamaToko.text.toString().trim()
         val instagram = binding.etInstagram.text.toString().trim()
         val facebook = binding.etFacebook.text.toString().trim()
-
 
         return when {
             shopName.length < 5 -> {

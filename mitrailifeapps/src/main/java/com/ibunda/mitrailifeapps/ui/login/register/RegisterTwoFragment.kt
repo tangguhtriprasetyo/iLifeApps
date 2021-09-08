@@ -24,6 +24,7 @@ import com.ibunda.mitrailifeapps.databinding.FragmentRegisterTwoBinding
 import com.ibunda.mitrailifeapps.ui.login.LoginActivity
 import com.ibunda.mitrailifeapps.ui.login.LoginViewModel
 import com.ibunda.mitrailifeapps.utils.DateHelper
+import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -35,6 +36,7 @@ class RegisterTwoFragment : Fragment() {
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     private lateinit var mitrasData: Mitras
+    private lateinit var progressDialog : Dialog
 
     companion object {
         const val EXTRA_USER = "extra_user"
@@ -52,6 +54,8 @@ class RegisterTwoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
 
         mAuth = Firebase.auth
 
@@ -77,6 +81,7 @@ class RegisterTwoFragment : Fragment() {
     }
 
     private fun registerMitra(email: String, password: String) {
+        progressDialog.show()
 
         val provinsi = binding.etProvinsi.text.toString().trim()
         val kotakab = binding.etKotaKab.text.toString().trim()
@@ -118,6 +123,7 @@ class RegisterTwoFragment : Fragment() {
         Log.d("createdNewUser", mitras.name.toString())
         loginViewModel.createdNewUser(mitras).observe(viewLifecycleOwner, { newUser ->
             if (newUser.isCreated == true) {
+                progressDialog.dismiss()
                 Log.d(TAG, "Hello ${mitras.name}, Your Account Successfully Created!")
                 val user = mAuth.currentUser
                 //Preference

@@ -60,6 +60,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.rvPesananKhusus.visibility = View.VISIBLE
 
         setDataRvListOrders()
+        binding.linearSortby.setOnClickListener(this)
+        binding.linearMessage.setOnClickListener(this)
+        binding.linearNotification.setOnClickListener(this)
     }
 
     private fun initEmptyShop() {
