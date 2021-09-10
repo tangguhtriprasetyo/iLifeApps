@@ -6,18 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ibunda.ilifeapps.data.model.Orders
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentPilihMitraBinding
+import com.ibunda.ilifeapps.utils.AppConstants
+import com.ibunda.ilifeapps.utils.DateHelper
 
-class PilihMitraFragment : Fragment() {
+class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
     private lateinit var binding: FragmentPilihMitraBinding
+    private lateinit var orders: Orders
 
     private val pilihMitraViewModel: PilihMitraViewModel by activityViewModels()
-    private val pilihMitraAdapter = PilihMitraAdapter()
-
-    private var orderId: String? = null
+    private val pilihMitraAdapter = PilihMitraAdapter(this@PilihMitraFragment)
 
     companion object {
         const val EXTRA_ORDER_ID = "extra_order_id"
@@ -40,9 +44,9 @@ class PilihMitraFragment : Fragment() {
 
     private fun getListTawaranMitra() {
         if (arguments != null) {
-            orderId = requireArguments().getString(EXTRA_ORDER_ID)
-            orderId?.let {
-                pilihMitraViewModel.getListTawaranMitra(it)
+            orders = requireArguments().getParcelable<Orders>(EXTRA_ORDER_ID) as Orders
+            orders?.let {
+                pilihMitraViewModel.getListTawaranMitra(it.orderId.toString())
                     .observe(viewLifecycleOwner, { listMitra ->
                         if (listMitra != null && listMitra.isNotEmpty()) {
                             pilihMitraAdapter.setListMitra(listMitra)
@@ -82,5 +86,25 @@ class PilihMitraFragment : Fragment() {
             binding.rvPilihMitra.visibility = View.VISIBLE
             binding.linearEmptyPilihMitra.visibility = View.GONE
         }
+    }
+
+    private fun updateOrderData(data: Shops) {
+        orders.shopId = data.shopId
+        orders.shopName = data.shopName
+        orders.shopPicture = data.shopPicture
+        orders.processedAt = DateHelper.getCurrentDateTime()
+        orders.verified = data.verified
+        orders.totalPrice = data.priceTawar
+        orders.status = AppConstants.STATUS_DIPROSES
+        pilihMitraViewModel.updateOrderData(orders).observe(viewLifecycleOwner, {orderData ->
+            if (orderData != null) {
+                Toast.makeText(requireContext(), "SUKSES", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
+            }
+        })
+    }
+
+    override fun onItemClicked(data: Shops) {
+        updateOrderData(data)
     }
 }

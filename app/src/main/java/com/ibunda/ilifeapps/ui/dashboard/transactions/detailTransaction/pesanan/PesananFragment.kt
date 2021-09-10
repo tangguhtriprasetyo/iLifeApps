@@ -91,7 +91,7 @@ class PesananFragment : Fragment() {
             val mPilihMitraFragment = PilihMitraFragment()
 
             val mBundle = Bundle()
-            mBundle.putString(PilihMitraFragment.EXTRA_ORDER_ID, orderData.orderId)
+            mBundle.putParcelable(PilihMitraFragment.EXTRA_ORDER_ID, orderData)
             mPilihMitraFragment.arguments = mBundle
 
             mFragmentManager.commit {

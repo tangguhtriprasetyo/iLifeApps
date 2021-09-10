@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
+import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 
 class PilihMitraViewModel : ViewModel() {
@@ -13,4 +14,7 @@ class PilihMitraViewModel : ViewModel() {
     fun getListTawaranMitra(orderId: String): LiveData<List<Shops>?> {
         return firebaseServices.getListTawaranMitra(orderId).asLiveData()
     }
+
+    fun updateOrderData(orderId: Orders): LiveData<Orders> =
+        firebaseServices.updateOrderData(orderId)
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvPilihMitraBinding
 
-class PilihMitraAdapter : RecyclerView.Adapter<PilihMitraViewHolder>() {
+class PilihMitraAdapter(private val mPilihMitraClickCallback: PilihMitraClickCallback) : RecyclerView.Adapter<PilihMitraViewHolder>() {
     private var listMitra = ArrayList<Shops>()
 
     fun setListMitra(shops: List<Shops>?) {
@@ -23,7 +23,7 @@ class PilihMitraAdapter : RecyclerView.Adapter<PilihMitraViewHolder>() {
                 parent,
                 false
             )
-        return PilihMitraViewHolder(itemRvPilihMitraBinding)
+        return PilihMitraViewHolder(itemRvPilihMitraBinding, mPilihMitraClickCallback)
     }
 
     override fun onBindViewHolder(holder: PilihMitraViewHolder, position: Int) {

@@ -51,7 +51,7 @@ class CustomOrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setLoading(false)
         userData = Users()
         //dataUser
         mainViewModel.getProfileData()
@@ -129,35 +129,37 @@ class CustomOrderFragment : Fragment() {
         })
 
         binding.btnBuatPesanan.setOnClickListener {
-            uploadOrderKhusus()
+            setLoading(true)
+            order()
         }
     }
 
-    private fun uploadOrderKhusus() {
-        setLoading(true)
+    private fun order() {
         setDataOrder()
-        order(orders)
-    }
-
-    private fun order(orders: Orders) {
+        Log.d("order: ", "$orders")
         mainViewModel.uploadOrder(orders).observe(viewLifecycleOwner, { status ->
+
+            Log.d("order: ", status.toString())
             if (status == AppConstants.STATUS_SUCCESS) {
                 Toast.makeText(
                     requireContext(),
                     "Pesanan berhasil diproses, silahkan lihat status pesanan anda di halaman Transaksi",
                     Toast.LENGTH_SHORT
                 ).show()
-                requireActivity().supportFragmentManager.popBackStackImmediate()
+                setLoading(false)
+                requireActivity().onBackPressed()
+
             } else {
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                setLoading(false)
             }
         })
-        setLoading(false)
     }
 
     private fun setDataOrder() {
+        val orderId = "KHUSUS${userData.userId}-${userData.totalOrder}"
         orders = Orders(
-            orderId = "KHUSUS" + userData.userId,
+            orderId = orderId,
             address = userData.address,
             categoryName = binding.etKategori.text.toString(),
             createdAt = DateHelper.getCurrentDateTime(),
@@ -175,7 +177,8 @@ class CustomOrderFragment : Fragment() {
             longitude = userData.longitude,
             jobName = binding.etNamaPekerjaan.text.toString(),
             jobDesc = binding.etDeskripsiPekerjaan.text.toString(),
-            jobPerson = penyediaJasa
+            jobPerson = penyediaJasa,
+            verified = false
         )
     }
 
@@ -225,8 +228,8 @@ class CustomOrderFragment : Fragment() {
         }
     }
 
-    private fun setLoading(loading: Boolean) {
-        if (loading) {
+    private fun setLoading(isLoading: Boolean) {
+        if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
             binding.btnBuatPesanan.isClickable = false
         } else {

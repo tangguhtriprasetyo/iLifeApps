@@ -6,7 +6,7 @@ import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.ItemRvPilihMitraBinding
 import com.ibunda.ilifeapps.utils.loadImage
 
-class PilihMitraViewHolder(private val binding: ItemRvPilihMitraBinding) :
+class PilihMitraViewHolder(private val binding: ItemRvPilihMitraBinding, private val mPilihMitraClickCallback: PilihMitraClickCallback) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Shops) {
         with(binding) {
@@ -22,7 +22,7 @@ class PilihMitraViewHolder(private val binding: ItemRvPilihMitraBinding) :
 
         with(itemView) {
             setOnClickListener {
-
+                mPilihMitraClickCallback.onItemClicked(data)
             }
         }
     }
