@@ -13,6 +13,7 @@ import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentDetailPesananKhususBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment.Companion.EXTRA_ORDER_DIALOG_DATA
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -106,6 +107,9 @@ class DetailPesananKhususFragment : Fragment() {
 
     private fun dialogTawar() {
         val mDialogTawarJasaFragment = DialogTawarJasaFragment()
+        val mBundle = Bundle()
+        mBundle.putParcelable(EXTRA_ORDER_DIALOG_DATA, ordersData)
+        mDialogTawarJasaFragment.arguments = mBundle
         val mFragmentManager = childFragmentManager
         mDialogTawarJasaFragment.show(mFragmentManager, DialogTawarJasaFragment::class.java.simpleName)
     }

@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
-import com.ibunda.mitrailifeapps.data.model.Mitras
-import com.ibunda.mitrailifeapps.data.model.Orders
-import com.ibunda.mitrailifeapps.data.model.Shops
-import com.ibunda.mitrailifeapps.data.model.Ulasan
+import com.ibunda.mitrailifeapps.data.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -83,5 +80,9 @@ class MainViewModel: ViewModel() {
     fun getListUlasan(shopId: String): LiveData<List<Ulasan>?> {
         return firebaseServices.getListUlasan(shopId, "ulasan").asLiveData()
     }
+
+    //uploadTawaranJasa
+    fun uploadTawaran(orderId: String, offerOrder: OfferOrder): LiveData<String> =
+        firebaseServices.uploadTawaranShop(orderId, offerOrder)
 
 }

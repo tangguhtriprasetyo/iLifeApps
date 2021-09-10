@@ -1,15 +1,26 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa
 
+import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ibunda.mitrailifeapps.R
+import com.ibunda.mitrailifeapps.data.model.OfferOrder
+import com.ibunda.mitrailifeapps.data.model.Orders
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentDialogTawarJasaBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.PriceFormatHelper
+import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -18,6 +29,16 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDialogTawarJasaBinding
 
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private lateinit var ordersData: Orders
+    private lateinit var offerOrder: OfferOrder
+    private lateinit var shopsDataProfile: Shops
+
+    private lateinit var progressDialog : Dialog
+
+    companion object {
+        const val EXTRA_ORDER_DIALOG_DATA = "extra_order_dialog_data"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +52,14 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ordersData = Orders()
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+
+        if (arguments != null) {
+            ordersData = requireArguments().getParcelable(EXTRA_ORDER_DIALOG_DATA)!!
+        }
+        Log.e(ordersData.orderId.toString(), "orderIdDialog")
+
         binding.icClose.setOnClickListener {
             onDismiss(dialog!!)
         }
@@ -42,8 +71,7 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
             override fun beforeTextChanged(
                 s: CharSequence, start: Int,
                 count: Int, after: Int
-            ) {
-            }
+            ) {}
 
             override fun onTextChanged(
                 s: CharSequence, start: Int,
@@ -54,11 +82,54 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
         })
 
         binding.btnTawar.setOnClickListener {
-            val tawar: Int = binding.etTawar.text.toString().toInt()
-            val tawarPrice = PriceFormatHelper.getPriceFormat(tawar)
-            Toast.makeText(requireContext(), tawarPrice, Toast.LENGTH_SHORT).show()
+            progressDialog.show()
+            mainViewModel.getShopData()
+                .observe(viewLifecycleOwner, { shopsProfile ->
+                    if (shopsProfile != null) {
+                        shopsDataProfile = shopsProfile
+                        tawarJasa(shopsDataProfile)
+                    }
+                    Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+                })
         }
 
     }
+
+    private fun tawarJasa(shopsDataProfile: Shops) {
+        val tawar: Int = binding.etTawar.text.toString().toInt()
+        val tawarPrice = PriceFormatHelper.getPriceFormat(tawar)
+        offerOrder = OfferOrder(
+            shopId = shopsDataProfile.shopId,
+            shopName = shopsDataProfile.shopName,
+            shopPicture = shopsDataProfile.shopPicture,
+            verified = shopsDataProfile.verified,
+            priceTawar = tawarPrice,
+            orderId = ordersData.orderId,
+            userId = ordersData.userId,
+            rating = shopsDataProfile.rating
+        )
+        mainViewModel.uploadTawaran(ordersData.orderId.toString(), offerOrder).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    requireContext(),
+                    "Tawaran berhasil dilakukan.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                onDismiss(dialog!!)
+                val bottomNav: BottomNavigationView =
+                    requireActivity().findViewById(R.id.bottom_navigation)
+                bottomNav.visibility = View.VISIBLE
+                requireActivity().supportFragmentManager.popBackStackImmediate()
+            } else {
+                progressDialog.dismiss()
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+
+
 
 }

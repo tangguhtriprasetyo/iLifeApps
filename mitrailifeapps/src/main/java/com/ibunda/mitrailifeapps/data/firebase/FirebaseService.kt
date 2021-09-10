@@ -13,10 +13,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import com.ibunda.mitrailifeapps.data.model.Mitras
-import com.ibunda.mitrailifeapps.data.model.Orders
-import com.ibunda.mitrailifeapps.data.model.Shops
-import com.ibunda.mitrailifeapps.data.model.Ulasan
+import com.ibunda.mitrailifeapps.data.model.*
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_SUCCESS
 import com.ibunda.mitrailifeapps.utils.DateHelper.getCurrentDate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
@@ -436,6 +434,46 @@ class FirebaseServices {
         }
 
     }
+
+
+    fun uploadTawaranShop(orderId: String, offerOrder: OfferOrder): LiveData<String> {
+
+        val statusOrder = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val reference: CollectionReference = ordersRef.document(orderId).collection("listMitra")
+            val docRef: DocumentReference = reference.document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(offerOrder).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusOrder.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                }
+        }
+
+
+        return statusOrder
+
+    }
+
+
 
 
 }
