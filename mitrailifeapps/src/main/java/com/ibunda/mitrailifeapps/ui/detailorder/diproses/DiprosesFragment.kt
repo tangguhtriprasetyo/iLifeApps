@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentDiprosesBinding
 import com.ibunda.mitrailifeapps.databinding.ItemDialogFinishOrderBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
@@ -26,7 +27,9 @@ class DiprosesFragment : Fragment() {
     private lateinit var binding : FragmentDiprosesBinding
 
     private val detailViewModel: DetailViewModel by activityViewModels()
+
     private lateinit var ordersData: Orders
+    private lateinit var shopsDataProfile: Shops
 
     private lateinit var progressDialog : Dialog
 
@@ -126,8 +129,7 @@ class DiprosesFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                progressDialog.dismiss()
-                activity?.onBackPressed()
+                updateTotalPesananShop()
             } else {
                 progressDialog.dismiss()
                 Toast.makeText(
@@ -137,6 +139,36 @@ class DiprosesFragment : Fragment() {
                 ).show()
             }
         })
+    }
+
+    private fun updateTotalPesananShop() {
+
+        detailViewModel.getShopData()
+            .observe(viewLifecycleOwner, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shopsDataProfile = shopsProfile
+                    var totalOrder = shopsDataProfile.totalPesananSukses!!
+                    Log.e(totalOrder.toString(), "totalOrder")
+                    totalOrder+=1
+                    shopsDataProfile.totalPesananSukses = totalOrder
+
+                    detailViewModel.updateTotalOrderShop(shopsDataProfile).observe(viewLifecycleOwner, { updateOrder ->
+                        if (updateOrder != null) {
+                            progressDialog.dismiss()
+                            activity?.onBackPressed()
+                        } else {
+                            progressDialog.dismiss()
+                            Toast.makeText(
+                                requireActivity(),
+                                "Update Order Failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+
+                }
+                Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+            })
     }
 
     private fun sampaiTujuan() {

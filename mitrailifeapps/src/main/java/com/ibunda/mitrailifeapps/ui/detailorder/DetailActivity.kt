@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Orders
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.ActivityDetailBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.dibatalkan.DibatalkanFragment
 import com.ibunda.mitrailifeapps.ui.detailorder.diproses.DiprosesFragment
@@ -25,7 +26,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
     private val detailViewModel: DetailViewModel by viewModels()
+
     private lateinit var ordersData: Orders
+    private lateinit var shopsDataProfile: Shops
 
     companion object {
         const val PESANAN_FRAGMENT_TAG = "pesanan_fragment_tag"
@@ -57,7 +60,16 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
             if (orders != null) {
                 ordersData = orders
+                setShop(ordersData)
                 Log.e(ordersData.status, "statusOrder")
+            }
+        })
+    }
+
+    private fun setShop(ordersData: Orders) {
+        detailViewModel.setShopsProfile(ordersData.shopId.toString()).observe(this, { shopsProfile ->
+            if (shopsProfile != null) {
+                shopsDataProfile = shopsProfile
             }
         })
     }
