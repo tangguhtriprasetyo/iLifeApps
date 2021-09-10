@@ -405,7 +405,6 @@ class FirebaseServices {
         }
     }
 
-
     fun getListUlasan(query: String, collectionRef: String): Flow<List<Ulasan>?> {
 
         return callbackFlow {
@@ -435,13 +434,11 @@ class FirebaseServices {
 
     }
 
-
-    fun uploadTawaranShop(orderId: String, offerOrder: OfferOrder): LiveData<String> {
+    fun uploadTawaranShop(orderId: String, tawarId: String, offerOrder: OfferOrder): LiveData<String> {
 
         val statusOrder = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
-            val reference: CollectionReference = ordersRef.document(orderId).collection("listMitra")
-            val docRef: DocumentReference = reference.document()
+            val docRef: DocumentReference = ordersRef.document(orderId).collection("listMitra").document(tawarId)
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val document: DocumentSnapshot? = task.result
@@ -454,6 +451,19 @@ class FirebaseServices {
                                 statusOrder.postValue(STATUS_ERROR)
                                 Log.d(
                                     "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    } else {
+                        docRef.set(offerOrder, SetOptions.merge()).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusOrder.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorUpdateShop: ",
                                     it.exception?.message.toString()
                                 )
                             }

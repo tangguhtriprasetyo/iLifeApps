@@ -8,6 +8,7 @@ data class OfferOrder(
 
     var orderId: String? = null,
 
+    var tawarId: String? = null,
     var shopId: String? = null,
     var shopName: String? = null,
     var shopPicture: String? = null,

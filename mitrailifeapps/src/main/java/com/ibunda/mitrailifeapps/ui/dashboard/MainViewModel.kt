@@ -82,7 +82,7 @@ class MainViewModel: ViewModel() {
     }
 
     //uploadTawaranJasa
-    fun uploadTawaran(orderId: String, offerOrder: OfferOrder): LiveData<String> =
-        firebaseServices.uploadTawaranShop(orderId, offerOrder)
+    fun uploadTawaran(orderId: String, tawarId: String, offerOrder: OfferOrder): LiveData<String> =
+        firebaseServices.uploadTawaranShop(orderId, tawarId, offerOrder)
 
 }

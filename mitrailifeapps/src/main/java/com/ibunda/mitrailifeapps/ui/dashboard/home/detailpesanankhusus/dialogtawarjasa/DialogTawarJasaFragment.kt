@@ -98,7 +98,9 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
     private fun tawarJasa(shopsDataProfile: Shops) {
         val tawar: Int = binding.etTawar.text.toString().toInt()
         val tawarPrice = PriceFormatHelper.getPriceFormat(tawar)
+        val tawarId =  shopsDataProfile.shopId + ordersData.orderId
         offerOrder = OfferOrder(
+            tawarId = tawarId,
             shopId = shopsDataProfile.shopId,
             shopName = shopsDataProfile.shopName,
             shopPicture = shopsDataProfile.shopPicture,
@@ -108,7 +110,7 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
             userId = ordersData.userId,
             rating = shopsDataProfile.rating
         )
-        mainViewModel.uploadTawaran(ordersData.orderId.toString(), offerOrder).observe(viewLifecycleOwner, { status ->
+        mainViewModel.uploadTawaran(ordersData.orderId.toString(), tawarId, offerOrder).observe(viewLifecycleOwner, { status ->
             if (status == AppConstants.STATUS_SUCCESS) {
                 progressDialog.dismiss()
                 Toast.makeText(
