@@ -405,6 +405,37 @@ class FirebaseServices {
 
     }
 
+    fun getListTawaranMitra(
+        orderId: String
+    ): Flow<List<Shops>?> {
+
+        return callbackFlow {
+
+            val reference: CollectionReference =
+                firestoreRef.collection("orders").document(orderId).collection("listMitra")
+            val listenerRegistration =
+                reference.addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                    if (firestoreException != null) {
+                        cancel(
+                            message = "Error fetching posts",
+                            cause = firestoreException
+                        )
+                        return@addSnapshotListener
+                    }
+                    val listShops = querySnapshot?.documents?.mapNotNull {
+                        it.toObject<Shops>()
+                    }
+                    offer(listShops)
+                    Log.d("Shops", listShops.toString())
+                }
+            awaitClose {
+                Log.d(TAG, "getListShops: ")
+                listenerRegistration.remove()
+            }
+        }
+
+    }
+
     fun getListAdsHome(query: String, collectionRef: String): Flow<List<Ads>?> {
 
         return callbackFlow {

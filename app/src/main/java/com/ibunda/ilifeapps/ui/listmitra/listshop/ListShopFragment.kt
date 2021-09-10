@@ -124,6 +124,7 @@ class ListShopFragment : Fragment() {
             binding.rvListMitra.visibility = View.GONE
             binding.linearEmptyMitra.visibility = View.VISIBLE
         } else {
+            binding.linearEmptyMitra.visibility = View.GONE
             binding.rvListMitra.visibility = View.VISIBLE
         }
     }

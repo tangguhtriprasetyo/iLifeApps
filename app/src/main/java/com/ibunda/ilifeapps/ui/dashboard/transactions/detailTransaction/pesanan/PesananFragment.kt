@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentPesananBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
+import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.pilihmitra.PilihMitraFragment
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
@@ -21,11 +24,15 @@ import com.ibunda.ilifeapps.utils.loadImage
 
 class PesananFragment : Fragment() {
 
-    private lateinit var binding : FragmentPesananBinding
+    private lateinit var binding: FragmentPesananBinding
 
     private val transactionViewModel: TransactionViewModel by activityViewModels()
     private lateinit var orderData: Orders
     private var reasonCancel: String? = null
+
+    companion object {
+        const val PILIH_MITRA_FRAGMENT_TAG = "pilih_mitra_fragment_tag"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,14 +66,17 @@ class PesananFragment : Fragment() {
         binding.icBack.setOnClickListener {
             activity?.onBackPressed()
         }
+
         binding.btnBatalkanPesanan.setOnClickListener {
             val mDialogBatalkanPesananFragment = DialogBatalkanPesananFragment()
             val mFragmentManager = childFragmentManager
             mDialogBatalkanPesananFragment.show(mFragmentManager, DialogBatalkanPesananFragment::class.java.simpleName)
         }
+
         binding.btnUbahMetodePembayaran.setOnClickListener {
             Toast.makeText(requireContext(), "Saat ini hanya tersedia metode pembayaran Bayar di Tempat (COD)", Toast.LENGTH_SHORT).show()
         }
+
         binding.btnLihatProfil.setOnClickListener {
             val intent =
                 Intent(requireActivity(), ListMitraActivity::class.java)
@@ -74,6 +84,24 @@ class PesananFragment : Fragment() {
             intent.putExtra(ListMitraActivity.EXTRA_TRANSACTION, true)
             intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
             startActivity(intent)
+        }
+
+        binding.btnPilihMitra.setOnClickListener {
+            val mFragmentManager = parentFragmentManager
+            val mPilihMitraFragment = PilihMitraFragment()
+
+            val mBundle = Bundle()
+            mBundle.putString(PilihMitraFragment.EXTRA_ORDER_ID, orderData.orderId)
+            mPilihMitraFragment.arguments = mBundle
+
+            mFragmentManager.commit {
+                addToBackStack(null)
+                replace(
+                    R.id.host_detail_activity,
+                    mPilihMitraFragment,
+                    PILIH_MITRA_FRAGMENT_TAG
+                )
+            }
         }
     }
 
