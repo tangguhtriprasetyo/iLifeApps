@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -189,25 +190,37 @@ class FirebaseServices {
         return downloadUrl
     }
 
-    fun updatePasswordMitra(newPassword: String?): LiveData<Mitras> {
-        val authenticatedUser = MutableLiveData<Mitras>()
+    fun updatePasswordMitra(email: String?, recentPassword: String?, newPassword: String?): LiveData<String> {
+        val statusUpdate = MutableLiveData<String>()
         val user: FirebaseUser? = firebaseAuth.currentUser
+        val credential = EmailAuthProvider
+            .getCredential(email!!, recentPassword!!)
         CoroutineScope(Dispatchers.IO).launch {
-            user!!.updatePassword(newPassword!!)
+            user!!.reauthenticate(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(TAG, "User password updated.")
-                    }
-                     else {
-                        Log.d("Error Authentication", "signInWithGoogle: ", task.exception)
-                        val errorMessage = Mitras(
-                            errorMessage = task.exception?.message
-                        )
-                        authenticatedUser.postValue(errorMessage)
+                        Log.d(TAG, "User re-authenticated.")
+                        user.updatePassword(newPassword!!)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    statusUpdate.postValue(STATUS_SUCCESS)
+                                    Log.d(TAG, "Mitra password updated.")
+                                }
+                                else {
+                                    Log.d("Error Authentication", "passwordUpdate: ", task.exception)
+                                    STATUS_ERROR = task.exception?.message.toString()
+                                    statusUpdate.postValue(STATUS_ERROR)
+                                }
+                            }
+                    } else {
+                        Log.d(TAG, "Error auth failed")
+                        STATUS_ERROR = task.exception?.message.toString()
+                        statusUpdate.postValue(STATUS_ERROR)
                     }
                 }
+
         }
-        return authenticatedUser
+        return statusUpdate
     }
 
     fun getListOrderKhususData(

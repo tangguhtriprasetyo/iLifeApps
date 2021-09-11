@@ -44,6 +44,10 @@ class MainViewModel: ViewModel() {
     fun editProfileMitra(authUser: Mitras): LiveData<Mitras> =
         firebaseServices.editMitraData(authUser)
 
+    //Update Password Mitra
+    fun updatePasswordMitra(email: String, recentPassword: String, newPassword: String): LiveData<String> =
+        firebaseServices.updatePasswordMitra(email, recentPassword, newPassword)
+
     //EditShopData
     fun editShopData(authUser: Shops): LiveData<Shops> =
         firebaseServices.editShopData(authUser)

@@ -14,6 +14,7 @@ import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentEditAkunMitraBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_SUCCESS
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -26,6 +27,7 @@ class EditAkunMitraFragment : Fragment() {
     private lateinit var mitraDataProfile: Mitras
 
     private var valueType: String? = null
+    private var emailMitra: String? = null
 
     private lateinit var progressDialog : Dialog
 
@@ -68,6 +70,7 @@ class EditAkunMitraFragment : Fragment() {
                 if (userProfile != null) {
                     mitraDataProfile = userProfile
                     setProfileData(mitraDataProfile)
+                    emailMitra = mitraDataProfile.email
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
             })
@@ -137,6 +140,40 @@ class EditAkunMitraFragment : Fragment() {
     private fun initChangePassword() {
         binding.tvTitle.text = getString(R.string.ubah_kata_sandi)
         binding.linearEditPassword.visibility = View.VISIBLE
+        binding.btnChangePassword.setOnClickListener {
+            if (validateInputPassword()) {
+                updatePasswordData()
+            }
+        }
+    }
+
+    private fun updatePasswordData() {
+        progressDialog.show()
+        val recentPass = binding.etRecentPassword.text.toString().trim()
+        val newPass = binding.etNewPassword.text.toString().trim()
+
+        mainViewModel.updatePasswordMitra(emailMitra.toString(), recentPass, newPass).observe(viewLifecycleOwner, { status ->
+            if (status == STATUS_SUCCESS) {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    requireActivity(),
+                    "Kata Sandi berhasil diperbarui.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                val bottomNav: BottomNavigationView =
+                    requireActivity().findViewById(R.id.bottom_navigation)
+                bottomNav.visibility = View.VISIBLE
+                requireActivity().supportFragmentManager.popBackStackImmediate()
+            } else {
+                progressDialog.dismiss()
+                Toast.makeText(
+                    requireActivity(),
+                    status,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
     }
 
     private fun setProfileData(mitraDataProfile: Mitras) {
@@ -191,6 +228,52 @@ class EditAkunMitraFragment : Fragment() {
             }
             alamat.length < 3 -> {
                 binding.etAlamatLengkap.error = "Masukkan alamat dengan benar."
+                false
+            }
+            else -> {
+                true
+            }
+        }
+
+    }
+
+    private fun validateInputPassword(): Boolean {
+
+        val recentPass = binding.etRecentPassword.text.toString().trim()
+        val newPass = binding.etNewPassword.text.toString().trim()
+        val confirmPass = binding.etConfirmPassword.text.toString().trim()
+
+        return when {
+            recentPass.isEmpty() -> {
+                binding.etRecentPassword.error = "Kata Sandi Lama tidak boleh kosong."
+                false
+            }
+            newPass.isEmpty() -> {
+                binding.etNewPassword.error = "Kata Sandi Baru tidak boleh kosong."
+                false
+            }
+            confirmPass.isEmpty() -> {
+                binding.etConfirmPassword.error = "Konfirmasi Kata Sandi tidak boleh kosong."
+                false
+            }
+            newPass.length < 6 -> {
+                binding.etNewPassword.error = "Minimal Kata Sandi adalah 6 huruf."
+                false
+            }
+            newPass != confirmPass -> {
+                Toast.makeText(requireContext(), "Kata Sandi baru yang dimasukkan tidak sama.", Toast.LENGTH_SHORT).show()
+                false
+            }
+            recentPass.contains(" ") -> {
+                binding.etRecentPassword.error = "Kata Sandi tidak boleh menggunakan spasi."
+                false
+            }
+            newPass.contains(" ") -> {
+                binding.etNewPassword.error = "Kata Sandi tidak boleh menggunakan spasi."
+                false
+            }
+            confirmPass.contains(" ") -> {
+                binding.etConfirmPassword.error = "Kata Sandi tidak boleh menggunakan spasi."
                 false
             }
             else -> {
