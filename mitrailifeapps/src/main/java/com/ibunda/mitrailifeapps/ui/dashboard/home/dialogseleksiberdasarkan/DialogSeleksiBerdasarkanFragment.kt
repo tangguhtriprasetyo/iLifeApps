@@ -9,7 +9,9 @@ import androidx.fragment.app.DialogFragment
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.databinding.FragmentDialogSeleksiBerdasarkanBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.home.HomeFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class DialogSeleksiBerdasarkanFragment : DialogFragment() {
 
     private var mView: View? = null

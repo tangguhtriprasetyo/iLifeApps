@@ -226,15 +226,22 @@ class FirebaseServices {
     fun getListOrderKhususData(
         query: Boolean,
         status: String,
+        sort: Boolean,
+        category: String,
         collectionRef: String
     ): Flow<List<Orders>?> {
 
         return callbackFlow {
 
             val collectionRef: CollectionReference = firestoreRef.collection(collectionRef)
+            val query = collectionRef.whereEqualTo("orderKhusus", query).whereEqualTo("status", status)
+            val listenerQuery = if (!sort) {
+                query
+            } else {
+                query.whereEqualTo("categoryName", category)
+            }
             val listenerRegistration =
-                collectionRef.whereEqualTo("orderKhusus", query).whereEqualTo("status", status)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                listenerQuery.addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
                             cancel(
                                 message = "Error fetching posts",

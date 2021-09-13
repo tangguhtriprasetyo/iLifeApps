@@ -41,7 +41,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:focusableInTouchMode="true"
             android:hint="@string/nama_pengguna"
             app:boxStrokeColor="@color/colorPrimaryDark"
@@ -57,7 +57,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_username"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
@@ -87,7 +87,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
@@ -118,7 +118,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:inputType="textPassword"
                 android:paddingStart="24dp"
@@ -150,7 +150,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_confirm_password"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:inputType="textPassword"
                 android:paddingStart="24dp"
@@ -171,6 +171,7 @@
             <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="40dp"
+                android:buttonTint="@color/colorPrimaryDark"
                 android:layout_height="wrap_content" />
 
             <TextView

@@ -13,36 +13,43 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="176dp"
-            android:layout_height="72dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/ic_logo_mitra_i_life" />
+            android:background="@drawable/ic_il_verified" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/Responsive24dp"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Akun anda sedang dalam proses verifikasi oleh pihak i-life."
+                android:text="@string/tunggu_sebentar"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/akun_anda_belum_terverifikasi_oleh_n_pihak_i_life"
                 android:textColor="@color/font_default"
                 android:textSize="16sp" />
+
+
 
         </LinearLayout>
 

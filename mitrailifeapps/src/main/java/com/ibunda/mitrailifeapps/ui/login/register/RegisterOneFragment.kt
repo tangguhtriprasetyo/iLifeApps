@@ -31,8 +31,10 @@ class RegisterOneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            if (validateName() && validateEmail() && validatePassword()) {
+            if (validateName() && validateEmail() && validatePassword() && binding.checkBox.isChecked) {
                 nextRegister()
+            } else if (!binding.checkBox.isChecked) {
+                Toast.makeText(requireContext(), "Silahkan centang checkbox untuk menyetujui dan melanjutkan pendaftaran akun.", Toast.LENGTH_SHORT).show()
             }
         }
 

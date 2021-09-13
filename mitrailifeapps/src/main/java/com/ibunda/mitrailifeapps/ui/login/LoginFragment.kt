@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.databinding.FragmentLoginBinding
+import com.ibunda.mitrailifeapps.databinding.ItemDialogLoginFailedBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.login.register.RegisterOneFragment
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper.Companion.progressDialog
@@ -56,17 +57,21 @@ class LoginFragment : Fragment() {
         }
 
         binding.tvRegister.setOnClickListener {
-            val mRegisterOneFragment = RegisterOneFragment()
-            val mFragmentManager = parentFragmentManager
-            mFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.host_login_activity,
-                    mRegisterOneFragment
-                )
-            }
+            gotoRegister()
         }
 
+    }
+
+    private fun gotoRegister() {
+        val mRegisterOneFragment = RegisterOneFragment()
+        val mFragmentManager = parentFragmentManager
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_login_activity,
+                mRegisterOneFragment
+            )
+        }
     }
 
     private fun userLogin() {
@@ -93,11 +98,15 @@ class LoginFragment : Fragment() {
                     }
                 } else if (mitraData.errorMessage != null) {
                     progressDialog.dismiss()
-                    Toast.makeText(
-                        requireContext(),
-                        mitraData.errorMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val dialog = Dialog(requireContext())
+                    val binding: ItemDialogLoginFailedBinding =
+                        ItemDialogLoginFailedBinding.inflate(LayoutInflater.from(context))
+                    dialog.setContentView(binding.root)
+                    binding.btnRegister.setOnClickListener {
+                        gotoRegister()
+                        dialog.dismiss()
+                    }
+                    dialog.show()
                 }
             })
 

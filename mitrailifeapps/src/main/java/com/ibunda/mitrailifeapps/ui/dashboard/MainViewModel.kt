@@ -57,8 +57,8 @@ class MainViewModel: ViewModel() {
         firebaseServices.uploadFiles(uri, uid, type, name)
 
     //Home
-    fun getListOrderKhusus(orderKhusus: Boolean, status: String): LiveData<List<Orders>?> {
-        return firebaseServices.getListOrderKhususData(orderKhusus, status, "orders").asLiveData()
+    fun getListOrderKhusus(orderKhusus: Boolean, status: String, sort: Boolean, category: String): LiveData<List<Orders>?> {
+        return firebaseServices.getListOrderKhususData(orderKhusus, status, sort, category, "orders").asLiveData()
     }
 
     //Detail Order Khusus

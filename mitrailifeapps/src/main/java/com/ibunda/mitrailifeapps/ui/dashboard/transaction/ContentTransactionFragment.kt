@@ -80,35 +80,41 @@ class ContentTransactionFragment : Fragment() {
     }
 
     private fun setDataTransaction(statusOrder: String) {
-
+        showProgressBar(true)
         Log.d("ORDERS", "shopId $shopId")
         transactionViewModel.getListOrders(statusOrder, shopId.toString())
             .observe(viewLifecycleOwner, { listOrders ->
                 when (statusOrder) {
                     STATUS_DIPROSES -> {
                         if (listOrders != null && listOrders.isNotEmpty()) {
+                            showProgressBar(false)
                             showEmptyDiproses(false)
                             orderAdapter.setListOrders(listOrders)
                             setTransactionAdapter()
                         } else {
+                            showProgressBar(false)
                             showEmptyDiproses(true)
                         }
                     }
                     STATUS_SELESAI -> {
                         if (listOrders != null && listOrders.isNotEmpty()) {
+                            showProgressBar(false)
                             showEmptySelesai(false)
                             orderAdapter.setListOrders(listOrders)
                             setTransactionAdapter()
                         } else {
+                            showProgressBar(false)
                             showEmptySelesai(true)
                         }
                     }
                     STATUS_DIBATALKAN -> {
                         if (listOrders != null && listOrders.isNotEmpty()) {
+                            showProgressBar(false)
                             showEmptyDibatalkan(false)
                             orderAdapter.setListOrders(listOrders)
                             setTransactionAdapter()
                         } else {
+                            showProgressBar(false)
                             showEmptyDibatalkan(true)
                         }
                     }
@@ -130,6 +136,7 @@ class ContentTransactionFragment : Fragment() {
             binding.linearEmptyDiproses.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
+            binding.linearEmptyDiproses.visibility = View.GONE
         }
     }
 
@@ -139,6 +146,7 @@ class ContentTransactionFragment : Fragment() {
             binding.linearEmptySelesai.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
+            binding.linearEmptySelesai.visibility = View.GONE
         }
     }
 
@@ -148,6 +156,15 @@ class ContentTransactionFragment : Fragment() {
             binding.linearEmptyDibatalkan.visibility = View.VISIBLE
         } else {
             binding.rvListOrderTransaction.visibility = View.VISIBLE
+            binding.linearEmptyDibatalkan.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressBar(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 

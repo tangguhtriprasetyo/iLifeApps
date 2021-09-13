@@ -46,7 +46,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:inputType="text"
                 android:paddingStart="24dp"
@@ -79,7 +79,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:inputType="textPassword"
                 android:paddingStart="24dp"

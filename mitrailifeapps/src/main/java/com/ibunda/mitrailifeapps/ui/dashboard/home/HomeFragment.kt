@@ -27,6 +27,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val mainViewModel: MainViewModel by activityViewModels()
     private val homeAdapter = HomeAdapter()
 
+    private var categoryOrder: String? = null
+    private var sort: Boolean = false
+
     private lateinit var mitraDataProfile: Mitras
 
     override fun onCreateView(
@@ -41,6 +44,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.e(sort.toString(), "sorting")
+
+
+        getProfileData()
+    }
+
+    private fun getProfileData() {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -53,13 +63,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
             })
-
     }
 
     private fun initView() {
         binding.rvPesananKhusus.visibility = View.VISIBLE
-
-        setDataRvListOrders()
+        setDataRvListOrders(sort)
         binding.linearSortby.setOnClickListener(this)
         binding.linearMessage.setOnClickListener(this)
         binding.linearNotification.setOnClickListener(this)
@@ -85,11 +93,17 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setDataRvListOrders() {
-        mainViewModel.getListOrderKhusus(true, STATUS_PESANAN).observe(viewLifecycleOwner, { listOrders ->
-            if (listOrders != null) {
+    private fun setDataRvListOrders(sort : Boolean) {
+        showProgressBar(true)
+        mainViewModel.getListOrderKhusus(true, STATUS_PESANAN,sort, categoryOrder.toString()).observe(viewLifecycleOwner, { listOrders ->
+            if (listOrders != null && listOrders.isNotEmpty()) {
+                showProgressBar(false)
+                showEmptyOrder(false)
                 homeAdapter.setListOrders(listOrders)
                 setOrdersAdapter()
+            } else {
+                showProgressBar(false)
+                showEmptyOrder(true)
             }
         })
     }
@@ -131,25 +145,34 @@ class HomeFragment : Fragment(), View.OnClickListener {
     internal var optionDialogListener: DialogSeleksiBerdasarkanFragment.OnOptionDialogListener =
         object : DialogSeleksiBerdasarkanFragment.OnOptionDialogListener {
             override fun onOptionChosen(category: String?) {
-                val kategoriMitra: String? = category
-
+                categoryOrder = category
+                sort = categoryOrder != "Semua"
+                setDataRvListOrders(sort)
             }
         }
 
+    private fun showEmptyOrder(state: Boolean) {
+        if (state) {
+            binding.linearEmptyPesanan.visibility = View.VISIBLE
+            binding.rvPesananKhusus.visibility = View.GONE
+        } else {
+            binding.rvPesananKhusus.visibility = View.VISIBLE
+            binding.linearEmptyPesanan.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressBar(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        mainViewModel.getProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    mitraDataProfile = userProfile
-                    if (mitraDataProfile.totalShop == 0) {
-                        initEmptyShop()
-                    } else {
-                        initView()
-                    }
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+        getProfileData()
     }
+
 
 }

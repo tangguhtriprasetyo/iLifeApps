@@ -44,7 +44,11 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getProfileData()
 
+    }
+
+    private fun getProfileData() {
         mainViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -57,7 +61,6 @@ class OrderFragment : Fragment() {
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
             })
-
     }
 
     private fun initEmptyShop() {
@@ -92,12 +95,15 @@ class OrderFragment : Fragment() {
     }
 
     private fun setDataRvListOrders(shopsDataProfile: Shops) {
+        showProgressBar(true)
         mainViewModel.getListOrders(STATUS_PESANAN, shopsDataProfile.shopId.toString()).observe(viewLifecycleOwner, { listOrders ->
             if (listOrders != null && listOrders.isNotEmpty()) {
+                showProgressBar(false)
                 showEmptyOrder(false)
                 orderAdapter.setListOrders(listOrders)
                 setOrderAdapter()
             } else {
+                showProgressBar(false)
                 showEmptyOrder(true)
             }
         })
@@ -114,25 +120,24 @@ class OrderFragment : Fragment() {
     private fun showEmptyOrder(state: Boolean) {
         if (state) {
             binding.linearEmptyPesanan.visibility = View.VISIBLE
+            binding.rvPesanan.visibility = View.GONE
         } else {
+            binding.linearEmptyPesanan.visibility = View.GONE
             binding.rvPesanan.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showProgressBar(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 
     override fun onResume() {
         super.onResume()
-        mainViewModel.getProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    mitraDataProfile = userProfile
-                    if (mitraDataProfile.totalShop == 0) {
-                        initEmptyShop()
-                    } else {
-                        initShops()
-                    }
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+        getProfileData()
     }
 
 }
