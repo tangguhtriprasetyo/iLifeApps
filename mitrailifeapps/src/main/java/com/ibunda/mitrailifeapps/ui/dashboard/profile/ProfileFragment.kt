@@ -186,6 +186,9 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
     private fun openUlasan() {
         val mUlasanFragment = UlasanFragment()
+        val mBundle = Bundle()
+        mBundle.putBoolean(UlasanFragment.FROM_TRANSACTION, false)
+        mUlasanFragment.arguments = mBundle
         setCurrentFragment(mUlasanFragment)
     }
 
@@ -218,6 +221,11 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
     override fun onResume() {
         super.onResume()
+        getMitraData()
+    }
+
+    override fun onStart() {
+        super.onStart()
         getMitraData()
     }
 

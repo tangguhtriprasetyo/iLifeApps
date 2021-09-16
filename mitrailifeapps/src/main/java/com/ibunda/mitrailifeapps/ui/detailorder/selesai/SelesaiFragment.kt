@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.detailorder.selesai
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentSelesaiBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -68,6 +70,13 @@ class SelesaiFragment : Fragment() {
     private fun initOnClick() {
         binding.icBack.setOnClickListener {
             activity?.onBackPressed()
+        }
+        binding.btnLihatPenilaian.setOnClickListener {
+            val intent =
+                Intent(requireActivity(), MainActivity::class.java)
+            intent.putExtra(MainActivity.EXTRA_SHOP, ordersData.shopId)
+            intent.putExtra(MainActivity.EXTRA_TRANSACTION, true)
+            startActivity(intent)
         }
     }
 

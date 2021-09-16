@@ -24,6 +24,7 @@ import com.ibunda.mitrailifeapps.databinding.ActivityMainBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.home.HomeFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.order.OrderFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.ProfileFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.profile.ulasan.UlasanFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.transaction.TransactionFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.verification.FragmentVerification
 import com.ibunda.mitrailifeapps.ui.login.LoginActivity
@@ -50,10 +51,12 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         const val TRANSACTIONS_FRAGMENT_TAG = "transactions_fragment_tag"
         const val PROFILE_FRAGMENT_TAG = "profile_fragment_tag"
         const val VERIFICATION_FRAGMENT_TAG = "verification_fragment_tag"
+        const val ULASAN_FRAGMENT_TAG = "ulasan_fragment_tag"
         const val CHILD_FRAGMENT = "child_fragment"
         const val EXTRA_USER = "extra_user"
         const val PREFS_NAME = "mitra_pref"
-        const val EXTRA_CHANGE_SHOP = "extra_change_shop"
+        const val EXTRA_SHOP = "extra_shop"
+        const val EXTRA_TRANSACTION = "extra_ulasan"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,21 +64,32 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mitra = intent.getParcelableExtra<Mitras>(EXTRA_USER) as Mitras
-
-        setMitraDataProfile()
-//        initNotification()
-
         val homeFragment = HomeFragment()
         val orderFragment = OrderFragment()
         val transactionsFragment = TransactionFragment()
         val profileFragment = ProfileFragment()
         val verificationFragment = FragmentVerification()
 
-        if (savedInstanceState != null) {
-            supportFragmentManager.findFragmentByTag(HOME_FRAGMENT_TAG)
-                ?.let { setCurrentFragment(it, HOME_FRAGMENT_TAG) }
+        if (intent.hasExtra(EXTRA_TRANSACTION)) {
+            val shopId = intent.getStringExtra(EXTRA_SHOP)
+            mainViewModel.setShopsProfile(shopId.toString()).observe(this, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shops = shopsProfile
+                    val ulasan = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
+                    val mUlasanFragment = UlasanFragment()
+                    val mBundle = Bundle()
+                    mBundle.putBoolean(UlasanFragment.FROM_TRANSACTION, ulasan)
+                    mUlasanFragment.arguments = mBundle
+                    setCurrentFragment(mUlasanFragment, ULASAN_FRAGMENT_TAG)
+                }
+            })
+
         } else {
+
+            mitra = intent.getParcelableExtra<Mitras>(EXTRA_USER) as Mitras
+
+            setMitraDataProfile()
+            Log.e("savedInstanceFalse", "homeFragment")
             mainViewModel.setMitraProfile(mitra.mitraId.toString()).observe(this, { mitraProfile ->
                 if (mitraProfile != null) {
                     mitra = mitraProfile
@@ -87,6 +101,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
                 }
             })
         }
+
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -123,7 +138,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             super.onBackPressed()
             binding.bottomNavigation.visibility = View.VISIBLE
             return
-
         }
 
         this.doubleBackToExit = true
@@ -135,7 +149,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
     override fun onStart() {
         super.onStart()
         firebaseAuth.addAuthStateListener(this)
-        setMitraDataProfile()
     }
 
     private fun setMitraDataProfile() {

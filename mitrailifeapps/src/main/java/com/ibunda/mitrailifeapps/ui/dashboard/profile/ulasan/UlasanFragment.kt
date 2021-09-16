@@ -18,12 +18,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class UlasanFragment : Fragment() {
 
-    private lateinit var binding : FragmentUlasanBinding
+    private lateinit var binding: FragmentUlasanBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var shopsDataProfile: Shops
 
     private val ulasanAdapter = UlasanAdapter()
+
+    companion object {
+        const val FROM_TRANSACTION = "from_transaction"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +42,21 @@ class UlasanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initShops()
-        initView()
+
+        val bottomNav: BottomNavigationView =
+            requireActivity().findViewById(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
+
+        val ulasan = requireArguments().getBoolean(FROM_TRANSACTION, false)
+        Log.e(ulasan.toString(), "ulasanInfo")
+        binding.icBack.setOnClickListener {
+            if (ulasan) {
+                activity?.onBackPressed()
+            } else {
+                bottomNav.visibility = View.VISIBLE
+                requireActivity().supportFragmentManager.popBackStackImmediate()
+            }
+        }
 
     }
 
@@ -58,31 +76,25 @@ class UlasanFragment : Fragment() {
         with(binding) {
             tvValueRating.text = shopsDataProfile.rating.toString()
             ratingBar.rating = (shopsDataProfile.rating?.toFloat()!!)
-            tvDescRating.text = shopsDataProfile.rating.toString() + " dari 5 " + "(" + shopsDataProfile.totalUlasan + " ulasan)"
-        }
-    }
-
-    private fun initView() {
-        val bottomNav: BottomNavigationView =
-            requireActivity().findViewById(R.id.bottom_navigation)
-        bottomNav.visibility = View.GONE
-
-        binding.icBack.setOnClickListener {
-            bottomNav.visibility = View.VISIBLE
-            requireActivity().supportFragmentManager.popBackStackImmediate()
+            tvDescRating.text =
+                shopsDataProfile.rating.toString() + " dari 5 " + "(" + shopsDataProfile.totalUlasan + " ulasan)"
         }
     }
 
     private fun setDataRvListUlasan(shopsDataProfile: Shops) {
-        mainViewModel.getListUlasan(shopsDataProfile.shopId.toString()).observe(viewLifecycleOwner, { listUlasan ->
-            if (listUlasan != null && listUlasan.isNotEmpty()) {
-                showEmptyOrder(false)
-                ulasanAdapter.setListUlasan(listUlasan)
-                setOrderAdapter()
-            } else {
-                showEmptyOrder(true)
-            }
-        })
+        showProgressBar(true)
+        mainViewModel.getListUlasan(shopsDataProfile.shopId.toString())
+            .observe(viewLifecycleOwner, { listUlasan ->
+                if (listUlasan != null && listUlasan.isNotEmpty()) {
+                    showEmptyOrder(false)
+                    showProgressBar(false)
+                    ulasanAdapter.setListUlasan(listUlasan)
+                    setOrderAdapter()
+                } else {
+                    showEmptyOrder(true)
+                    showProgressBar(false)
+                }
+            })
     }
 
     private fun setOrderAdapter() {
@@ -96,8 +108,18 @@ class UlasanFragment : Fragment() {
     private fun showEmptyOrder(state: Boolean) {
         if (state) {
             binding.linearEmptyPilihMitra.visibility = View.VISIBLE
+            binding.rvUlasan.visibility = View.GONE
         } else {
             binding.rvUlasan.visibility = View.VISIBLE
+            binding.linearEmptyPilihMitra.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressBar(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 
