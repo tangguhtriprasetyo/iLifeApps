@@ -14,7 +14,7 @@ class NotificationsViewHolder (private val binding: ItemRvNotificationBinding) :
             if (!data.read!!) {
                 linearNotif.setBackgroundResource(R.color.bgChatNotif)
             }
-            imgProfile.loadImage(data.shopPicture)
+            imgProfile.loadImage(data.senderPicture)
             tvTitle.text = (data.title)
             tvBody.text = (data.body)
             tvDate.text = (data.date)

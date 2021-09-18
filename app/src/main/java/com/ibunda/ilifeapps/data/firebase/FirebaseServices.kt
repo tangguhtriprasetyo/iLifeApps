@@ -32,6 +32,8 @@ class FirebaseServices {
     private val shopsRef: CollectionReference = firestoreRef.collection("shops")
     private val ordersRef: CollectionReference = firestoreRef.collection("orders")
     private val ulasanRef: CollectionReference = firestoreRef.collection("ulasan")
+    private val notifRef: CollectionReference = firestoreRef.collection("notifications")
+    private val chatRef: CollectionReference = firestoreRef.collection("chatRoom")
 
     private var STATUS_ERROR = "error"
 
@@ -494,16 +496,54 @@ class FirebaseServices {
 
     }
 
-    fun getNotifications() {
+    fun getNotifications(userId: String): Flow<List<Notifications>?> {
+        return callbackFlow {
 
+            val listenerRegistration =
+                notifRef.whereEqualTo("receiverId", userId)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listNotif = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Notifications>()
+                        }
+                        offer(listNotif)
+                        Log.d("Notif", listNotif.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
     }
 
-    fun getListChat() {
+    fun getListChatRoom(userId: String): Flow<List<Chats>?> {
+        return callbackFlow {
 
-    }
-
-    fun getChatRoom() {
-
+            val listenerRegistration =
+                chatRef.whereEqualTo("userId", userId)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listChat = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Chats>()
+                        }
+                        offer(listChat)
+                        Log.d("Chats", listChat.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
     }
 
 
@@ -511,8 +551,38 @@ class FirebaseServices {
 
     }
 
-    fun uploadNotification() {
+    fun uploadNotification(notif: Notifications): LiveData<String> {
+        val statusNotif = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = notifRef.document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(notif).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusNotif.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusNotif.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusNotif.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadNotif: ", it.message.toString())
+                }
+        }
 
+
+        return statusNotif
     }
 
 

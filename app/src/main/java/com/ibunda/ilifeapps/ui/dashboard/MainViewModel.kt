@@ -21,6 +21,14 @@ class MainViewModel : ViewModel() {
         return firebaseServices.getListAdsHome(category, "ads").asLiveData()
     }
 
+    fun getListNotif(userId: String): LiveData<List<Notifications>?> {
+        return firebaseServices.getNotifications(userId).asLiveData()
+    }
+
+    fun getListChats(userId: String): LiveData<List<Chats>?> {
+        return firebaseServices.getListChatRoom(userId).asLiveData()
+    }
+
     fun setUserProfile(userId: String): LiveData<Users> {
         _userProfile = firebaseServices.getUserData(userId) as MutableLiveData<Users>
         return _userProfile

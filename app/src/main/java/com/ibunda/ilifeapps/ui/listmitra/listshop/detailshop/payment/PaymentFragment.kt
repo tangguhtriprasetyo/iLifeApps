@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
@@ -127,6 +128,27 @@ class PaymentFragment : Fragment() {
 
     private fun order(orders: Orders) {
         listMitraViewModel.uploadOrder(orders).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                sendNotif()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun sendNotif() {
+        val notif = Notifications(
+            body = AppConstants.MESSAGE_STATUS_PESANAN,
+            date = DateHelper.getCurrentDateTime(),
+            orderId = orders.orderId,
+            read = false,
+            receiverId = shopData.shopId,
+            receiverPicture = shopData.shopPicture,
+            title = AppConstants.TITLE_STATUS_PESANAN,
+            senderId = userData.userId,
+            senderPicture = userData.avatar
+        )
+        listMitraViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
             if (status == AppConstants.STATUS_SUCCESS) {
                 Toast.makeText(
                     requireContext(),

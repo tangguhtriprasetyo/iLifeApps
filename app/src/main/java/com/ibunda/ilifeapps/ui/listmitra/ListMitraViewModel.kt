@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
+import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
@@ -23,6 +24,9 @@ class ListMitraViewModel : ViewModel() {
 
     fun uploadOrder(orders: Orders): LiveData<String> =
         firebaseServices.uploadOrder(orders)
+
+    fun uploadNotif(notif: Notifications): LiveData<String> =
+        firebaseServices.uploadNotification(notif)
 
     fun setShopData(shopId: String): LiveData<Shops> {
         _shopData = firebaseServices.getShopData(shopId) as MutableLiveData<Shops>

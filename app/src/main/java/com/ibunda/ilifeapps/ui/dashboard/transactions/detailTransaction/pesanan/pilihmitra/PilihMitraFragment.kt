@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentPilihMitraBinding
@@ -96,10 +97,35 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
         orders.verified = data.verified
         orders.totalPrice = data.priceTawar
         orders.status = AppConstants.STATUS_DIPROSES
-        pilihMitraViewModel.updateOrderData(orders).observe(viewLifecycleOwner, {orderData ->
+        pilihMitraViewModel.updateOrderData(orders).observe(viewLifecycleOwner, { orderData ->
             if (orderData != null) {
-                Toast.makeText(requireContext(), "SUKSES", Toast.LENGTH_SHORT).show()
+                sendNotif()
+            }
+        })
+    }
+
+    private fun sendNotif() {
+        val notif = Notifications(
+            body = AppConstants.MESSAGE_STATUS_PESANAN,
+            date = DateHelper.getCurrentDateTime(),
+            orderId = orders.orderId,
+            read = false,
+            receiverId = orders.shopId,
+            receiverPicture = orders.shopPicture,
+            title = AppConstants.TITLE_STATUS_PESANAN,
+            senderId = orders.userId,
+            senderPicture = orders.userPicture
+        )
+        pilihMitraViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    "Pesanan berhasil diproses, silahkan lihat status pesanan anda di halaman Transaksi",
+                    Toast.LENGTH_SHORT
+                ).show()
                 requireActivity().onBackPressed()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }

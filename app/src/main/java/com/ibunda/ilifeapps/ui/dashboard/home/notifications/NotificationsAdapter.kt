@@ -2,34 +2,34 @@ package com.ibunda.ilifeapps.ui.dashboard.home.notifications
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.databinding.ItemRvNotificationBinding
 
-class NotificationsAdapter : PagedListAdapter<Notifications, NotificationsViewHolder>(DIFF_CALLBACK) {
+class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
+    private var listNotif = ArrayList<Notifications>()
+
+    fun setListNotif(notif: List<Notifications>?) {
+        if (notif == null) return
+        this.listNotif.clear()
+        this.listNotif.addAll(notif)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
         val itemRvNotificationBinding =
-            ItemRvNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRvNotificationBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return NotificationsViewHolder(itemRvNotificationBinding)
     }
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
-        val listNotif = getItem(position)
-        listNotif?.let { holder.bind(it) }
+        val notif = listNotif[position]
+        holder.bind(notif)
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Notifications>() {
-            override fun areItemsTheSame(oldItem: Notifications, newItem: Notifications): Boolean {
-                return oldItem.receiver == newItem.receiver
-            }
-
-            override fun areContentsTheSame(oldItem: Notifications, newItem: Notifications): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }
+    override fun getItemCount(): Int = listNotif.size
 }

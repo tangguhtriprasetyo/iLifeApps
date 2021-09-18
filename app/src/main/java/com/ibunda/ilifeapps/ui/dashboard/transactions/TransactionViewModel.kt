@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
-import com.ibunda.ilifeapps.data.model.Orders
-import com.ibunda.ilifeapps.data.model.Shops
-import com.ibunda.ilifeapps.data.model.Ulasan
-import com.ibunda.ilifeapps.data.model.Users
+import com.ibunda.ilifeapps.data.model.*
 
 class TransactionViewModel : ViewModel() {
 
@@ -37,6 +34,9 @@ class TransactionViewModel : ViewModel() {
 
     fun uploadPenilaian(ulasan: Ulasan, rating: Double): LiveData<String> =
         firebaseServices.uploadUlasan(ulasan, rating)
+
+    fun uploadNotif(notif: Notifications): LiveData<String> =
+        firebaseServices.uploadNotification(notif)
 
     fun getOrderData(): LiveData<Orders> {
         return _orderData

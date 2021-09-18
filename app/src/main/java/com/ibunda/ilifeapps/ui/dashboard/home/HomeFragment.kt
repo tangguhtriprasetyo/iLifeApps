@@ -56,6 +56,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     }
 
+    private fun listenNotif() {
+        mainViewModel.getListNotif(userDataProfile.userId.toString())
+            .observe(viewLifecycleOwner, { listNotif ->
+                if (listNotif != null && listNotif.isNotEmpty()) {
+                    binding.notification.imgBadgeNotification.visibility = View.VISIBLE
+                } else {
+                    binding.notification.imgBadgeNotification.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun listenChats() {
+        mainViewModel.getListChats(userDataProfile.userId.toString())
+            .observe(viewLifecycleOwner, { listChats ->
+                if (listChats != null && listChats.isNotEmpty()) {
+                    binding.chat.imgBadgeChat.visibility = View.VISIBLE
+                } else {
+                    binding.chat.imgBadgeChat.visibility = View.GONE
+                }
+            })
+    }
+
     override fun onResume() {
         super.onResume()
         mainViewModel.getProfileData()
@@ -144,6 +166,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     if (userDataProfile.isNew == true) {
                         showDialogEditProfile()
                     }
+                    listenChats()
+                    listenNotif()
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())
             })

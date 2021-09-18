@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.FragmentPesananBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
@@ -170,14 +171,39 @@ class PesananFragment : Fragment() {
 
         transactionViewModel.updateOrderData(orderData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()
-                activity?.onBackPressed()
+                sendNotif()
             } else {
                 Toast.makeText(
                     requireActivity(),
                     "Update Order Failed",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        })
+    }
+
+    private fun sendNotif() {
+        val notif = Notifications(
+            body = AppConstants.MESSAGE_STATUS_DIBATALKAN,
+            date = DateHelper.getCurrentDateTime(),
+            orderId = orderData.orderId,
+            read = false,
+            receiverId = orderData.shopId,
+            receiverPicture = orderData.shopPicture,
+            title = AppConstants.TITLE_STATUS_DIBATALKAN,
+            senderId = orderData.userId,
+            senderPicture = orderData.userPicture
+        )
+        transactionViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    "Pesanan Telah Dibatalkan, silahkan lihat status pesanan anda di halaman Transaksi",
+                    Toast.LENGTH_SHORT
+                ).show()
+                activity?.onBackPressed()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }
