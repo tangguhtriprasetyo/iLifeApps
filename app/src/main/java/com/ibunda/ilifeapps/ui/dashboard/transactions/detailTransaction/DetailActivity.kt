@@ -1,7 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -29,6 +28,7 @@ class DetailActivity : AppCompatActivity() {
         const val SELESAI_FRAGMENT_TAG = "selesai_fragment_tag"
         const val DIBATALKAN_FRAGMENT_TAG = "dibatalkan_fragment_tag"
         const val EXTRA_ORDER = "extra_order"
+        const val EXTRA_ORDER_ID = "extra_order_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +36,12 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
-
-        setOrderData()
-        setOrderCondition(ordersData.status)
+        if (intent.hasExtra(EXTRA_ORDER)) {
+            ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
+            setOrderData(ordersData.orderId)
+        } else if (intent.hasExtra(EXTRA_ORDER_ID)) {
+            setOrderData(intent.getStringExtra(EXTRA_ORDER_ID))
+        }
 
     }
 
@@ -72,11 +74,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setOrderData() {
+    private fun setOrderData(orderId: String?) {
         transactionViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
             if (orders != null) {
                 ordersData = orders
-                Log.e(ordersData.status, "statusOrder")
+                setOrderCondition(ordersData.status)
             }
         })
     }

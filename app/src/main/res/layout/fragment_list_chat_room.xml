@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground"
-    tools:context=".ui.dashboard.home.chat.listchatroom.ListChatRoomFragment"
+    tools:context=".ui.dashboard.home.chats.listchatroom.ListChatRoomFragment"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
@@ -94,7 +94,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_rv_room_chat" />
+                tools:listitem="@layout/item_rv_chat_room" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

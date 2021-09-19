@@ -1,21 +1,21 @@
-package com.ibunda.ilifeapps.ui.dashboard.home.chat.chatroom
+package com.ibunda.ilifeapps.ui.dashboard.home.chats.listchatroom
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ibunda.ilifeapps.databinding.FragmentChatRoomBinding
+import com.ibunda.ilifeapps.databinding.FragmentListChatRoomBinding
 
-class ChatRoomFragment : Fragment() {
-    private lateinit var binding : FragmentChatRoomBinding
+class ListChatRoomFragment : Fragment() {
+    private lateinit var binding : FragmentListChatRoomBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentChatRoomBinding.inflate(inflater, container, false)
+        binding = FragmentListChatRoomBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

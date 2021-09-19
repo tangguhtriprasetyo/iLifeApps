@@ -18,10 +18,11 @@ import com.ibunda.ilifeapps.databinding.FragmentHomeBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.ads.AdsHomeAdapter
+import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsActivity
 import com.ibunda.ilifeapps.ui.dashboard.home.customorder.CustomOrderFragment
 import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfileFragment
+import com.ibunda.ilifeapps.ui.dashboard.home.notifications.NotificationsFragment
 import com.ibunda.ilifeapps.ui.dashboard.home.story.StoryHomeAdaper
-import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.dialogbatalkanpesanan.DialogBatalkanPesananFragment
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
@@ -68,7 +69,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun listenChats() {
-        mainViewModel.getListChats(userDataProfile.userId.toString())
+        mainViewModel.getListChatRoom(userDataProfile.userId.toString())
             .observe(viewLifecycleOwner, { listChats ->
                 if (listChats != null && listChats.isNotEmpty()) {
                     binding.chat.imgBadgeChat.visibility = View.VISIBLE
@@ -104,6 +105,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             R.id.kategori_guru_les -> gotoListShop("Guru Les", userDataProfile)
             R.id.kategori_lainnya -> gotoCustomOrder()
             R.id.et_location -> openMaps()
+            R.id.ic_message -> gotoChats()
+            R.id.ic_notification -> gotoNotifications()
         }
     }
 
@@ -182,6 +185,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.kategoriGuruLes.setOnClickListener(this)
         binding.kategoriLainnya.setOnClickListener(this)
         binding.etLocation.setOnClickListener(this)
+        binding.notification.icNotification.setOnClickListener(this)
+        binding.chat.icMessage.setOnClickListener(this)
     }
 
     private fun gotoCustomOrder() {
@@ -197,6 +202,24 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun gotoNotifications() {
+        val mFragmentManager = parentFragmentManager
+        val mCustomOrderFragment = NotificationsFragment()
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_fragment_activity_main,
+                mCustomOrderFragment,
+                MainActivity.CHILD_FRAGMENT
+            )
+        }
+    }
+
+    private fun gotoChats() {
+        val intent = Intent(requireActivity(), ChatsActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun gotoListShop(categoryName: String, userDataProfile: Users) {
         val intent =
             Intent(requireActivity(), ListMitraActivity::class.java)
@@ -210,14 +233,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         mDialogTawarMitraFragment.show(
             requireActivity().supportFragmentManager,
             DialogTawarMitraFragment::class.java.simpleName
-        )
-    }
-
-    private fun showDialogCancelOrder() {
-        val mDialogBatalkanPesananFragment = DialogBatalkanPesananFragment()
-        mDialogBatalkanPesananFragment.show(
-            requireActivity().supportFragmentManager,
-            DialogBatalkanPesananFragment::class.java.simpleName
         )
     }
 

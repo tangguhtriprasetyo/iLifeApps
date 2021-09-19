@@ -1,15 +1,15 @@
-package com.ibunda.ilifeapps.ui.dashboard.home.chat.listchatroom
+package com.ibunda.ilifeapps.ui.dashboard.home.chats.listchatroom
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.R
-import com.ibunda.ilifeapps.data.model.Chats
-import com.ibunda.ilifeapps.databinding.ItemRvRoomChatBinding
+import com.ibunda.ilifeapps.data.model.ChatRoom
+import com.ibunda.ilifeapps.databinding.ItemRvChatRoomBinding
 import com.ibunda.ilifeapps.utils.loadImage
 
-class ListChatRoomViewHolder (private val binding: ItemRvRoomChatBinding) :
+class ListChatRoomViewHolder(private val binding: ItemRvChatRoomBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Chats) {
+    fun bind(data: ChatRoom) {
         with(binding) {
 
             if (data.verified == true) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.dashboard.home.notifications.NotificationsActivity">
+    tools:context=".ui.dashboard.home.notifications.NotificationsFragment">
 
     <LinearLayout
         android:id="@+id/linear_title"
@@ -88,10 +88,10 @@
         android:id="@+id/linear_empty_notifikasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone"
         android:layout_marginBottom="100dp"
+        android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
