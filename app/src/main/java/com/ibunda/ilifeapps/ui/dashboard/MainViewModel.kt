@@ -29,6 +29,10 @@ class MainViewModel : ViewModel() {
         return firebaseServices.getListChatRoom(userId).asLiveData()
     }
 
+    fun deleteNotif(notifId: String): LiveData<String> =
+        firebaseServices.deleteNotification(notifId)
+
+
     fun setUserProfile(userId: String): LiveData<Users> {
         _userProfile = firebaseServices.getUserData(userId) as MutableLiveData<Users>
         return _userProfile

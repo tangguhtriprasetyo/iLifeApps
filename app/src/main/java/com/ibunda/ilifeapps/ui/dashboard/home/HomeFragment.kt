@@ -24,7 +24,6 @@ import com.ibunda.ilifeapps.ui.dashboard.home.dialogeditprofile.DialogEditProfil
 import com.ibunda.ilifeapps.ui.dashboard.home.notifications.NotificationsFragment
 import com.ibunda.ilifeapps.ui.dashboard.home.story.StoryHomeAdaper
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
-import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.RvDecoration
 
@@ -226,14 +225,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         intent.putExtra(ListMitraActivity.EXTRA_CATEGORY_NAME, categoryName)
         intent.putExtra(MainActivity.EXTRA_USER, userDataProfile.userId)
         startActivity(intent)
-    }
-
-    private fun showDialogTawar() {
-        val mDialogTawarMitraFragment = DialogTawarMitraFragment()
-        mDialogTawarMitraFragment.show(
-            requireActivity().supportFragmentManager,
-            DialogTawarMitraFragment::class.java.simpleName
-        )
     }
 
     private fun showDialogEditProfile() {

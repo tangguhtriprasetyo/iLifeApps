@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,15 +8,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ibunda.ilifeapps.data.model.ChatMessages
+import com.ibunda.ilifeapps.data.model.ChatRoom
+import com.ibunda.ilifeapps.data.model.Shops
+import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentDialogTawarMitraBinding
+import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsActivity
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
+import com.ibunda.ilifeapps.utils.AppConstants
+import com.ibunda.ilifeapps.utils.DateHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class DialogTawarMitraFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDialogTawarMitraBinding
+    private var shopData: Shops? = null
+    private var userData: Users? = null
 
+    private val listMitraViewModel: ListMitraViewModel by activityViewModels()
+
+    companion object {
+        const val EXTRA_USER = "extra_user"
+        const val EXTRA_SHOP = "extra_shop"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +46,8 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shopData = requireArguments().getParcelable(EXTRA_SHOP)
+        userData = requireArguments().getParcelable(EXTRA_USER)
 
         binding.icClose.setOnClickListener {
             onDismiss(dialog!!)
@@ -37,21 +57,69 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
 
             override fun afterTextChanged(s: Editable) {}
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-                binding.btnTawar.isEnabled = true
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                binding.btnBuatTawaran.isEnabled = true
             }
         })
 
-        binding.btnTawar.setOnClickListener {
-            val tawarPrice: Int = binding.etTawar.text.toString().toInt()
-            Toast.makeText(requireContext(), tawarPrice.toString(), Toast.LENGTH_SHORT).show()
+        binding.btnBuatTawaran.setOnClickListener {
+            sendTawaran()
         }
 
+    }
+
+    private fun sendTawaran() {
+        val tawarPrice: Int = binding.etTawar.text.toString().toInt()
+        val chatRoom = ChatRoom(
+            chatRoomId = userData?.userId + shopData?.shopId,
+            accTawar = false,
+            lastDate = DateHelper.getCurrentDate(),
+            lastMessage = "Melakukan Penawaran $tawarPrice",
+            lastHargaTawar = tawarPrice.toString(),
+            lastTawar = true,
+            read = false,
+            shopId = shopData?.shopId,
+            shopName = shopData?.shopName,
+            shopPicture = shopData?.shopPicture,
+            userId = userData?.userId,
+            userName = userData?.name,
+            userPicture = userData?.avatar,
+            verified = shopData?.verified ?: false
+        )
+
+        val chatMessages = ChatMessages(
+            date = DateHelper.getCurrentDate(),
+            message = "Melakukan Penawaran $tawarPrice",
+            sender = userData?.userId,
+            statusTawaran = AppConstants.STATUS_MENAWAR,
+            tawar = true,
+            time = DateHelper.getCurrentTime()
+        )
+
+        listMitraViewModel.uploadTawaran(chatRoom, chatMessages)
+            .observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    val intent =
+                        Intent(requireActivity(), ChatsActivity::class.java)
+                    intent.putExtra(ChatsActivity.EXTRA_ROOM_ID, chatRoom.chatRoomId)
+                    intent.putExtra(ChatsActivity.EXTRA_USER, userData)
+                    startActivity(intent)
+                    requireActivity().finish()
+                    onDismiss(dialog!!)
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                    onDismiss(dialog!!)
+                }
+            })
     }
 
 

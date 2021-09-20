@@ -33,10 +33,6 @@ class EditProfileFragment : Fragment() {
     private var uriImagePath: Uri? = null
     private var gender: String? = null
 
-    companion object {
-        const val EXTRA_DATA_USER = "extra_data_user"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

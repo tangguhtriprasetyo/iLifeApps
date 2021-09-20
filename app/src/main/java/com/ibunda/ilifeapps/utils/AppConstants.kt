@@ -8,6 +8,7 @@ object AppConstants {
     const val STATUS_DIBATALKAN = "Dibatalkan"
     const val STATUS_DITOLAK = "Ditolak"
     const val STATUS_DITERIMA = "Diterima"
+    const val STATUS_MENAWAR = "Menawar"
     const val TITLE_TAWARAN_DITERIMA = "Selamat Tawaran Anda Diterima!"
     const val TITLE_TAWARAN_DITOLAK = "Maaf Tawaran Anda Ditolak"
     const val TITLE_TAWARAN_BARU = "Anda Mendapatkan Tawaran Baru"

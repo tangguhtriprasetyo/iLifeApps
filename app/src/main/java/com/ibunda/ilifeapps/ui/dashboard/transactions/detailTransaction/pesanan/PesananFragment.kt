@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
@@ -21,6 +22,7 @@ import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import java.util.*
 
 
 class PesananFragment : Fragment() {
@@ -184,6 +186,7 @@ class PesananFragment : Fragment() {
 
     private fun sendNotif() {
         val notif = Notifications(
+            notifId = Timestamp(Date()).toString(),
             body = AppConstants.MESSAGE_STATUS_DIBATALKAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orderData.orderId,

@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.databinding.ItemRvNotificationBinding
 
-class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
+class NotificationsAdapter(private val notificationsClickCallback: NotificationsClickCallback) :
+    RecyclerView.Adapter<NotificationsViewHolder>() {
     private var listNotif = ArrayList<Notifications>()
 
     fun setListNotif(notif: List<Notifications>?) {
@@ -23,7 +24,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
                 parent,
                 false
             )
-        return NotificationsViewHolder(itemRvNotificationBinding)
+        return NotificationsViewHolder(itemRvNotificationBinding, notificationsClickCallback)
     }
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {

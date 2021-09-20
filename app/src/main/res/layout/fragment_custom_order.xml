@@ -378,7 +378,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_dana">
 
                 <LinearLayout
-                    android:id="@+id/btn_tawar"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginStart="16dp"
@@ -408,7 +407,6 @@
                     android:textSize="14sp" />
 
                 <LinearLayout
-                    android:id="@+id/btn_pesan"
                     android:layout_width="0dp"
                     android:layout_height="44dp"
                     android:layout_marginStart="12dp"

@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChatRoom(
 
+    var chatRoomId: String? = null,
     var accTawar: Boolean = false,
     var lastDate: String? = null,
     var lastMessage: String? = null,

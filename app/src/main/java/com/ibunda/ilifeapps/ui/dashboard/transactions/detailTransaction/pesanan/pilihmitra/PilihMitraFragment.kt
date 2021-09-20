@@ -10,12 +10,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentPilihMitraBinding
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
+import java.util.*
 
 class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
     private lateinit var binding: FragmentPilihMitraBinding
@@ -106,6 +108,7 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
 
     private fun sendNotif() {
         val notif = Notifications(
+            notifId = Timestamp(Date()).toString(),
             body = AppConstants.MESSAGE_STATUS_PESANAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orders.orderId,

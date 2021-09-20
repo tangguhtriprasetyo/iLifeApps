@@ -36,7 +36,7 @@ class CustomOrderFragment : Fragment() {
     lateinit var datePicker: DatePickerHelper
     lateinit var timePicker: TimePickerHelper
 
-    var isLainnya: Boolean? = null
+    var isLainnya: Boolean = false
     var penyediaJasa: String? = null
 
     override fun onCreateView(
@@ -220,7 +220,6 @@ class CustomOrderFragment : Fragment() {
         override fun onOptionChosen(category: String?) {
             val kategoriMitra: String? = category
             binding.etKategori.setText(kategoriMitra)
-            isLainnya = false
             if (category.equals("Lainnya")) {
                 isLainnya = true
             }

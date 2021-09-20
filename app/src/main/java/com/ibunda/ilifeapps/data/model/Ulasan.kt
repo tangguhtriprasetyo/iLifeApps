@@ -15,6 +15,6 @@ data class Ulasan(
     var userId: String? = null,
     var userName: String? = null,
     var userPicture: String? = null,
-    var verified: Boolean? = false
+    var verified: Boolean = false
 
 ) : Parcelable

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,6 +22,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class FirebaseServices {
@@ -37,6 +39,8 @@ class FirebaseServices {
 
     private var STATUS_ERROR = "error"
 
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< AUTHENTICATION METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun createUserToFirestore(authUser: Users): LiveData<Users> {
         val createdUserData = MutableLiveData<Users>()
         CoroutineScope(IO).launch {
@@ -66,140 +70,6 @@ class FirebaseServices {
                 }
         }
         return createdUserData
-    }
-
-    fun uploadOrder(orders: Orders): LiveData<String> {
-        val statusOrder = MutableLiveData<String>()
-        CoroutineScope(IO).launch {
-            val docRef: DocumentReference = ordersRef.document(orders.orderId!!)
-            docRef.get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document: DocumentSnapshot? = task.result
-                    if (document?.exists() == false) {
-                        docRef.set(orders).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                usersRef.document(orders.userId.toString())
-                                    .update("totalOrder", FieldValue.increment(1))
-                                    .addOnCompleteListener {
-                                        statusOrder.postValue(STATUS_SUCCESS)
-                                    }
-                                    .addOnFailureListener { error ->
-                                        STATUS_ERROR = error.message.toString()
-                                        statusOrder.postValue(STATUS_ERROR)
-                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
-                                    }
-                            } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
-                                Log.d(
-                                    "errorCreateUser: ",
-                                    it.exception?.message.toString()
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-                .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusOrder.postValue(STATUS_ERROR)
-                    Log.d("ErrorUploadOrder: ", it.message.toString())
-                }
-        }
-
-
-        return statusOrder
-    }
-
-    fun uploadUlasan(ulasan: Ulasan, rating: Double): LiveData<String> {
-        val statusOrder = MutableLiveData<String>()
-        CoroutineScope(IO).launch {
-            val docRef: DocumentReference = ulasanRef.document()
-            docRef.get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document: DocumentSnapshot? = task.result
-                    if (document?.exists() == false) {
-                        docRef.set(ulasan).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                shopsRef.document(ulasan.shopId.toString())
-                                    .update(
-                                        "totalUlasan",
-                                        FieldValue.increment(1),
-                                        "rating",
-                                        rating
-                                    )
-                                    .addOnCompleteListener {
-                                        statusOrder.postValue(STATUS_SUCCESS)
-                                    }
-                                    .addOnFailureListener { error ->
-                                        STATUS_ERROR = error.message.toString()
-                                        statusOrder.postValue(STATUS_ERROR)
-                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
-                                    }
-                            } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
-                                Log.d(
-                                    "errorCreateUser: ",
-                                    it.exception?.message.toString()
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-                .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusOrder.postValue(STATUS_ERROR)
-                    Log.d("ErrorUploadOrder: ", it.message.toString())
-                }
-        }
-
-
-        return statusOrder
-    }
-
-    fun getOrderData(orderId: String): LiveData<Orders> {
-        val docRef: DocumentReference = ordersRef.document(orderId)
-        val orderData = MutableLiveData<Orders>()
-        CoroutineScope(IO).launch {
-            docRef.get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val userProfile = document.toObject<Orders>()
-                    orderData.postValue(userProfile!!)
-                    Log.d("getUserProfile: ", userProfile.toString())
-                } else {
-                    Log.d("Error getting Doc", "Document Doesn't Exist")
-                }
-            }
-                .addOnFailureListener {
-
-                }
-        }
-        return orderData
-    }
-
-    fun updateOrderData(orderData: Orders): LiveData<Orders> {
-        val editOrderData = MutableLiveData<Orders>()
-        CoroutineScope(IO).launch {
-            val docRef: DocumentReference = ordersRef.document(orderData.orderId.toString())
-            docRef.set(orderData, SetOptions.merge()).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    editOrderData.postValue(orderData)
-                } else {
-                    Log.d(
-                        "errorUpdateOrder: ",
-                        it.exception?.message.toString()
-                    )
-                }
-            }
-                .addOnFailureListener {
-                    Log.d(
-                        "errorCreateUser: ", it.message.toString()
-                    )
-                }
-        }
-        return editOrderData
     }
 
     fun signInWithGoogleFacebook(idToken: AuthCredential): LiveData<Users> {
@@ -240,6 +110,27 @@ class FirebaseServices {
         return authenticatedUser
     }
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< GET DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun getOrderData(orderId: String): LiveData<Orders> {
+        val docRef: DocumentReference = ordersRef.document(orderId)
+        val orderData = MutableLiveData<Orders>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userProfile = document.toObject<Orders>()
+                    orderData.postValue(userProfile!!)
+                    Log.d("getUserProfile: ", userProfile.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return orderData
+    }
+
     fun getUserData(userId: String): LiveData<Users> {
         val docRef: DocumentReference = usersRef.document(userId)
         val userProfileData = MutableLiveData<Users>()
@@ -258,57 +149,6 @@ class FirebaseServices {
                 }
         }
         return userProfileData
-    }
-
-    fun editUserData(authUser: Users): LiveData<Users> {
-        val editedUserData = MutableLiveData<Users>()
-        CoroutineScope(IO).launch {
-            val docRef: DocumentReference = usersRef.document(authUser.userId.toString())
-            docRef.set(authUser, SetOptions.merge()).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    authUser.isNew = false
-                    editedUserData.postValue(authUser)
-                } else {
-                    Log.d(
-                        "errorUpdateProfile: ",
-                        it.exception?.message.toString()
-                    )
-                }
-            }
-                .addOnFailureListener {
-                    Log.d(
-                        "errorCreateUser: ", it.message.toString()
-                    )
-                }
-        }
-        return editedUserData
-    }
-
-    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
-        val mStorage: FirebaseStorage = Firebase.storage
-        val storageRef = mStorage.reference
-        val fileRef = storageRef.child("$uid/$type/$name")
-        val downloadUrl = MutableLiveData<String>()
-
-        fileRef.putFile(uri).continueWithTask { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
-                    throw it
-                }
-            }
-            fileRef.downloadUrl
-        }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val downloadUri = task.result
-                downloadUrl.postValue(downloadUri.toString())
-                Log.d("uploadFiles: ", downloadUri.toString())
-            } else {
-                task.exception?.let {
-                    throw it
-                }
-            }
-        }
-        return downloadUrl
     }
 
     fun getShopData(shopId: String): LiveData<Shops> {
@@ -331,6 +171,32 @@ class FirebaseServices {
         return shopData
     }
 
+    fun getNotifications(userId: String): Flow<List<Notifications>?> {
+        return callbackFlow {
+
+            val listenerRegistration =
+                notifRef.whereEqualTo("receiverId", userId)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listNotif = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Notifications>()
+                        }
+                        offer(listNotif)
+                        Log.d("Notif", listNotif.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< GET LIST DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun getListShopData(
         query: String?,
         collectionRef: String,
@@ -496,32 +362,7 @@ class FirebaseServices {
 
     }
 
-    fun getNotifications(userId: String): Flow<List<Notifications>?> {
-        return callbackFlow {
-
-            val listenerRegistration =
-                notifRef.whereEqualTo("receiverId", userId)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
-                        if (firestoreException != null) {
-                            cancel(
-                                message = "Error fetching posts",
-                                cause = firestoreException
-                            )
-                            return@addSnapshotListener
-                        }
-                        val listNotif = querySnapshot?.documents?.mapNotNull {
-                            it.toObject<Notifications>()
-                        }
-                        offer(listNotif)
-                        Log.d("Notif", listNotif.toString())
-                    }
-            awaitClose {
-                listenerRegistration.remove()
-            }
-        }
-    }
-
-    fun getListChatRoom(userId: String): Flow<List<Chats>?> {
+    fun getListChatRoom(userId: String): Flow<List<ChatRoom>?> {
         return callbackFlow {
 
             val listenerRegistration =
@@ -535,7 +376,7 @@ class FirebaseServices {
                             return@addSnapshotListener
                         }
                         val listChat = querySnapshot?.documents?.mapNotNull {
-                            it.toObject<Chats>()
+                            it.toObject<ChatRoom>()
                         }
                         offer(listChat)
                         Log.d("Chats", listChat.toString())
@@ -546,9 +387,192 @@ class FirebaseServices {
         }
     }
 
+    fun getListChatMessages(chatRoomId: String): Flow<List<ChatMessages>?> {
+        return callbackFlow {
 
-    fun updateChat() {
+            val listenerRegistration =
+                chatRef.document(chatRoomId).collection("chats")
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listChat = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<ChatMessages>()
+                        }
+                        offer(listChat)
+                        Log.d("Chats", listChat.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+    }
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< UPDATE DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun editUserData(authUser: Users): LiveData<Users> {
+        val editedUserData = MutableLiveData<Users>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = usersRef.document(authUser.userId.toString())
+            docRef.set(authUser, SetOptions.merge()).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    authUser.isNew = false
+                    editedUserData.postValue(authUser)
+                } else {
+                    Log.d(
+                        "errorUpdateProfile: ",
+                        it.exception?.message.toString()
+                    )
+                }
+            }
+                .addOnFailureListener {
+                    Log.d(
+                        "errorCreateUser: ", it.message.toString()
+                    )
+                }
+        }
+        return editedUserData
+    }
+
+    fun updateOrderData(orderData: Orders): LiveData<Orders> {
+        val editOrderData = MutableLiveData<Orders>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orderData.orderId.toString())
+            docRef.set(orderData, SetOptions.merge()).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    editOrderData.postValue(orderData)
+                } else {
+                    Log.d(
+                        "errorUpdateOrder: ",
+                        it.exception?.message.toString()
+                    )
+                }
+            }
+                .addOnFailureListener {
+                    Log.d(
+                        "errorCreateUser: ", it.message.toString()
+                    )
+                }
+        }
+        return editOrderData
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< POST DATA TO DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
+        val mStorage: FirebaseStorage = Firebase.storage
+        val storageRef = mStorage.reference
+        val fileRef = storageRef.child("$uid/$type/$name")
+        val downloadUrl = MutableLiveData<String>()
+
+        fileRef.putFile(uri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            fileRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                downloadUrl.postValue(downloadUri.toString())
+                Log.d("uploadFiles: ", downloadUri.toString())
+            } else {
+                task.exception?.let {
+                    throw it
+                }
+            }
+        }
+        return downloadUrl
+    }
+
+    fun uploadOrder(orders: Orders): LiveData<String> {
+        val statusOrder = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orders.orderId!!)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(orders).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                usersRef.document(orders.userId.toString())
+                                    .update("totalOrder", FieldValue.increment(1))
+                                    .addOnCompleteListener {
+                                        statusOrder.postValue(STATUS_SUCCESS)
+                                    }
+                                    .addOnFailureListener { error ->
+                                        STATUS_ERROR = error.message.toString()
+                                        statusOrder.postValue(STATUS_ERROR)
+                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                                    }
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                }
+        }
+        return statusOrder
+    }
+
+    fun uploadUlasan(ulasan: Ulasan, rating: Double): LiveData<String> {
+        val statusOrder = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = ulasanRef.document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(ulasan).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                shopsRef.document(ulasan.shopId.toString())
+                                    .update(
+                                        "totalUlasan",
+                                        FieldValue.increment(1),
+                                        "rating",
+                                        rating
+                                    )
+                                    .addOnCompleteListener {
+                                        statusOrder.postValue(STATUS_SUCCESS)
+                                    }
+                                    .addOnFailureListener { error ->
+                                        STATUS_ERROR = error.message.toString()
+                                        statusOrder.postValue(STATUS_ERROR)
+                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                                    }
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                }
+        }
+        return statusOrder
     }
 
     fun uploadNotification(notif: Notifications): LiveData<String> {
@@ -580,18 +604,74 @@ class FirebaseServices {
                     Log.d("ErrorUploadNotif: ", it.message.toString())
                 }
         }
-
-
         return statusNotif
     }
 
-
-    fun uploadTawar() {
-
+    fun sendTawaran(chatRoom: ChatRoom, chatMessages: ChatMessages): LiveData<String> {
+        val statusChat = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = chatRef.document(chatRoom.chatRoomId!!)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    docRef.set(chatRoom, SetOptions.merge()).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            statusChat.postValue(
+                                sendChat(chatMessages)
+                            )
+                        } else {
+                            STATUS_ERROR = it.exception?.message.toString()
+                            statusChat.postValue(STATUS_ERROR)
+                            Log.d(
+                                "errorCreateUser: ",
+                                it.exception?.message.toString()
+                            )
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusChat.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadNotif: ", it.message.toString())
+                }
+        }
+        return statusChat
     }
 
-    fun deleteNotification() {
-
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< DELETE DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun deleteNotification(notifId: String): LiveData<String> {
+        val statusNotif = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = notifRef.document(notifId)
+            docRef.delete().addOnSuccessListener { statusNotif.postValue(STATUS_SUCCESS) }
+                .addOnFailureListener { statusNotif.postValue(it.message) }
+        }
+        return statusNotif
     }
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< PRIVATE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    private fun sendChat(chatMessages: ChatMessages): String {
+        var statusChat = ""
+        val docRef: DocumentReference = chatRef.document(Timestamp(Date()).toString())
+        docRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document: DocumentSnapshot? = task.result
+                if (document?.exists() == false) {
+                    docRef.set(chatMessages).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            statusChat = STATUS_SUCCESS
+                        } else {
+                            STATUS_ERROR = it.exception?.message.toString()
+                            statusChat = STATUS_ERROR
+                        }
+                    }
+                }
+            }
+        }
+            .addOnFailureListener {
+                STATUS_ERROR = it.message.toString()
+                statusChat = STATUS_ERROR
+            }
+        return statusChat
+    }
 }

@@ -18,9 +18,11 @@ import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentDetailShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
 
 class DetailShopFragment : Fragment(), View.OnClickListener {
@@ -99,6 +101,7 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             R.id.btn_pesan -> gotoPayment()
             R.id.ic_instagram -> openInstagram(shopData?.instagram!!)
             R.id.ic_facebook -> openFb(shopData?.facebook!!)
+            R.id.btn_tawar -> showDialogTawar()
         }
     }
 
@@ -126,6 +129,19 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
                 mPaymentFragment
             )
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun showDialogTawar() {
+        val mDialogTawarMitraFragment = DialogTawarMitraFragment()
+        val mBundle = Bundle()
+        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userData)
+        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_SHOP, shopData)
+        mDialogTawarMitraFragment.arguments = mBundle
+        mDialogTawarMitraFragment.show(
+            requireActivity().supportFragmentManager,
+            DialogTawarMitraFragment::class.java.simpleName
+        )
     }
 
     private fun getShopData() {

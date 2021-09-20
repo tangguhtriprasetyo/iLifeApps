@@ -18,8 +18,8 @@ data class Orders(
     var categoryName: String? = null,
     var createdAt: String? = null,
     var finishedAt: String? = null,
-    var orderKhusus: Boolean? = null,
-    var orderLainnya: Boolean? = null,
+    var orderKhusus: Boolean = false,
+    var orderLainnya: Boolean = false,
     var latitude: Double? = null,
     var longitude: Double? = null,
     var orderDate: String? = null,
@@ -35,6 +35,6 @@ data class Orders(
     var userId: String? = null,
     var userName: String? = null,
     var userPicture: String? = null,
-    var verified: Boolean? = null
+    var verified: Boolean = false
 
 ) : Parcelable

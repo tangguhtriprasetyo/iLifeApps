@@ -7,12 +7,15 @@ import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.databinding.ItemRvChatRoomBinding
 import com.ibunda.ilifeapps.utils.loadImage
 
-class ListChatRoomViewHolder(private val binding: ItemRvChatRoomBinding) :
+class ListChatRoomViewHolder(
+    private val binding: ItemRvChatRoomBinding,
+    private val listChatRoomClickCallback: ListChatRoomClickCallback
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: ChatRoom) {
         with(binding) {
 
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             if (!data.read!!) {
@@ -25,7 +28,7 @@ class ListChatRoomViewHolder(private val binding: ItemRvChatRoomBinding) :
 
             with(itemView) {
                 setOnClickListener {
-                    //
+                    listChatRoomClickCallback.onItemClicked(data)
                 }
             }
 

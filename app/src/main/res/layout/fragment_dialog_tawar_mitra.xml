@@ -69,7 +69,7 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_tawar"
+        android:id="@+id/btn_buat_tawaran"
         style="@style/ButtonStyle"
         app:cornerRadius="8dp"
         android:enabled="false"

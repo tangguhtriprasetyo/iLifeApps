@@ -19,12 +19,12 @@ data class Users(
     var totalOrder: Int? = null,
     var latitude: Double? = null,
     var longitude: Double? = null,
-    var isNew: Boolean? = null,
+    var isNew: Boolean? = false,
     var registeredToken: String? = null,
     @get:Exclude
-    var isAuthenticated: Boolean? = null,
+    var isAuthenticated: Boolean = false,
     @get:Exclude
-    var isCreated: Boolean? = null,
+    var isCreated: Boolean = false,
     @get:Exclude
     var errorMessage: String? = null
 

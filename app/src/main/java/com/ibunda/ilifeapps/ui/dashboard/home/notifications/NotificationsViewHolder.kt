@@ -1,19 +1,20 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.notifications
 
-import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.databinding.ItemRvNotificationBinding
-import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.DetailActivity
 import com.ibunda.ilifeapps.utils.loadImage
 
-class NotificationsViewHolder (private val binding: ItemRvNotificationBinding) :
+class NotificationsViewHolder(
+    private val binding: ItemRvNotificationBinding,
+    private val notificationsClickCallback: NotificationsClickCallback
+) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Notifications) {
         with(binding) {
 
-            if (data.read == true) {
+            if (data.read) {
                 linearNotif.setBackgroundResource(R.color.bgChatNotif)
             }
             imgProfile.loadImage(data.senderPicture)
@@ -23,10 +24,7 @@ class NotificationsViewHolder (private val binding: ItemRvNotificationBinding) :
 
             with(itemView) {
                 setOnClickListener {
-                    val intent =
-                        Intent(context, DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.EXTRA_ORDER_ID, data.orderId)
-                    context.startActivity(intent)
+                    notificationsClickCallback.onItemClicked(data)
                 }
             }
 
