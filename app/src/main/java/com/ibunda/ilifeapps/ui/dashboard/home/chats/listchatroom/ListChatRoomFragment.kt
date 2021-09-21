@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -15,6 +16,7 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatRoomBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages.ChatMessagesFragment
+import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 
 class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
@@ -97,15 +99,24 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     override fun onItemClicked(data: ChatRoom) {
         chatsViewModel.setChatRoomId(data)
-        val mFragmentManager = parentFragmentManager
-        val mChatMessagesFragment = ChatMessagesFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_chat,
-                mChatMessagesFragment,
-                ChatMessagesFragment::class.java.simpleName
-            )
-        }
+        chatsViewModel.readChat(data.chatRoomId!!)
+            .observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+
+                    val mFragmentManager = parentFragmentManager
+                    val mChatMessagesFragment = ChatMessagesFragment()
+                    mFragmentManager.commit {
+                        addToBackStack(null)
+                        replace(
+                            R.id.host_fragment_activity_chat,
+                            mChatMessagesFragment,
+                            ChatMessagesFragment::class.java.simpleName
+                        )
+                    }
+
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 }

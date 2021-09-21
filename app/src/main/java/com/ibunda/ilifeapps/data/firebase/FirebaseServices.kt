@@ -361,25 +361,29 @@ class FirebaseServices {
 
     }
 
-    fun getListChatRoom(userId: String): Flow<List<ChatRoom>?> {
+    fun getListChatRoom(userId: String, checkRead: Boolean): Flow<List<ChatRoom>?> {
         return callbackFlow {
+            val query = if (checkRead) {
+                chatRef.whereEqualTo("userId", userId).whereEqualTo("readByUser", false)
+            } else {
+                chatRef.whereEqualTo("userId", userId)
+            }
 
             val listenerRegistration =
-                chatRef.whereEqualTo("userId", userId)
-                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
-                        if (firestoreException != null) {
-                            cancel(
-                                message = "Error fetching posts",
-                                cause = firestoreException
-                            )
-                            return@addSnapshotListener
-                        }
-                        val listChat = querySnapshot?.documents?.mapNotNull {
-                            it.toObject<ChatRoom>()
-                        }
-                        offer(listChat)
-                        Log.d("ListChatRoom", listChat.toString())
+                query.addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                    if (firestoreException != null) {
+                        cancel(
+                            message = "Error fetching posts",
+                            cause = firestoreException
+                        )
+                        return@addSnapshotListener
                     }
+                    val listChat = querySnapshot?.documents?.mapNotNull {
+                        it.toObject<ChatRoom>()
+                    }
+                    offer(listChat)
+                    Log.d("ListChatRoom", listChat.toString())
+                }
             awaitClose {
                 listenerRegistration.remove()
             }
@@ -457,6 +461,23 @@ class FirebaseServices {
                 }
         }
         return editOrderData
+    }
+
+    fun updateChat(chatRoomId: String): LiveData<String> {
+        val status = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            chatRef.document(chatRoomId)
+                .update("readByUser", true)
+                .addOnCompleteListener {
+                    status.postValue(STATUS_SUCCESS)
+                }
+                .addOnFailureListener { error ->
+                    STATUS_ERROR = error.message.toString()
+                    status.postValue(STATUS_ERROR)
+                    Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                }
+        }
+        return status
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<< POST DATA TO DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

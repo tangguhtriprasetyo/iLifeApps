@@ -20,7 +20,7 @@ class ChatsViewModel : ViewModel() {
     val chatRoom: LiveData<ChatRoom?> = _chatRoom
 
     fun getListChatRoom(userId: String): LiveData<List<ChatRoom>?> {
-        return firebaseServices.getListChatRoom(userId).asLiveData()
+        return firebaseServices.getListChatRoom(userId, false).asLiveData()
     }
 
     fun getListChatMessages(chatRoomId: String): LiveData<List<ChatMessages>?> {
@@ -29,6 +29,9 @@ class ChatsViewModel : ViewModel() {
 
     fun updateChatRoom(chatRoom: ChatRoom): LiveData<String> =
         firebaseServices.sendTawaran(chatRoom)
+
+    fun readChat(chatRoomId: String): LiveData<String> =
+        firebaseServices.updateChat(chatRoomId)
 
     fun sendChat(chatRoomId: String, chatMessages: ChatMessages): LiveData<String> =
         firebaseServices.sendChat(chatRoomId, chatMessages)

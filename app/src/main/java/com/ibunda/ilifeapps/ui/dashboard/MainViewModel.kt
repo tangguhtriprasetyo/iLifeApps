@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getListChatRoom(userId: String): LiveData<List<ChatRoom>?> {
-        return firebaseServices.getListChatRoom(userId).asLiveData()
+        return firebaseServices.getListChatRoom(userId, true).asLiveData()
     }
 
     fun deleteNotif(notifId: String): LiveData<String> =

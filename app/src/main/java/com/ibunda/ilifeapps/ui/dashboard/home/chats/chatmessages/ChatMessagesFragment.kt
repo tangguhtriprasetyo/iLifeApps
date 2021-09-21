@@ -105,6 +105,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
         with(binding.rvChats) {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
+            smoothScrollToPosition(bottom)
             adapter = chatMessagesAdapter
         }
     }
@@ -129,7 +130,8 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             lastMessage = message,
             lastHargaTawar = chatRoom.lastHargaTawar,
             lastTawar = false,
-            read = false,
+            readByUser = true,
+            readByShop = false,
             shopId = chatRoom.shopId,
             shopName = chatRoom.shopName,
             shopPicture = chatRoom.shopPicture,
