@@ -18,7 +18,7 @@ class ListChatRoomViewHolder(
             if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
-            if (!data.read!!) {
+            if (!data.readByUser!!) {
                 linearRoomChat.setBackgroundResource(R.color.bgChatNotif)
             }
             imgProfile.loadImage(data.shopPicture)

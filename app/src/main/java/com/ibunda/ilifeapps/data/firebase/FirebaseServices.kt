@@ -658,22 +658,11 @@ class FirebaseServices {
         return statusChat
     }
 
-    //<<<<<<<<<<<<<<<<<<<<<<<<<< DELETE DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    fun deleteNotification(notifId: String): LiveData<String> {
-        val statusNotif = MutableLiveData<String>()
-        CoroutineScope(IO).launch {
-            val docRef: DocumentReference = notifRef.document(notifId)
-            docRef.delete().addOnSuccessListener { statusNotif.postValue(STATUS_SUCCESS) }
-                .addOnFailureListener { statusNotif.postValue(it.message) }
-        }
-        return statusNotif
-    }
-
-    //<<<<<<<<<<<<<<<<<<<<<<<<<< PRIVATE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun sendChat(chatRoomId: String, chatMessages: ChatMessages): LiveData<String> {
         val statusChat = MutableLiveData<String>()
         CoroutineScope(IO).launch {
-            val docRef: DocumentReference = chatRef.document(chatRoomId).collection("chats").document()
+            val docRef: DocumentReference =
+                chatRef.document(chatRoomId).collection("chats").document()
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val document: DocumentSnapshot? = task.result
@@ -695,5 +684,16 @@ class FirebaseServices {
                 }
         }
         return statusChat
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< DELETE DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun deleteNotification(notifId: String): LiveData<String> {
+        val statusNotif = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = notifRef.document(notifId)
+            docRef.delete().addOnSuccessListener { statusNotif.postValue(STATUS_SUCCESS) }
+                .addOnFailureListener { statusNotif.postValue(it.message) }
+        }
+        return statusNotif
     }
 }

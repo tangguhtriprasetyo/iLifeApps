@@ -3,8 +3,10 @@ package com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.Timestamp
@@ -20,44 +22,51 @@ import java.util.*
 
 class DialogPilihMitraFragment : DialogFragment() {
 
-    private var _binding: FragmentDialogPilihMitraBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentDialogPilihMitraBinding
 
     private var shopData: Shops? = null
     private var orders: Orders? = null
     private val pilihMitraViewModel: PilihMitraViewModel by activityViewModels()
 
-    private lateinit var progressDialog : Dialog
+    private lateinit var progressDialog: Dialog
 
     companion object {
         const val EXTRA_SHOP = "extra_shop"
         const val EXTRA_ORDER = "extra_order"
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.run {
-            //initiate the binding here and pass the root to the dialog view
-            _binding = FragmentDialogPilihMitraBinding.inflate(layoutInflater).apply {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentDialogPilihMitraBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-                progressDialog = ProgressDialogHelper.progressDialog(requireContext())
-                shopData = requireArguments().getParcelable(EXTRA_SHOP)
-                orders = requireArguments().getParcelable(EXTRA_ORDER)
-                Log.d(orders?.orderId, "orderIdPilihMitra")
-                tvShopName.text =shopData?.shopName
+    override fun onStart() {
+        super.onStart()
+        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.40).toInt()
+        dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
 
-                btnTidak.setOnClickListener {
-                    dialog?.dismiss()
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                btnPilih.setOnClickListener {
-                    updateOrderData(shopData, orders!!)
-                }
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        shopData = requireArguments().getParcelable(EXTRA_SHOP)
+        orders = requireArguments().getParcelable(EXTRA_ORDER)
+        Log.d(orders?.orderId, "orderIdPilihMitra")
+        binding.tvShopName.text = shopData?.shopName
 
-            }
-            AlertDialog.Builder(this).apply {
-                setView(binding.root)
-            }.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+        binding.btnTidak.setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        binding.btnPilih.setOnClickListener {
+            updateOrderData(shopData, orders!!)
+        }
     }
 
     private fun updateOrderData(shopData: Shops?, orders: Orders) {
@@ -75,6 +84,7 @@ class DialogPilihMitraFragment : DialogFragment() {
                 sendNotif()
             } else {
                 progressDialog.dismiss()
+                dialog?.dismiss()
             }
         })
     }
@@ -100,13 +110,13 @@ class DialogPilihMitraFragment : DialogFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 requireActivity().onBackPressed()
+                dialog?.dismiss()
             } else {
                 progressDialog.dismiss()
+                dialog?.dismiss()
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }
-
-
 
 }

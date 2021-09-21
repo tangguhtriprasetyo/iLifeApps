@@ -64,6 +64,7 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
                 if (chatRoom != null && chatRoom.isNotEmpty()) {
                     progressDialog.dismiss()
                     listChatRoomAdapter.setListChatRoom(chatRoom)
+                    countNotRead(chatRoom)
                     setChatRoomAdapter()
                     showEmptChatRoom(false)
                 } else {
@@ -71,6 +72,17 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
                     showEmptChatRoom(true)
                 }
             })
+    }
+
+    private fun countNotRead(chatRoom: List<ChatRoom>) {
+        var count = 0
+        for (item in chatRoom) {
+            if (!item.readByUser) {
+                count += 1
+            }
+        }
+        val total = "( $count )"
+        binding.tvBelumDibaca.text = total
     }
 
     private fun showEmptChatRoom(state: Boolean) {
