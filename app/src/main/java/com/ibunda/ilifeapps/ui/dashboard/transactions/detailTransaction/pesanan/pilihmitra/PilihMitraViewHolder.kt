@@ -17,6 +17,7 @@ class PilihMitraViewHolder(private val binding: ItemRvPilihMitraBinding, private
             }
             ratingBar.rating = (data.rating?.toFloat()!!)
             tvHargaTawar.text = (data.priceTawar)
+            tvNamaMitra.text = (data.shopName)
 
         }
 

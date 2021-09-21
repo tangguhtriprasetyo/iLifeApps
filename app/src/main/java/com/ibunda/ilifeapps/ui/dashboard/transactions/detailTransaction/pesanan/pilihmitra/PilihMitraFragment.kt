@@ -6,19 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.Timestamp
-import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.databinding.FragmentPilihMitraBinding
-import com.ibunda.ilifeapps.utils.AppConstants
-import com.ibunda.ilifeapps.utils.DateHelper
+import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.pilihmitra.dialogpilihmitra.DialogPilihMitraFragment
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
     private lateinit var binding: FragmentPilihMitraBinding
     private lateinit var orders: Orders
@@ -80,7 +79,6 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
         }
     }
 
-
     private fun showEmptyListShop(state: Boolean) {
         if (state) {
             binding.rvPilihMitra.visibility = View.GONE
@@ -91,48 +89,15 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
         }
     }
 
-    private fun updateOrderData(data: Shops) {
-        orders.shopId = data.shopId
-        orders.shopName = data.shopName
-        orders.shopPicture = data.shopPicture
-        orders.processedAt = DateHelper.getCurrentDateTime()
-        orders.verified = data.verified
-        orders.totalPrice = data.priceTawar
-        orders.status = AppConstants.STATUS_DIPROSES
-        pilihMitraViewModel.updateOrderData(orders).observe(viewLifecycleOwner, { orderData ->
-            if (orderData != null) {
-                sendNotif()
-            }
-        })
-    }
-
-    private fun sendNotif() {
-        val notif = Notifications(
-            notifId = Timestamp(Date()).toString(),
-            body = AppConstants.MESSAGE_STATUS_PESANAN,
-            date = DateHelper.getCurrentDateTime(),
-            orderId = orders.orderId,
-            receiverId = orders.shopId,
-            receiverPicture = orders.shopPicture,
-            title = AppConstants.TITLE_STATUS_PESANAN,
-            senderId = orders.userId,
-            senderPicture = orders.userPicture
-        )
-        pilihMitraViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
-            if (status == AppConstants.STATUS_SUCCESS) {
-                Toast.makeText(
-                    requireContext(),
-                    "Pesanan berhasil diproses, silahkan lihat status pesanan anda di halaman Transaksi",
-                    Toast.LENGTH_SHORT
-                ).show()
-                requireActivity().onBackPressed()
-            } else {
-                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
     override fun onItemClicked(data: Shops) {
-        updateOrderData(data)
+        val mDialogPilihMitraFragment = DialogPilihMitraFragment()
+        val mBundle = Bundle()
+        mBundle.putParcelable(DialogPilihMitraFragment.EXTRA_SHOP, data)
+        mBundle.putParcelable(DialogPilihMitraFragment.EXTRA_ORDER, orders)
+        mDialogPilihMitraFragment.arguments = mBundle
+        mDialogPilihMitraFragment.show(
+            requireActivity().supportFragmentManager,
+            DialogTawarMitraFragment::class.java.simpleName
+        )
     }
 }
