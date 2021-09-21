@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
+import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,5 +40,8 @@ class DetailViewModel: ViewModel() {
     //EditShopData
     fun updateTotalOrderShop(authUser: Shops): LiveData<Shops> =
         firebaseServices.editShopData(authUser)
+
+    fun uploadNotif(notif: Notifications): LiveData<String> =
+        firebaseServices.uploadNotification(notif)
 
 }

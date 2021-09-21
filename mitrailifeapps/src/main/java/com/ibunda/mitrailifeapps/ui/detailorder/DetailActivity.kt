@@ -35,8 +35,9 @@ class DetailActivity : AppCompatActivity() {
         const val DIPROSES_FRAGMENT_TAG = "diproses_fragment_tag"
         const val SELESAI_FRAGMENT_TAG = "selesai_fragment_tag"
         const val DIBATALKAN_FRAGMENT_TAG = "dibatalkan_fragment_tag"
-        const val EXTRA_ORDER = "extra_order"
         const val EXTRA_USER = "extra_user"
+        const val EXTRA_ORDER = "extra_order"
+        const val EXTRA_ORDER_ID = "extra_order_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +45,24 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
+        if (intent.hasExtra(EXTRA_ORDER)) {
+            ordersData = intent.getParcelableExtra<Orders>(EXTRA_ORDER) as Orders
+            setOrderData(ordersData.orderId)
+        } else if (intent.hasExtra(EXTRA_ORDER_ID)) {
+            setOrderData(intent.getStringExtra(EXTRA_ORDER_ID))
+        }
 
-        setOrderData()
-        setOrderCondition(ordersData.status)
+    }
+
+    private fun setOrderData(orderId: String?) {
+        detailViewModel.setOrderData(orderId.toString()).observe(this, { orders ->
+            if (orders != null) {
+                ordersData = orders
+                setShop(ordersData)
+                setOrderCondition(ordersData.status)
+                Log.e(ordersData.status, "statusOrder")
+            }
+        })
     }
 
     private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {
@@ -56,22 +71,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setOrderData() {
-        detailViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
-            if (orders != null) {
-                ordersData = orders
-                setShop(ordersData)
-                Log.e(ordersData.status, "statusOrder")
-            }
-        })
-    }
 
     private fun setShop(ordersData: Orders) {
-        detailViewModel.setShopsProfile(ordersData.shopId.toString()).observe(this, { shopsProfile ->
-            if (shopsProfile != null) {
-                shopsDataProfile = shopsProfile
-            }
-        })
+        detailViewModel.setShopsProfile(ordersData.shopId.toString())
+            .observe(this, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shopsDataProfile = shopsProfile
+                }
+            })
     }
 
     private fun setOrderCondition(status: String?) {
@@ -81,7 +88,7 @@ class DetailActivity : AppCompatActivity() {
         val selesaiFragment = SelesaiFragment()
         val dibatalkanFragment = DibatalkanFragment()
 
-        when(status) {
+        when (status) {
             STATUS_PESANAN -> {
                 setCurrentFragment(pesananFragment, PESANAN_FRAGMENT_TAG)
             }

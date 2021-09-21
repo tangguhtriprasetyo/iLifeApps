@@ -32,9 +32,12 @@ class FirebaseServices {
     private val shopsRef: CollectionReference = firestoreRef.collection("shops")
     private val ordersRef: CollectionReference = firestoreRef.collection("orders")
     private val mitraRef: CollectionReference = firestoreRef.collection("mitras")
+    private val notifRef: CollectionReference = firestoreRef.collection("notifications")
+    private val chatRef: CollectionReference = firestoreRef.collection("chatRoom")
 
     private var STATUS_ERROR = "error"
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< AUTHENTICATION METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun createUserToFirestore(authUser: Mitras): LiveData<Mitras> {
         val createdMitraData = MutableLiveData<Mitras>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -97,6 +100,7 @@ class FirebaseServices {
         return authenticatedUser
     }
 
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< GET DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun getMitraData(mitraId: String): LiveData<Mitras> {
         val docRef: DocumentReference = mitraRef.document(mitraId)
         val mitraProfileData = MutableLiveData<Mitras>()
@@ -117,6 +121,72 @@ class FirebaseServices {
         return mitraProfileData
     }
 
+    fun getOrdersData(orderId: String): LiveData<Orders> {
+        val docRef: DocumentReference = ordersRef.document(orderId)
+        val orderData = MutableLiveData<Orders>()
+        CoroutineScope(Dispatchers.IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val ordersData = document.toObject<Orders>()
+                    orderData.postValue(ordersData!!)
+                    Log.d("getShopData: ", ordersData.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return orderData
+    }
+
+    fun getShopsData(shopId: String): LiveData<Shops> {
+        val docRef: DocumentReference = shopsRef.document(shopId)
+        val shopsProfileData = MutableLiveData<Shops>()
+        CoroutineScope(Dispatchers.IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val shopsProfile = document.toObject<Shops>()
+                    shopsProfileData.postValue(shopsProfile!!)
+                    Log.d("getShopsProfile: ", shopsProfile.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return shopsProfileData
+    }
+
+    fun getNotifications(shopId: String): Flow<List<Notifications>?> {
+        return callbackFlow {
+
+            val listenerRegistration =
+                notifRef.whereEqualTo("receiverId", shopId)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listNotif = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<Notifications>()
+                        }
+                        offer(listNotif)
+                        Log.d("Notif", listNotif.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< UPDATE DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun editMitraData(authUser: Mitras): LiveData<Mitras> {
         val editedUserData = MutableLiveData<Mitras>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -163,33 +233,6 @@ class FirebaseServices {
         return editedShopData
     }
 
-    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
-        val mStorage: FirebaseStorage = Firebase.storage
-        val storageRef = mStorage.reference
-        val fileRef = storageRef.child("$uid/$type/$name")
-        val downloadUrl = MutableLiveData<String>()
-
-        fileRef.putFile(uri).continueWithTask { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
-                    throw it
-                }
-            }
-            fileRef.downloadUrl
-        }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val downloadUri = task.result
-                downloadUrl.postValue(downloadUri.toString())
-                Log.d("uploadFiles: ", downloadUri.toString())
-            } else {
-                task.exception?.let {
-                    throw it
-                }
-            }
-        }
-        return downloadUrl
-    }
-
     fun updatePasswordMitra(email: String?, recentPassword: String?, newPassword: String?): LiveData<String> {
         val statusUpdate = MutableLiveData<String>()
         val user: FirebaseUser? = firebaseAuth.currentUser
@@ -223,6 +266,224 @@ class FirebaseServices {
         return statusUpdate
     }
 
+    fun updateOrderData(orderData: Orders): LiveData<Orders> {
+        val editOrderData = MutableLiveData<Orders>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orderData.orderId.toString())
+            docRef.set(orderData, SetOptions.merge()).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    editOrderData.postValue(orderData)
+                } else {
+                    Log.d(
+                        "errorUpdateOrder: ",
+                        it.exception?.message.toString()
+                    )
+                }
+            }
+                .addOnFailureListener {
+                    Log.d(
+                        "errorCreateUser: ", it.message.toString()
+                    )
+                }
+        }
+        return editOrderData
+    }
+
+    fun updateChat(chatRoomId: String): LiveData<String> {
+        val status = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            chatRef.document(chatRoomId)
+                .update("readByShop", true)
+                .addOnCompleteListener {
+                    status.postValue(STATUS_SUCCESS)
+                }
+                .addOnFailureListener { error ->
+                    STATUS_ERROR = error.message.toString()
+                    status.postValue(STATUS_ERROR)
+                    Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                }
+        }
+        return status
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< POST DATA TO DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun uploadFiles(uri: Uri, uid: String, type: String, name: String): LiveData<String> {
+        val mStorage: FirebaseStorage = Firebase.storage
+        val storageRef = mStorage.reference
+        val fileRef = storageRef.child("$uid/$type/$name")
+        val downloadUrl = MutableLiveData<String>()
+
+        fileRef.putFile(uri).continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            fileRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                downloadUrl.postValue(downloadUri.toString())
+                Log.d("uploadFiles: ", downloadUri.toString())
+            } else {
+                task.exception?.let {
+                    throw it
+                }
+            }
+        }
+        return downloadUrl
+    }
+
+    fun uploadTawaranShop(orderId: String, tawarId: String, offerOrder: OfferOrder): LiveData<String> {
+
+        val statusOrder = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = ordersRef.document(orderId).collection("listMitra").document(tawarId)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(offerOrder).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusOrder.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    } else {
+                        docRef.set(offerOrder, SetOptions.merge()).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusOrder.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusOrder.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorUpdateShop: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusOrder.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                }
+        }
+
+
+        return statusOrder
+
+    }
+
+    fun createShops(shops: Shops): LiveData<Shops> {
+        val createdShopData = MutableLiveData<Shops>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = shopsRef.document(shops.shopId.toString())
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(shops).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                mitraRef.document(shops.mitraId.toString())
+                                    .update("totalShop", FieldValue.increment(1))
+                                    .addOnCompleteListener {
+                                        shops.isCreated = true
+                                        createdShopData.postValue(shops)
+                                    }
+                                    .addOnFailureListener { error ->
+                                        STATUS_ERROR = error.message.toString()
+                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
+                                    }
+                            } else {
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    Log.d("ErrorGetUser: ", it.message.toString())
+                }
+        }
+        return createdShopData
+    }
+
+    fun uploadNotification(notif: Notifications): LiveData<String> {
+        val statusNotif = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = notifRef.document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(notif).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusNotif.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusNotif.postValue(STATUS_ERROR)
+                                Log.d(
+                                    "errorCreateUser: ",
+                                    it.exception?.message.toString()
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusNotif.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadNotif: ", it.message.toString())
+                }
+        }
+        return statusNotif
+    }
+
+    fun sendTawaran(chatRoom: ChatRoom): LiveData<String> {
+        val statusChat = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = chatRef.document(chatRoom.chatRoomId!!)
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    docRef.set(chatRoom, SetOptions.merge()).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            statusChat.postValue(
+                                STATUS_SUCCESS
+                            )
+                        } else {
+                            STATUS_ERROR = it.exception?.message.toString()
+                            statusChat.postValue(STATUS_ERROR)
+                            Log.d(
+                                "errorCreateUser: ",
+                                it.exception?.message.toString()
+                            )
+                        }
+                    }
+                }
+            }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusChat.postValue(STATUS_ERROR)
+                    Log.d("ErrorUploadNotif: ", it.message.toString())
+                }
+        }
+        return statusChat
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< GET LIST DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     fun getListOrderKhususData(
         query: Boolean,
         status: String,
@@ -263,83 +524,6 @@ class FirebaseServices {
 
     }
 
-    fun getOrdersData(orderId: String): LiveData<Orders> {
-        val docRef: DocumentReference = ordersRef.document(orderId)
-        val orderData = MutableLiveData<Orders>()
-        CoroutineScope(Dispatchers.IO).launch {
-            docRef.get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val ordersData = document.toObject<Orders>()
-                    orderData.postValue(ordersData!!)
-                    Log.d("getShopData: ", ordersData.toString())
-                } else {
-                    Log.d("Error getting Doc", "Document Doesn't Exist")
-                }
-            }
-                .addOnFailureListener {
-
-                }
-        }
-        return orderData
-    }
-
-    fun createShops(shops: Shops): LiveData<Shops> {
-        val createdShopData = MutableLiveData<Shops>()
-        CoroutineScope(Dispatchers.IO).launch {
-            val docRef: DocumentReference = shopsRef.document(shops.shopId.toString())
-            docRef.get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document: DocumentSnapshot? = task.result
-                    if (document?.exists() == false) {
-                        docRef.set(shops).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                mitraRef.document(shops.mitraId.toString())
-                                    .update("totalShop", FieldValue.increment(1))
-                                    .addOnCompleteListener {
-                                        shops.isCreated = true
-                                        createdShopData.postValue(shops)
-                                    }
-                                    .addOnFailureListener { error ->
-                                        STATUS_ERROR = error.message.toString()
-                                        Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
-                                    }
-                            } else {
-                                Log.d(
-                                    "errorCreateUser: ",
-                                    it.exception?.message.toString()
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-                .addOnFailureListener {
-                    Log.d("ErrorGetUser: ", it.message.toString())
-                }
-        }
-        return createdShopData
-    }
-
-    fun getShopsData(shopId: String): LiveData<Shops> {
-        val docRef: DocumentReference = shopsRef.document(shopId)
-        val shopsProfileData = MutableLiveData<Shops>()
-        CoroutineScope(Dispatchers.IO).launch {
-            docRef.get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val shopsProfile = document.toObject<Shops>()
-                    shopsProfileData.postValue(shopsProfile!!)
-                    Log.d("getShopsProfile: ", shopsProfile.toString())
-                } else {
-                    Log.d("Error getting Doc", "Document Doesn't Exist")
-                }
-            }
-                .addOnFailureListener {
-
-                }
-        }
-        return shopsProfileData
-    }
-
     fun getListOrdersData(
         query: String,
         shopId: String,
@@ -372,29 +556,6 @@ class FirebaseServices {
                 listenerRegistration.remove()
             }
         }
-    }
-
-    fun updateOrderData(orderData: Orders): LiveData<Orders> {
-        val editOrderData = MutableLiveData<Orders>()
-        CoroutineScope(Dispatchers.IO).launch {
-            val docRef: DocumentReference = ordersRef.document(orderData.orderId.toString())
-            docRef.set(orderData, SetOptions.merge()).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    editOrderData.postValue(orderData)
-                } else {
-                    Log.d(
-                        "errorUpdateOrder: ",
-                        it.exception?.message.toString()
-                    )
-                }
-            }
-                .addOnFailureListener {
-                    Log.d(
-                        "errorCreateUser: ", it.message.toString()
-                    )
-                }
-        }
-        return editOrderData
     }
 
     fun getListShop(query: String, collectionRef: String): Flow<List<Shops>?> {
@@ -454,38 +615,86 @@ class FirebaseServices {
 
     }
 
-    fun uploadTawaranShop(orderId: String, tawarId: String, offerOrder: OfferOrder): LiveData<String> {
+    fun getListChatRoom(shopId: String, checkRead: Boolean): Flow<List<ChatRoom>?> {
+        return callbackFlow {
+            val query = if (checkRead) {
+                chatRef.whereEqualTo("shopId", shopId).whereEqualTo("readByShop", false)
+            } else {
+                chatRef.whereEqualTo("shopId", shopId)
+            }
 
-        val statusOrder = MutableLiveData<String>()
+            val listenerRegistration =
+                query.addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                    if (firestoreException != null) {
+                        cancel(
+                            message = "Error fetching posts",
+                            cause = firestoreException
+                        )
+                        return@addSnapshotListener
+                    }
+                    val listChat = querySnapshot?.documents?.mapNotNull {
+                        it.toObject<ChatRoom>()
+                    }
+                    offer(listChat)
+                    Log.d("ListChatRoom", listChat.toString())
+                }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+    }
+
+    fun getListChatMessages(chatRoomId: String): Flow<List<ChatMessages>?> {
+        return callbackFlow {
+
+            val listenerRegistration =
+                chatRef.document(chatRoomId).collection("chats").orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
+                        if (firestoreException != null) {
+                            cancel(
+                                message = "Error fetching posts",
+                                cause = firestoreException
+                            )
+                            return@addSnapshotListener
+                        }
+                        val listChat = querySnapshot?.documents?.mapNotNull {
+                            it.toObject<ChatMessages>()
+                        }
+                        offer(listChat)
+                        Log.d("Chats", listChat.toString())
+                    }
+            awaitClose {
+                listenerRegistration.remove()
+            }
+        }
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< DELETE DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun deleteNotification(notifId: String): LiveData<String> {
+        val statusNotif = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
-            val docRef: DocumentReference = ordersRef.document(orderId).collection("listMitra").document(tawarId)
+            val docRef: DocumentReference = notifRef.document(notifId)
+            docRef.delete().addOnSuccessListener { statusNotif.postValue(STATUS_SUCCESS) }
+                .addOnFailureListener { statusNotif.postValue(it.message) }
+        }
+        return statusNotif
+    }
+
+    //<<<<<<<<<<<<<<<<<<<<<<<<<< PRIVATE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun sendChat(chatRoomId: String, chatMessages: ChatMessages): LiveData<String> {
+        val statusChat = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            val docRef: DocumentReference = chatRef.document(chatRoomId).collection("chats").document()
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val document: DocumentSnapshot? = task.result
                     if (document?.exists() == false) {
-                        docRef.set(offerOrder).addOnCompleteListener {
+                        docRef.set(chatMessages).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                statusOrder.postValue(STATUS_SUCCESS)
+                                statusChat.postValue(STATUS_SUCCESS)
                             } else {
                                 STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
-                                Log.d(
-                                    "errorCreateUser: ",
-                                    it.exception?.message.toString()
-                                )
-                            }
-                        }
-                    } else {
-                        docRef.set(offerOrder, SetOptions.merge()).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                statusOrder.postValue(STATUS_SUCCESS)
-                            } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
-                                Log.d(
-                                    "errorUpdateShop: ",
-                                    it.exception?.message.toString()
-                                )
+                                statusChat.postValue(STATUS_ERROR)
                             }
                         }
                     }
@@ -493,16 +702,11 @@ class FirebaseServices {
             }
                 .addOnFailureListener {
                     STATUS_ERROR = it.message.toString()
-                    statusOrder.postValue(STATUS_ERROR)
-                    Log.d("ErrorUploadOrder: ", it.message.toString())
+                    statusChat.postValue(STATUS_ERROR)
                 }
         }
-
-
-        return statusOrder
-
+        return statusChat
     }
-
 
 
 

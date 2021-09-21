@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.order
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,10 @@ import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentOrderBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsActivity
+import com.ibunda.mitrailifeapps.ui.dashboard.notifications.NotificationsFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_PESANAN
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,8 +69,10 @@ class OrderFragment : Fragment() {
 
     private fun initEmptyShop() {
         binding.linearEmptyToko.visibility = View.VISIBLE
-        binding.linearMessage.visibility = View.GONE
-        binding.linearNotification.visibility = View.GONE
+        binding.chat.icMessage.visibility = View.GONE
+        binding.chat.imgBadgeChat.visibility = View.GONE
+        binding.notification.icNotification.visibility = View.GONE
+        binding.notification.imgBadgeNotification.visibility = View.GONE
 
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
@@ -75,7 +81,8 @@ class OrderFragment : Fragment() {
                 addToBackStack(null)
                 replace(
                     R.id.host_fragment_activity_main,
-                    mCreateShopOneFragment
+                    mCreateShopOneFragment,
+                    MainActivity.CHILD_FRAGMENT
                 )
             }
         }
@@ -87,11 +94,56 @@ class OrderFragment : Fragment() {
                 if (shopsProfile != null) {
                     shopsDataProfile = shopsProfile
                     setDataRvListOrders(shopsDataProfile)
+                    listenNotif(shopsDataProfile.shopId)
+                    listenChats(shopsDataProfile.shopId)
                 }
                 Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
             })
-
         binding.rvPesanan.visibility = View.VISIBLE
+
+        binding.notification.icNotification.setOnClickListener { gotoNotifications() }
+        binding.chat.icMessage.setOnClickListener { gotoChats() }
+    }
+
+    private fun gotoNotifications() {
+        val mFragmentManager = parentFragmentManager
+        val mCustomOrderFragment = NotificationsFragment()
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_fragment_activity_main,
+                mCustomOrderFragment,
+                MainActivity.CHILD_FRAGMENT
+            )
+        }
+    }
+
+    private fun gotoChats() {
+        val intent = Intent(requireActivity(), ChatsActivity::class.java)
+        intent.putExtra(ChatsActivity.EXTRA_USER, shopsDataProfile)
+        startActivity(intent)
+    }
+
+    private fun listenChats(shopId: String?) {
+        mainViewModel.getListChatRoom(shopId.toString())
+            .observe(viewLifecycleOwner, { listChats ->
+                if (listChats != null && listChats.isNotEmpty()) {
+                    binding.chat.imgBadgeChat.visibility = View.VISIBLE
+                } else {
+                    binding.chat.imgBadgeChat.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun listenNotif(shopId: String?) {
+        mainViewModel.getListNotif(shopId.toString())
+            .observe(viewLifecycleOwner, { listNotif ->
+                if (listNotif != null && listNotif.isNotEmpty()) {
+                    binding.notification.imgBadgeNotification.visibility = View.VISIBLE
+                } else {
+                    binding.notification.imgBadgeNotification.visibility = View.GONE
+                }
+            })
     }
 
     private fun setDataRvListOrders(shopsDataProfile: Shops) {

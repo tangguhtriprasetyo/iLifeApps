@@ -6,17 +6,22 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChatRoom(
 
-    var accTawar: Boolean? = null,
-    var imgMitra: String? = null,
-    var imgUser: String? = null,
+    var chatRoomId: String? = null,
+    var accTawar: Boolean = false,
     var lastDate: String? = null,
     var lastMessage: String? = null,
     var lastHargaTawar: String? = null,
-    var lastTawar: Boolean? = null,
-    var read: Boolean? = null,
+    var lastTawar: Boolean = false,
+    var readByUser: Boolean = false,
+    var readByShop: Boolean = false,
     var shopId: String? = null,
     var shopName: String? = null,
+    var shopPicture: String? = null,
+    var shopPrice: String? = null,
+    var categoryName: String? = null,
     var userId: String? = null,
-    var userName: String? = null
+    var userName: String? = null,
+    var userPicture: String? = null,
+    var verified: Boolean = false
 
 ) : Parcelable

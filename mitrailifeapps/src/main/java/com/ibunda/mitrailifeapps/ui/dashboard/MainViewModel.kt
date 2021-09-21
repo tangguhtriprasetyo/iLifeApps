@@ -89,4 +89,16 @@ class MainViewModel: ViewModel() {
     fun uploadTawaran(orderId: String, tawarId: String, offerOrder: OfferOrder): LiveData<String> =
         firebaseServices.uploadTawaranShop(orderId, tawarId, offerOrder)
 
+    //
+    fun getListNotif(shopId: String): LiveData<List<Notifications>?> {
+        return firebaseServices.getNotifications(shopId).asLiveData()
+    }
+
+    fun getListChatRoom(shopId: String): LiveData<List<ChatRoom>?> {
+        return firebaseServices.getListChatRoom(shopId, true).asLiveData()
+    }
+
+    fun deleteNotif(notifId: String): LiveData<String> =
+        firebaseServices.deleteNotification(notifId)
+
 }

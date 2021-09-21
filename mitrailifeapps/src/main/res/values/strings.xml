@@ -109,5 +109,6 @@
     <string name="tunggu_sebentar">Tunggu Sebentar!</string>
     <string name="akun_anda_belum_terverifikasi_oleh_n_pihak_i_life">Akun anda belum terverifikasi oleh\n pihak I-Life</string>
     <string name="untuk_saat_ini_anda_belum_terdaftar_sebagai_mitra_i_life_silahkan_lakukan_pendaftaran_sebagai_mitra_terlebih_dahulu">Untuk saat ini Anda belum terdaftar sebagai Mitra I-Life.\n Silahkan lakukan pendaftaran sebagai Mitra terlebih dahulu.</string>
+    <string name="notification">Notifikasi</string>
 
 </resources>

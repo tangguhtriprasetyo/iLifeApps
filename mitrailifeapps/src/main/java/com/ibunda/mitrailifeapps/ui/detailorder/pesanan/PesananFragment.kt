@@ -9,16 +9,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.Timestamp
+import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.databinding.FragmentPesananBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.dialogtolakpesanan.DialogTolakPesananFragment
+import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIPROSES
+import com.ibunda.mitrailifeapps.utils.AppConstants.TOAST_STATUS_DIPROSES
 import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class PesananFragment : Fragment() {
@@ -95,6 +100,7 @@ class PesananFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
+                sendNotifDiproses()
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil diproses, silahkan cek di Transaksi", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
@@ -105,6 +111,32 @@ class PesananFragment : Fragment() {
                     "Update Order Failed",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        })
+    }
+
+    private fun sendNotifDiproses() {
+        val notif = Notifications(
+            notifId = Timestamp(Date()).toString(),
+            body = AppConstants.BODY_STATUS_DIPROSES,
+            date = DateHelper.getCurrentDateTime(),
+            orderId = ordersData.orderId,
+            receiverId = ordersData.userId,
+            receiverPicture = ordersData.userPicture,
+            title = AppConstants.TITLE_STATUS_PESANAN,
+            senderId = ordersData.shopId,
+            senderPicture = ordersData.shopPicture
+        )
+        detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    TOAST_STATUS_DIPROSES,
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().finish()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -125,6 +157,7 @@ class PesananFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
+                sendNotifCancel()
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
@@ -135,6 +168,32 @@ class PesananFragment : Fragment() {
                     "Update Order Failed",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        })
+    }
+
+    private fun sendNotifCancel() {
+        val notif = Notifications(
+            notifId = Timestamp(Date()).toString(),
+            body = AppConstants.BODY_STATUS_DIBATALKAN,
+            date = DateHelper.getCurrentDateTime(),
+            orderId = ordersData.orderId,
+            receiverId = ordersData.userId,
+            receiverPicture = ordersData.userPicture,
+            title = AppConstants.TITLE_STATUS_DIBATALKAN,
+            senderId = ordersData.shopId,
+            senderPicture = ordersData.shopPicture
+        )
+        detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+            if (status == AppConstants.STATUS_SUCCESS) {
+                Toast.makeText(
+                    requireContext(),
+                    TOAST_STATUS_DIPROSES,
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().finish()
+            } else {
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }

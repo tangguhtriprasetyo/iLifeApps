@@ -20,6 +20,8 @@ import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentProfileBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsActivity
+import com.ibunda.mitrailifeapps.ui.dashboard.notifications.NotificationsFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.dialogkelolashop.DialogKelolaShopFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.editshop.EditShopFragment
@@ -71,9 +73,10 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
     private fun initEmptyShop() {
         binding.linearEmptyToko.visibility = View.VISIBLE
-        binding.linearMessage.visibility = View.GONE
-        binding.linearNotification.visibility = View.GONE
-
+        binding.chat.icMessage.visibility = View.GONE
+        binding.chat.imgBadgeChat.visibility = View.GONE
+        binding.notification.icNotification.visibility = View.GONE
+        binding.notification.imgBadgeNotification.visibility = View.GONE
         binding.icSetting.setOnClickListener(this)
 
         binding.btnTambahToko.setOnClickListener {
@@ -96,18 +99,42 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
                 if (shopsProfile != null) {
                     shopsDataProfile = shopsProfile
                     setDataShops(shopsDataProfile)
+                    listenNotif(shopsDataProfile.shopId)
+                    listenChats(shopsDataProfile.shopId)
                 }
                 Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
             })
 
-        binding.linearMessage.setOnClickListener(this)
-        binding.linearNotification.setOnClickListener(this)
+        binding.notification.icNotification.setOnClickListener(this)
+        binding.chat.icMessage.setOnClickListener(this)
         binding.icSetting.setOnClickListener(this)
         binding.linearDeskripsiToko.setOnClickListener(this)
         binding.linearEditAkun.setOnClickListener(this)
         binding.linearUlasanToko.setOnClickListener(this)
         binding.btnKelolaToko.setOnClickListener(this)
         binding.linearLokasiToko.setOnClickListener(this)
+    }
+
+    private fun listenChats(shopId: String?) {
+        mainViewModel.getListChatRoom(shopId.toString())
+            .observe(viewLifecycleOwner, { listChats ->
+                if (listChats != null && listChats.isNotEmpty()) {
+                    binding.chat.imgBadgeChat.visibility = View.VISIBLE
+                } else {
+                    binding.chat.imgBadgeChat.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun listenNotif(shopId: String?) {
+        mainViewModel.getListNotif(shopId.toString())
+            .observe(viewLifecycleOwner, { listNotif ->
+                if (listNotif != null && listNotif.isNotEmpty()) {
+                    binding.notification.imgBadgeNotification.visibility = View.VISIBLE
+                } else {
+                    binding.notification.imgBadgeNotification.visibility = View.GONE
+                }
+            })
     }
 
     private val getResult =
@@ -159,8 +186,8 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.linear_message -> openMessage()
-            R.id.linear_notification -> openNotifications()
+            R.id.ic_message -> gotoChats()
+            R.id.ic_notification -> gotoNotifications()
             R.id.ic_setting -> openSetting()
             R.id.linear_deskripsi_toko -> editAkun("EditKemampuan")
             R.id.linear_edit_akun -> editAkun("EditShop")
@@ -168,6 +195,25 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             R.id.btn_kelola_toko -> kelolaToko()
             R.id.linear_lokasi_toko -> openMaps()
         }
+    }
+
+    private fun gotoNotifications() {
+        val mFragmentManager = parentFragmentManager
+        val mCustomOrderFragment = NotificationsFragment()
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_fragment_activity_main,
+                mCustomOrderFragment,
+                MainActivity.CHILD_FRAGMENT
+            )
+        }
+    }
+
+    private fun gotoChats() {
+        val intent = Intent(requireActivity(), ChatsActivity::class.java)
+        intent.putExtra(ChatsActivity.EXTRA_USER, shopsDataProfile)
+        startActivity(intent)
     }
 
     private fun openMaps() {

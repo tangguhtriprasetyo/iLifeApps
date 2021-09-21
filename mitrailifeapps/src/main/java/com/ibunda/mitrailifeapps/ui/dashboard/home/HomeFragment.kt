@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,13 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
+import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentHomeBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
+import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsActivity
 import com.ibunda.mitrailifeapps.ui.dashboard.home.dialogseleksiberdasarkan.DialogSeleksiBerdasarkanFragment
+import com.ibunda.mitrailifeapps.ui.dashboard.notifications.NotificationsFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.profile.createshop.CreateShopOneFragment
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_PESANAN
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +35,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private var sort: Boolean = false
 
     private lateinit var mitraDataProfile: Mitras
+    private lateinit var shopsDataProfile: Shops
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +50,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         Log.e(sort.toString(), "sorting")
-
 
         getProfileData()
     }
@@ -65,18 +69,52 @@ class HomeFragment : Fragment(), View.OnClickListener {
             })
     }
 
+    private fun listenChats(shopId: String?) {
+        mainViewModel.getListChatRoom(shopId.toString())
+            .observe(viewLifecycleOwner, { listChats ->
+                if (listChats != null && listChats.isNotEmpty()) {
+                    binding.chat.imgBadgeChat.visibility = View.VISIBLE
+                } else {
+                    binding.chat.imgBadgeChat.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun listenNotif(shopId: String?) {
+        mainViewModel.getListNotif(shopId.toString())
+            .observe(viewLifecycleOwner, { listNotif ->
+                if (listNotif != null && listNotif.isNotEmpty()) {
+                    binding.notification.imgBadgeNotification.visibility = View.VISIBLE
+                } else {
+                    binding.notification.imgBadgeNotification.visibility = View.GONE
+                }
+            })
+    }
+
     private fun initView() {
+        mainViewModel.getShopData()
+            .observe(viewLifecycleOwner, { shopsProfile ->
+                if (shopsProfile != null) {
+                    shopsDataProfile = shopsProfile
+                    listenNotif(shopsDataProfile.shopId)
+                    listenChats(shopsDataProfile.shopId)
+                }
+                Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
+            })
+
         binding.rvPesananKhusus.visibility = View.VISIBLE
         setDataRvListOrders(sort)
         binding.linearSortby.setOnClickListener(this)
-        binding.linearMessage.setOnClickListener(this)
-        binding.linearNotification.setOnClickListener(this)
+        binding.notification.icNotification.setOnClickListener(this)
+        binding.chat.icMessage.setOnClickListener(this)
     }
 
     private fun initEmptyShop() {
         binding.linearEmptyToko.visibility = View.VISIBLE
-        binding.linearMessage.visibility = View.GONE
-        binding.linearNotification.visibility = View.GONE
+        binding.chat.icMessage.visibility = View.GONE
+        binding.chat.imgBadgeChat.visibility = View.GONE
+        binding.notification.icNotification.visibility = View.GONE
+        binding.notification.imgBadgeNotification.visibility = View.GONE
         binding.linearSortby.visibility = View.GONE
 
         binding.btnTambahToko.setOnClickListener {
@@ -119,18 +157,29 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.ic_message -> openMessage()
-            R.id.ic_notification -> openNotifications()
+            R.id.ic_message -> gotoChats()
+            R.id.ic_notification -> gotoNotifications()
             R.id.linear_sortby -> dialogSeleksiBerdasarkan()
         }
     }
 
-    private fun openMessage() {
-
+    private fun gotoNotifications() {
+        val mFragmentManager = parentFragmentManager
+        val mCustomOrderFragment = NotificationsFragment()
+        mFragmentManager.commit {
+            addToBackStack(null)
+            replace(
+                R.id.host_fragment_activity_main,
+                mCustomOrderFragment,
+                MainActivity.CHILD_FRAGMENT
+            )
+        }
     }
 
-    private fun openNotifications() {
-
+    private fun gotoChats() {
+        val intent = Intent(requireActivity(), ChatsActivity::class.java)
+        intent.putExtra(ChatsActivity.EXTRA_USER, shopsDataProfile)
+        startActivity(intent)
     }
 
     private fun dialogSeleksiBerdasarkan() {
