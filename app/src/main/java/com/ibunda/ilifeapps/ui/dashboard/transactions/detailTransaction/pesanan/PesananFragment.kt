@@ -190,7 +190,6 @@ class PesananFragment : Fragment() {
             body = AppConstants.MESSAGE_STATUS_DIBATALKAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orderData.orderId,
-            read = false,
             receiverId = orderData.shopId,
             receiverPicture = orderData.shopPicture,
             title = AppConstants.TITLE_STATUS_DIBATALKAN,

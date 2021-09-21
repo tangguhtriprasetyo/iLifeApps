@@ -1,4 +1,4 @@
-package com.ibunda.mitrailifeapps.ui.dashboard.home.notifications
+package com.ibunda.mitrailifeapps.ui.dashboard.notifications
 
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.mitrailifeapps.R

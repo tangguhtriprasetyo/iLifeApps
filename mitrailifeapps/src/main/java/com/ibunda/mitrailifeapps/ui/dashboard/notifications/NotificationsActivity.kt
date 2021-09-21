@@ -1,4 +1,4 @@
-package com.ibunda.mitrailifeapps.ui.dashboard.home.notifications
+package com.ibunda.mitrailifeapps.ui.dashboard.notifications
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

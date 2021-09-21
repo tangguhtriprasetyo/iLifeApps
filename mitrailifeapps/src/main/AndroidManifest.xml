@@ -35,7 +35,7 @@
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".ui.dashboard.home.notifications.NotificationsActivity"
+            android:name=".ui.dashboard.notifications.NotificationsActivity"
             android:exported="true" />
         <activity
             android:name=".ui.detailorder.DetailActivity"

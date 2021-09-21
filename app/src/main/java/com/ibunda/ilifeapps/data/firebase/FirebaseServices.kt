@@ -5,7 +5,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -379,7 +378,7 @@ class FirebaseServices {
                             it.toObject<ChatRoom>()
                         }
                         offer(listChat)
-                        Log.d("Chats", listChat.toString())
+                        Log.d("ListChatRoom", listChat.toString())
                     }
             awaitClose {
                 listenerRegistration.remove()
@@ -391,7 +390,7 @@ class FirebaseServices {
         return callbackFlow {
 
             val listenerRegistration =
-                chatRef.document(chatRoomId).collection("chats")
+                chatRef.document(chatRoomId).collection("chats").orderBy("timeStamp", Query.Direction.ASCENDING)
                     .addSnapshotListener { querySnapshot: QuerySnapshot?, firestoreException: FirebaseFirestoreException? ->
                         if (firestoreException != null) {
                             cancel(
@@ -607,7 +606,7 @@ class FirebaseServices {
         return statusNotif
     }
 
-    fun sendTawaran(chatRoom: ChatRoom, chatMessages: ChatMessages): LiveData<String> {
+    fun sendTawaran(chatRoom: ChatRoom): LiveData<String> {
         val statusChat = MutableLiveData<String>()
         CoroutineScope(IO).launch {
             val docRef: DocumentReference = chatRef.document(chatRoom.chatRoomId!!)
@@ -616,7 +615,7 @@ class FirebaseServices {
                     docRef.set(chatRoom, SetOptions.merge()).addOnCompleteListener {
                         if (it.isSuccessful) {
                             statusChat.postValue(
-                                sendChat(chatMessages)
+                                STATUS_SUCCESS
                             )
                         } else {
                             STATUS_ERROR = it.exception?.message.toString()
@@ -650,28 +649,30 @@ class FirebaseServices {
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<< PRIVATE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    private fun sendChat(chatMessages: ChatMessages): String {
-        var statusChat = ""
-        val docRef: DocumentReference = chatRef.document(Timestamp(Date()).toString())
-        docRef.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val document: DocumentSnapshot? = task.result
-                if (document?.exists() == false) {
-                    docRef.set(chatMessages).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            statusChat = STATUS_SUCCESS
-                        } else {
-                            STATUS_ERROR = it.exception?.message.toString()
-                            statusChat = STATUS_ERROR
+    fun sendChat(chatRoomId: String, chatMessages: ChatMessages): LiveData<String> {
+        val statusChat = MutableLiveData<String>()
+        CoroutineScope(IO).launch {
+            val docRef: DocumentReference = chatRef.document(chatRoomId).collection("chats").document()
+            docRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document: DocumentSnapshot? = task.result
+                    if (document?.exists() == false) {
+                        docRef.set(chatMessages).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                statusChat.postValue(STATUS_SUCCESS)
+                            } else {
+                                STATUS_ERROR = it.exception?.message.toString()
+                                statusChat.postValue(STATUS_ERROR)
+                            }
                         }
                     }
                 }
             }
+                .addOnFailureListener {
+                    STATUS_ERROR = it.message.toString()
+                    statusChat.postValue(STATUS_ERROR)
+                }
         }
-            .addOnFailureListener {
-                STATUS_ERROR = it.message.toString()
-                statusChat = STATUS_ERROR
-            }
         return statusChat
     }
 }

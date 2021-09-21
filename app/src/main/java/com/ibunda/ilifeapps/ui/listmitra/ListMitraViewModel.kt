@@ -25,8 +25,11 @@ class ListMitraViewModel : ViewModel() {
     fun uploadNotif(notif: Notifications): LiveData<String> =
         firebaseServices.uploadNotification(notif)
 
-    fun uploadTawaran(chatRoom: ChatRoom, chatMessages: ChatMessages): LiveData<String> =
-        firebaseServices.sendTawaran(chatRoom, chatMessages)
+    fun uploadTawaran(chatRoom: ChatRoom): LiveData<String> =
+        firebaseServices.sendTawaran(chatRoom)
+
+    fun sendChat(chatRoomId: String, chatMessages: ChatMessages): LiveData<String> =
+        firebaseServices.sendChat(chatRoomId, chatMessages)
 
     fun setShopData(shopId: String): LiveData<Shops> {
         _shopData = firebaseServices.getShopData(shopId) as MutableLiveData<Shops>

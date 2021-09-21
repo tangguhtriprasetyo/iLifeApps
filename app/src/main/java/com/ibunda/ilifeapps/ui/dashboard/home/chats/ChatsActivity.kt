@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityChatsBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages.ChatMessagesFragment
@@ -15,6 +16,7 @@ class ChatsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatsBinding
 
     private var userData: Users = Users()
+    private var chatRoom: ChatRoom = ChatRoom()
 
     private val chatsViewModel: ChatsViewModel by viewModels()
 
@@ -32,8 +34,8 @@ class ChatsActivity : AppCompatActivity() {
             chatsViewModel.setUserData(userData)
         }
         if (intent.hasExtra(EXTRA_ROOM_ID)) {
-            var chatRoomId = intent.getStringExtra(EXTRA_ROOM_ID)
-            chatsViewModel.setChatRoomId(chatRoomId!!)
+            val chatRoom = intent.getParcelableExtra<ChatRoom>(EXTRA_ROOM_ID) as ChatRoom
+            chatsViewModel.setChatRoomId(chatRoom)
             val chatMessagesFragment = ChatMessagesFragment()
             setCurrentFragment(chatMessagesFragment, ChatMessagesFragment::class.java.simpleName)
         } else {
@@ -44,7 +46,7 @@ class ChatsActivity : AppCompatActivity() {
 
     private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {
         supportFragmentManager.commit {
-            replace(R.id.host_chat_activity, fragment, fragmentTag)
+            replace(R.id.host_fragment_activity_chat, fragment, fragmentTag)
         }
     }
 }

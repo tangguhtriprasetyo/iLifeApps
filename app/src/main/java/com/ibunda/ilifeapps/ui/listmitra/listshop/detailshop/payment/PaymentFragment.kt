@@ -143,7 +143,6 @@ class PaymentFragment : Fragment() {
             body = AppConstants.MESSAGE_STATUS_PESANAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orders.orderId,
-            read = false,
             receiverId = shopData.shopId,
             receiverPicture = shopData.shopPicture,
             title = AppConstants.TITLE_STATUS_PESANAN,

@@ -79,6 +79,6 @@
         android:background="@color/colorLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout32" />
+        app:layout_constraintTop_toBottomOf="@+id/linearNotif" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

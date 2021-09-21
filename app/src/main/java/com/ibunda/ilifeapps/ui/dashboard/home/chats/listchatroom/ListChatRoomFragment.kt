@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.chats.listchatroom
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatRoomBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages.ChatMessagesFragment
+import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 
 class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
@@ -22,6 +24,8 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val listChatRoomAdapter = ListChatRoomAdapter(this@ListChatRoomFragment)
+
+    private lateinit var progressDialog : Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +38,15 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+
         initView()
         initData()
     }
 
     private fun initData() {
+        progressDialog.show()
         chatsViewModel.userData
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -52,10 +60,12 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
         chatsViewModel.getListChatRoom(userDataProfile.userId.toString())
             .observe(viewLifecycleOwner, { chatRoom ->
                 if (chatRoom != null && chatRoom.isNotEmpty()) {
+                    progressDialog.dismiss()
                     listChatRoomAdapter.setListChatRoom(chatRoom)
                     setChatRoomAdapter()
                     showEmptChatRoom(false)
                 } else {
+                    progressDialog.dismiss()
                     showEmptChatRoom(true)
                 }
             })
@@ -86,13 +96,13 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
     }
 
     override fun onItemClicked(data: ChatRoom) {
-        chatsViewModel.setChatRoomId(data.chatRoomId!!)
+        chatsViewModel.setChatRoomId(data)
         val mFragmentManager = parentFragmentManager
         val mChatMessagesFragment = ChatMessagesFragment()
         mFragmentManager.commit {
             addToBackStack(null)
             replace(
-                R.id.host_fragment_activity_main,
+                R.id.host_fragment_activity_chat,
                 mChatMessagesFragment,
                 ChatMessagesFragment::class.java.simpleName
             )

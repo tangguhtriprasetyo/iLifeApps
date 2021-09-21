@@ -216,6 +216,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun gotoChats() {
         val intent = Intent(requireActivity(), ChatsActivity::class.java)
+        intent.putExtra(ChatsActivity.EXTRA_USER, userDataProfile)
         startActivity(intent)
     }
 

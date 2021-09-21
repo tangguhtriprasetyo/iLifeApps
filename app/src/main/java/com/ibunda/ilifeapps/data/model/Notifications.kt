@@ -10,7 +10,6 @@ data class Notifications(
     var body: String? = null,
     var date: String? = null,
     var orderId: String? = null,
-    var read: Boolean = false,
     var receiverId: String? = null,
     var receiverPicture: String? = null,
     var title: String? = null,

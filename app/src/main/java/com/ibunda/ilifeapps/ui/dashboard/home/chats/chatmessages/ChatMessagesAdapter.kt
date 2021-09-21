@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
         this.userId = userId
         this.listMessages.clear()
         this.listMessages.addAll(chatMessages)
+        oldDate = null
         notifyDataSetChanged()
     }
 
@@ -67,8 +69,9 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val chatMessages = listMessages[position]
-        var showDate = chatMessages.date == oldDate
+        var showDate = chatMessages.date != oldDate
         oldDate = chatMessages.date
+        Log.d(oldDate, "$showDate")
         if (chatMessages.tawar) {
             if (chatMessages.sender == userId) {
                 (holder as ChatMessagesTawaranRightViewHolder).bind(chatMessages, showDate)

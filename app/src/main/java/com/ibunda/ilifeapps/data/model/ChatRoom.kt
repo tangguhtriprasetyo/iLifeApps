@@ -16,6 +16,8 @@ data class ChatRoom(
     var shopId: String? = null,
     var shopName: String? = null,
     var shopPicture: String? = null,
+    var shopPrice: String? = null,
+    var categoryName: String? = null,
     var userId: String? = null,
     var userName: String? = null,
     var userPicture: String? = null,

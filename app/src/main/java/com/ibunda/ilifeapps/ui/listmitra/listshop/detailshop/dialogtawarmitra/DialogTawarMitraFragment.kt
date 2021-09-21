@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.data.model.Shops
@@ -19,7 +20,9 @@ import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsActivity
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
+import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class DialogTawarMitraFragment : BottomSheetDialogFragment() {
@@ -90,6 +93,8 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
             shopId = shopData?.shopId,
             shopName = shopData?.shopName,
             shopPicture = shopData?.shopPicture,
+            categoryName = shopData?.categoryName,
+            shopPrice = PriceFormatHelper.getPriceFormat(shopData?.price),
             userId = userData?.userId,
             userName = userData?.name,
             userPicture = userData?.avatar,
@@ -102,21 +107,31 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
             sender = userData?.userId,
             statusTawaran = AppConstants.STATUS_MENAWAR,
             tawar = true,
-            time = DateHelper.getCurrentTime()
+            time = DateHelper.getCurrentTime(),
+            timeStamp = Timestamp(Date())
         )
 
-        listMitraViewModel.uploadTawaran(chatRoom, chatMessages)
-            .observe(viewLifecycleOwner, { status ->
-                if (status == AppConstants.STATUS_SUCCESS) {
-                    val intent =
-                        Intent(requireActivity(), ChatsActivity::class.java)
-                    intent.putExtra(ChatsActivity.EXTRA_ROOM_ID, chatRoom.chatRoomId)
-                    intent.putExtra(ChatsActivity.EXTRA_USER, userData)
-                    startActivity(intent)
-                    requireActivity().finish()
-                    onDismiss(dialog!!)
+        listMitraViewModel.uploadTawaran(chatRoom)
+            .observe(viewLifecycleOwner, { statusTawar ->
+                if (statusTawar == AppConstants.STATUS_SUCCESS) {
+                    listMitraViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
+                        .observe(viewLifecycleOwner, { statusChat ->
+                            if (statusChat == AppConstants.STATUS_SUCCESS) {
+                                val intent =
+                                    Intent(requireActivity(), ChatsActivity::class.java)
+                                intent.putExtra(ChatsActivity.EXTRA_ROOM_ID, chatRoom)
+                                intent.putExtra(ChatsActivity.EXTRA_USER, userData)
+                                startActivity(intent)
+                                requireActivity().finish()
+                                onDismiss(dialog!!)
+                            } else {
+                                Toast.makeText(requireContext(), statusChat, Toast.LENGTH_SHORT)
+                                    .show()
+                                onDismiss(dialog!!)
+                            }
+                        })
                 } else {
-                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), statusTawar, Toast.LENGTH_SHORT).show()
                     onDismiss(dialog!!)
                 }
             })
