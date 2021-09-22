@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
@@ -18,7 +17,6 @@ import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.ProgressDialogHelper
-import java.util.*
 
 class DialogPilihMitraFragment : DialogFragment() {
 
@@ -91,7 +89,6 @@ class DialogPilihMitraFragment : DialogFragment() {
 
     private fun sendNotif() {
         val notif = Notifications(
-            notifId = Timestamp(Date()).toString(),
             body = AppConstants.MESSAGE_STATUS_PESANAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orders?.orderId,

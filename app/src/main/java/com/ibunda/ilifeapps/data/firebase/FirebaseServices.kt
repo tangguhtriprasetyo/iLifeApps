@@ -603,6 +603,7 @@ class FirebaseServices {
                 if (task.isSuccessful) {
                     val document: DocumentSnapshot? = task.result
                     if (document?.exists() == false) {
+                        notif.notifId = document.id
                         docRef.set(notif).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 statusNotif.postValue(STATUS_SUCCESS)

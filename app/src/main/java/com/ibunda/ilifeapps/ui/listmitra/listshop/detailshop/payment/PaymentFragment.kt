@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
@@ -139,7 +138,6 @@ class PaymentFragment : Fragment() {
 
     private fun sendNotif() {
         val notif = Notifications(
-            notifId = Timestamp(Date()).toString(),
             body = AppConstants.MESSAGE_STATUS_PESANAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = orders.orderId,

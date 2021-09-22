@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.firebase.Timestamp
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -22,7 +21,6 @@ import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.util.*
 
 @ExperimentalCoroutinesApi
 class DiprosesFragment : Fragment() {
@@ -218,7 +216,6 @@ class DiprosesFragment : Fragment() {
     private fun sendNotif(result: String) {
 
         val notif = Notifications(
-            notifId = Timestamp(Date()).toString(),
             date = DateHelper.getCurrentDateTime(),
             orderId = ordersData.orderId,
             receiverId = ordersData.userId,

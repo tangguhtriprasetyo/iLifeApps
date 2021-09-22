@@ -75,7 +75,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setOrderData(orderId: String?) {
-        transactionViewModel.setOrderData(ordersData.orderId.toString()).observe(this, { orders ->
+        transactionViewModel.setOrderData(orderId!!).observe(this, { orders ->
             if (orders != null) {
                 ordersData = orders
                 setOrderCondition(ordersData.status)
