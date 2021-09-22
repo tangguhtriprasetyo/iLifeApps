@@ -20,6 +20,7 @@ import com.ibunda.ilifeapps.databinding.FragmentDetailShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
+import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -102,7 +103,15 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             R.id.ic_instagram -> openInstagram(shopData?.instagram!!)
             R.id.ic_facebook -> openFb(shopData?.facebook!!)
             R.id.btn_tawar -> showDialogTawar()
+            R.id.btn_lihat_lokasi -> openMaps()
         }
+    }
+
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_SHOP_MAPS, shopData)
+        startActivity(intent)
     }
 
     private fun openFb(facebook: String) {

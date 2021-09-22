@@ -53,6 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var lastKnownLocation: Location? = null
     private var lastKnownAddress: String? = null
     private var mapMarker: Marker? = null
+    private var shopLocation: LatLng? = null
 
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
 
@@ -97,6 +98,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             lastKnownAddress = shops.address
             binding.btnKonfirmasiLokasi.visibility = View.GONE
             binding.searchLocation.visibility = View.GONE
+            getShopLocation()
         }
 
         // Initialize the SDK
@@ -145,17 +147,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             startActivity(intent)
         }
         if (enabled) {
-            if (locationPermissionGranted) {
-                val cameraPosition = map?.cameraPosition?.target
-                val localeID = Locale("in", "ID")
-                val geocoder = Geocoder(this@MapsActivity, localeID)
-                try {
-                    lastKnownAddress =
-                        cameraPosition?.let {
-                            geocoder.getFromLocation(
-                                it.latitude,
-                                cameraPosition.longitude,
-                                1
+            if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
+                if (shopLocation == null) {
+                    getShopLocation()
+                } else {
+                    mapMarker?.remove()
+                    mapMarker = map?.addMarker(
+                        MarkerOptions()
+                            .position(shopLocation)
+                            .title(shops.shopName)
+                            .snippet(shops.address)
+                    )
+                    mapMarker?.showInfoWindow()
+                }
+            } else
+                if (locationPermissionGranted) {
+                    val cameraPosition = map?.cameraPosition?.target
+                    val localeID = Locale("in", "ID")
+                    val geocoder = Geocoder(this@MapsActivity, localeID)
+                    try {
+                        lastKnownAddress =
+                            cameraPosition?.let {
+                                geocoder.getFromLocation(
+                                    it.latitude,
+                                    cameraPosition.longitude,
+                                    1
                             )[0].getAddressLine(0)
                         }
                 } catch (e: IOException) {
@@ -233,6 +249,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
         }
+    }
+
+    private fun getShopLocation() {
+        shopLocation = LatLng(shops.latitude!!, shops.longitude!!)
+        map?.moveCamera(
+            CameraUpdateFactory
+                .newLatLngZoom(shopLocation, DEFAULT_ZOOM.toFloat())
+        )
+        map?.uiSettings?.isMyLocationButtonEnabled = false
+        binding.btnKonfirmasiLokasi.visibility = View.GONE
+        binding.searchLocation.visibility = View.GONE
+
     }
 
     private fun moveCamera() {

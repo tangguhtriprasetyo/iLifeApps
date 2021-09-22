@@ -7,6 +7,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +33,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.ibunda.ilifeapps.BuildConfig.MAPS_API_KEY
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityMapsBinding
 import java.io.IOException
@@ -43,13 +45,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var user: Users
+    private lateinit var shop: Shops
 
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
     private var locationPermissionGranted = false
-    private var lastKnownLocation: Location? = null
+    private var lastKnownLocation: Location = Location("location")
     private var lastKnownAddress: String? = null
     private var mapMarker: Marker? = null
+    private var shopLocation: LatLng? = null
 
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
     private val mapsViewModel: MapsViewModel by viewModels()
@@ -83,15 +87,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)!!
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        user = intent.getParcelableExtra<Users>(EXTRA_USER_MAPS) as Users
-        lastKnownAddress = user.address
+        if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
+            shop = intent.getParcelableExtra<Shops>(EXTRA_SHOP_MAPS) as Shops
+            lastKnownAddress = shop.address
+
+        } else if (intent.hasExtra(EXTRA_USER_MAPS)) {
+            user = intent.getParcelableExtra<Users>(EXTRA_USER_MAPS) as Users
+            lastKnownAddress = user.address
+        }
         // Initialize the SDK
         Places.initialize(applicationContext, MAPS_API_KEY)
         placesClient = Places.createClient(this)
@@ -130,7 +140,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     override fun onCameraIdle() {
-        if (locationPermissionGranted) {
+        if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
+            if (shopLocation == null) {
+                getShopLocation()
+            } else {
+                mapMarker?.remove()
+                mapMarker = map?.addMarker(
+                    MarkerOptions()
+                        .position(shopLocation)
+                        .title(shop.shopName)
+                        .snippet(shop.address)
+                )
+                mapMarker?.showInfoWindow()
+            }
+        } else if (locationPermissionGranted) {
             val cameraPosition = map?.cameraPosition?.target
             val localeID = Locale("in", "ID")
             val geocoder = Geocoder(this@MapsActivity, localeID)
@@ -139,14 +162,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     cameraPosition?.let {
                         geocoder.getFromLocation(
                             it.latitude,
-                            cameraPosition.longitude,
+                            it.longitude,
                             1
                         )[0].getAddressLine(0)
                     }
             } catch (e: IOException) {
                 e.printStackTrace();
             }
-
             mapMarker?.remove()
             mapMarker = map?.addMarker(
                 MarkerOptions()
@@ -226,6 +248,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
     }
 
+    private fun getShopLocation() {
+        Log.d(TAG, "$shop")
+        shopLocation = LatLng(shop.latitude!!, shop.longitude!!)
+        map?.moveCamera(
+            CameraUpdateFactory
+                .newLatLngZoom(shopLocation, DEFAULT_ZOOM.toFloat())
+        )
+        map?.uiSettings?.isMyLocationButtonEnabled = false
+        binding.btnKonfirmasiLokasi.visibility = View.GONE
+        binding.searchLocation.visibility = View.GONE
+
+    }
+
     private fun moveCamera() {
         if (lastKnownLocation != null) {
             val latLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
@@ -262,9 +297,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
         try {
             if (locationPermissionGranted) {
-                map?.isMyLocationEnabled = true
-                map?.uiSettings?.isMyLocationButtonEnabled = true
-                getDeviceLocation()
+                if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
+                    map?.isMyLocationEnabled = false
+                    map?.uiSettings?.isMyLocationButtonEnabled = false
+                    getShopLocation()
+                } else {
+                    map?.isMyLocationEnabled = true
+                    map?.uiSettings?.isMyLocationButtonEnabled = true
+                    getDeviceLocation()
+                }
             } else {
                 Toast.makeText(
                     this,
@@ -294,6 +335,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         private const val DEFAULT_ZOOM = 17
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         const val EXTRA_USER_MAPS = "extra_user_maps"
+        const val EXTRA_SHOP_MAPS = "extra_shop_maps"
 
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
