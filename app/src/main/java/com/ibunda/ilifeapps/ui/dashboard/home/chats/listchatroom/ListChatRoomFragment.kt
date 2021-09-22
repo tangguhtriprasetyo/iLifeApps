@@ -12,6 +12,7 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.ChatRoom
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatRoomBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
@@ -23,6 +24,7 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     private lateinit var binding: FragmentListChatRoomBinding
     private lateinit var userDataProfile: Users
+    private var shopData: Shops = Shops()
 
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val listChatRoomAdapter = ListChatRoomAdapter(this@ListChatRoomFragment)

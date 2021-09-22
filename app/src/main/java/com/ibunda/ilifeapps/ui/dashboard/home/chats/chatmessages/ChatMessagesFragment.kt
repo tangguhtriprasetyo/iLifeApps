@@ -1,6 +1,7 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.data.model.ChatRoom
-import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatMessagesBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
@@ -32,7 +32,6 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
     private val chatMessagesAdapter = ChatMessagesAdapter(this@ChatMessagesFragment)
 
     private var chatRoom: ChatRoom = ChatRoom()
-    private var shopData: Shops? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,19 +50,20 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
 
     private fun initData() {
 
+        chatsViewModel.userData
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+                    userDataProfile = userProfile
+                    Log.e(userDataProfile.userId, "userrrIddddd")
+                }
+            })
+
         chatsViewModel.chatRoom
             .observe(viewLifecycleOwner, { chatId ->
                 if (chatId != null) {
                     chatRoom = chatId
                     setDataItem(chatRoom)
                     setDataChatMessages(chatRoom.chatRoomId!!)
-                }
-            })
-
-        chatsViewModel.userData
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    userDataProfile = userProfile
                 }
             })
 
@@ -83,7 +83,16 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             if (!chatRoom.lastTawar) {
                 linearBgTawarPesan.visibility = View.VISIBLE
                 btnTawarMitra.setOnClickListener {
-//                    showDialogTawar()
+                    val mDialogTawarMitraFragment = DialogTawarMitraFragment()
+                    val mBundle = Bundle()
+                    mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_CHATROOM, chatRoom)
+                    mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userDataProfile)
+                    mBundle.putBoolean(DialogTawarMitraFragment.FROM_CHAT, true)
+                    mDialogTawarMitraFragment.arguments = mBundle
+                    mDialogTawarMitraFragment.show(
+                        requireActivity().supportFragmentManager,
+                        DialogTawarMitraFragment::class.java.simpleName
+                    )
                 }
                 if (chatRoom.accTawar) {
                     btnTawarMitra.visibility = View.GONE
@@ -94,18 +103,6 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
 
             }
         }
-    }
-
-    private fun showDialogTawar() {
-        val mDialogTawarMitraFragment = DialogTawarMitraFragment()
-        val mBundle = Bundle()
-        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userDataProfile)
-        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_SHOP, shopData)
-        mDialogTawarMitraFragment.arguments = mBundle
-        mDialogTawarMitraFragment.show(
-            requireActivity().supportFragmentManager,
-            DialogTawarMitraFragment::class.java.simpleName
-        )
     }
 
     private fun setDataChatMessages(chatRoomId: String) {

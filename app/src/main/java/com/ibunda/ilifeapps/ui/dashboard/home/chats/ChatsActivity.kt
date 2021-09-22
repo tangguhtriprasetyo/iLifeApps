@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.ChatRoom
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityChatsBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages.ChatMessagesFragment
@@ -16,6 +17,7 @@ class ChatsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatsBinding
 
     private var userData: Users = Users()
+    private var shopData: Shops = Shops()
     private var chatRoom: ChatRoom = ChatRoom()
 
     private val chatsViewModel: ChatsViewModel by viewModels()

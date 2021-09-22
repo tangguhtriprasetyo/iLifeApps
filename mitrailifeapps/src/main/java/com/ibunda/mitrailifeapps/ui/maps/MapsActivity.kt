@@ -299,9 +299,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
         try {
             if (locationPermissionGranted) {
-                map?.isMyLocationEnabled = true
-                map?.uiSettings?.isMyLocationButtonEnabled = true
-                getDeviceLocation()
+                if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
+                    map?.isMyLocationEnabled = false
+                    map?.uiSettings?.isMyLocationButtonEnabled = false
+                    getShopLocation()
+                } else {
+                    map?.isMyLocationEnabled = true
+                    map?.uiSettings?.isMyLocationButtonEnabled = true
+                    getDeviceLocation()
+                }
             } else {
                 Toast.makeText(
                     this,
