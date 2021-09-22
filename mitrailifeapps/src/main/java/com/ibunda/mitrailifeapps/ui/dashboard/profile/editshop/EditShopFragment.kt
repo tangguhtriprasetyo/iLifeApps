@@ -51,6 +51,9 @@ class EditShopFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        val bottomNav: BottomNavigationView =
+            requireActivity().findViewById(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
 
         val getImage =
             registerForActivityResult(ActivityResultContracts.OpenDocument()) { uriImage ->
@@ -59,10 +62,6 @@ class EditShopFragment : Fragment() {
                     binding.imgTokoMitra.setImageURI(uriImagePath)
                 }
             }
-
-        val bottomNav: BottomNavigationView =
-            requireActivity().findViewById(R.id.bottom_navigation)
-        bottomNav.visibility = View.GONE
 
         binding.icChangeImage.setOnClickListener {
             getImage.launch(arrayOf("image/*"))
@@ -74,7 +73,6 @@ class EditShopFragment : Fragment() {
         }
 
         getShopData()
-
     }
 
     //Initialize Shop Data
@@ -267,8 +265,4 @@ class EditShopFragment : Fragment() {
             }
         })
     }
-
-
-
-
 }

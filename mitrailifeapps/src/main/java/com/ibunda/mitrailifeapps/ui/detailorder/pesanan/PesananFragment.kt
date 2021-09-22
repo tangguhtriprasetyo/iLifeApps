@@ -18,7 +18,6 @@ import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.dialogtolakpesanan.Dialo
 import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIPROSES
-import com.ibunda.mitrailifeapps.utils.AppConstants.TOAST_STATUS_DIPROSES
 import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
@@ -34,8 +33,12 @@ class PesananFragment : Fragment() {
     private lateinit var ordersData: Orders
 
     private var reasonCancel: String? = null
-
     private lateinit var progressDialog : Dialog
+
+    companion object {
+        const val PESANAN_DIPROSES = "pesanan_diproses"
+        const val PESANAN_DIBATALKAN = "pesanan_dibatalkan"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +53,6 @@ class PesananFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         progressDialog = ProgressDialogHelper.progressDialog(requireContext())
-
         getOrdersData()
         initOnClick()
     }
@@ -100,7 +102,7 @@ class PesananFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                sendNotifDiproses()
+                sendNotif(PESANAN_DIPROSES)
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil diproses, silahkan cek di Transaksi", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
@@ -111,32 +113,6 @@ class PesananFragment : Fragment() {
                     "Update Order Failed",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-        })
-    }
-
-    private fun sendNotifDiproses() {
-        val notif = Notifications(
-            notifId = Timestamp(Date()).toString(),
-            body = AppConstants.BODY_STATUS_DIPROSES,
-            date = DateHelper.getCurrentDateTime(),
-            orderId = ordersData.orderId,
-            receiverId = ordersData.userId,
-            receiverPicture = ordersData.userPicture,
-            title = AppConstants.TITLE_STATUS_PESANAN,
-            senderId = ordersData.shopId,
-            senderPicture = ordersData.shopPicture
-        )
-        detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
-            if (status == AppConstants.STATUS_SUCCESS) {
-                Toast.makeText(
-                    requireContext(),
-                    TOAST_STATUS_DIPROSES,
-                    Toast.LENGTH_SHORT
-                ).show()
-                requireActivity().finish()
-            } else {
-                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -157,7 +133,7 @@ class PesananFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
-                sendNotifCancel()
+                sendNotif(PESANAN_DIBATALKAN)
                 progressDialog.dismiss()
                 Toast.makeText(requireContext(), "Pesanan berhasil dibatalkan karena $reasonCancel", Toast.LENGTH_SHORT).show()
                 activity?.onBackPressed()
@@ -172,30 +148,46 @@ class PesananFragment : Fragment() {
         })
     }
 
-    private fun sendNotifCancel() {
+    private fun sendNotif(result: String) {
         val notif = Notifications(
             notifId = Timestamp(Date()).toString(),
-            body = AppConstants.BODY_STATUS_DIBATALKAN,
             date = DateHelper.getCurrentDateTime(),
             orderId = ordersData.orderId,
             receiverId = ordersData.userId,
             receiverPicture = ordersData.userPicture,
-            title = AppConstants.TITLE_STATUS_DIBATALKAN,
             senderId = ordersData.shopId,
             senderPicture = ordersData.shopPicture
         )
-        detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
-            if (status == AppConstants.STATUS_SUCCESS) {
-                Toast.makeText(
-                    requireContext(),
-                    TOAST_STATUS_DIPROSES,
-                    Toast.LENGTH_SHORT
-                ).show()
-                requireActivity().finish()
-            } else {
-                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
-            }
-        })
+        if (result == PESANAN_DIPROSES) {
+            notif.body = AppConstants.BODY_STATUS_DIPROSES
+            notif.title = AppConstants.TITLE_STATUS_DIPROSES
+            detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_STATUS_DIPROSES,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            notif.body = AppConstants.BODY_STATUS_DIBATALKAN
+            notif.title = AppConstants.TITLE_STATUS_DIBATALKAN
+            detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_STATUS_DIPROSES,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
+
 
 }

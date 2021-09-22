@@ -11,14 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.data.model.ChatRoom
+import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatMessagesBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
+import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
 
     private lateinit var binding: FragmentListChatMessagesBinding
@@ -28,6 +32,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
     private val chatMessagesAdapter = ChatMessagesAdapter(this@ChatMessagesFragment)
 
     private var chatRoom: ChatRoom = ChatRoom()
+    private var shopData: Shops? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,7 +79,33 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             if (chatRoom.verified) {
                 icVerified.visibility = View.VISIBLE
             }
+
+            if (!chatRoom.lastTawar) {
+                linearBgTawarPesan.visibility = View.VISIBLE
+                btnTawarMitra.setOnClickListener {
+//                    showDialogTawar()
+                }
+                if (chatRoom.accTawar) {
+                    btnTawarMitra.visibility = View.GONE
+                    btnPesan.setOnClickListener {
+                        //Order
+                    }
+                }
+
+            }
         }
+    }
+
+    private fun showDialogTawar() {
+        val mDialogTawarMitraFragment = DialogTawarMitraFragment()
+        val mBundle = Bundle()
+        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userDataProfile)
+        mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_SHOP, shopData)
+        mDialogTawarMitraFragment.arguments = mBundle
+        mDialogTawarMitraFragment.show(
+            requireActivity().supportFragmentManager,
+            DialogTawarMitraFragment::class.java.simpleName
+        )
     }
 
     private fun setDataChatMessages(chatRoomId: String) {
@@ -129,7 +160,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             lastDate = DateHelper.getCurrentDate(),
             lastMessage = message,
             lastHargaTawar = chatRoom.lastHargaTawar,
-            lastTawar = false,
+            lastTawar = true,
             readByUser = true,
             readByShop = false,
             shopId = chatRoom.shopId,

@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.chats.chatmessages
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.ibunda.mitrailifeapps.databinding.FragmentChatMessagesBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsViewModel
 import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.DateHelper
+import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
 import java.util.*
 
@@ -28,6 +30,12 @@ class ChatMessagesFragment : Fragment() {
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val chatMessagesAdapter = ChatMessagesAdapter()
     private var chatRoom: ChatRoom = ChatRoom()
+    private lateinit var progressDialog : Dialog
+
+    companion object {
+        const val TOLAK_TAWARAN = "Tawaran ditolak!"
+        const val TERIMA_TAWARAN = "Tawaran diterima!"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +49,7 @@ class ChatMessagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
         initData()
         initView()
     }
@@ -113,10 +122,10 @@ class ChatMessagesFragment : Fragment() {
             activity?.onBackPressed()
         }
         binding.btnTolakTawaran.setOnClickListener {
-            tolakTawaran()
+            kelolaTawaran(TOLAK_TAWARAN)
         }
         binding.btnTerimaTawaran.setOnClickListener {
-            terimaTawaran()
+            kelolaTawaran(TERIMA_TAWARAN)
         }
         binding.btnSendMessage.setOnClickListener {
             if (binding.etChatbox.text.isNotEmpty()) {
@@ -125,10 +134,91 @@ class ChatMessagesFragment : Fragment() {
         }
     }
 
-    private fun terimaTawaran() {
-    }
+    private fun kelolaTawaran(result: String) {
+        progressDialog.show()
+        val chatRoom = ChatRoom(
+            chatRoomId = chatRoom.chatRoomId,
+            lastDate = DateHelper.getCurrentDate(),
+            lastHargaTawar = chatRoom.lastHargaTawar,
+            lastTawar = false,
+            readByUser = false,
+            readByShop = true,
+            shopId = chatRoom.shopId,
+            shopName = chatRoom.shopName,
+            shopPicture = chatRoom.shopPicture,
+            categoryName = chatRoom.categoryName,
+            shopPrice = chatRoom.shopPrice,
+            userId = chatRoom.userId,
+            userName = chatRoom.userName,
+            userPicture = chatRoom.userPicture,
+            verified = chatRoom.verified
+        )
 
-    private fun tolakTawaran() {
+        val chatMessages = ChatMessages(
+            date = DateHelper.getCurrentDate(),
+            sender = chatRoom.shopId,
+            statusTawaran = AppConstants.STATUS_MENAWAR,
+            tawar = true,
+            time = DateHelper.getCurrentTime(),
+            timeStamp = Timestamp(Date())
+        )
+        if (result == TOLAK_TAWARAN) {
+            chatRoom.lastMessage = TOLAK_TAWARAN
+            chatRoom.accTawar = false
+            chatMessages.message = TOLAK_TAWARAN
+            chatsViewModel.updateChatRoom(chatRoom)
+                .observe(viewLifecycleOwner, { statusTawar ->
+                    if (statusTawar == AppConstants.STATUS_SUCCESS) {
+                        chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
+                            .observe(viewLifecycleOwner, { statusChat ->
+                                if (statusChat == AppConstants.STATUS_SUCCESS) {
+                                    binding.etChatbox.text = null
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Berhasil menolak tawaran.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressDialog.dismiss()
+                                } else {
+                                    Toast.makeText(requireContext(), statusChat, Toast.LENGTH_SHORT)
+                                        .show()
+                                    progressDialog.dismiss()
+                                }
+                            })
+                    } else {
+                        Toast.makeText(requireContext(), statusTawar, Toast.LENGTH_SHORT).show()
+                        progressDialog.dismiss()
+                    }
+                })
+        } else {
+            chatRoom.lastMessage = TERIMA_TAWARAN
+            chatRoom.accTawar = true
+            chatMessages.message = TERIMA_TAWARAN
+            chatsViewModel.updateChatRoom(chatRoom)
+                .observe(viewLifecycleOwner, { statusTawar ->
+                    if (statusTawar == AppConstants.STATUS_SUCCESS) {
+                        chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
+                            .observe(viewLifecycleOwner, { statusChat ->
+                                if (statusChat == AppConstants.STATUS_SUCCESS) {
+                                    binding.etChatbox.text = null
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Berhasil menerima tawaran.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressDialog.dismiss()
+                                } else {
+                                    Toast.makeText(requireContext(), statusChat, Toast.LENGTH_SHORT)
+                                        .show()
+                                    progressDialog.dismiss()
+                                }
+                            })
+                    } else {
+                        Toast.makeText(requireContext(), statusTawar, Toast.LENGTH_SHORT).show()
+                        progressDialog.dismiss()
+                    }
+                })
+        }
     }
 
     private fun sendChat() {
@@ -139,7 +229,7 @@ class ChatMessagesFragment : Fragment() {
             lastDate = DateHelper.getCurrentDate(),
             lastMessage = message,
             lastHargaTawar = chatRoom.lastHargaTawar,
-            lastTawar = false,
+            lastTawar = true,
             readByUser = false,
             readByShop = true,
             shopId = chatRoom.shopId,

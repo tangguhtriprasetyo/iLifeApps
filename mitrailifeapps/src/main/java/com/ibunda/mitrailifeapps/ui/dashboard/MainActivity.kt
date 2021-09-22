@@ -83,11 +83,8 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
                     setCurrentFragment(mUlasanFragment, ULASAN_FRAGMENT_TAG)
                 }
             })
-
         } else {
-
             mitra = intent.getParcelableExtra<Mitras>(EXTRA_USER) as Mitras
-
             setMitraDataProfile()
             Log.e("savedInstanceFalse", "homeFragment")
             mainViewModel.setMitraProfile(mitra.mitraId.toString()).observe(this, { mitraProfile ->
@@ -101,7 +98,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
                 }
             })
         }
-
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
@@ -120,7 +116,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             }
             true
         }
-
     }
 
     private fun setCurrentFragment(fragment: Fragment, fragmentTag: String) {

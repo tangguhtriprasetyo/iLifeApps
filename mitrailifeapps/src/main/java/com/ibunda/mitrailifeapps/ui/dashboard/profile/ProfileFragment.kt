@@ -73,6 +73,7 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
     private fun initEmptyShop() {
         binding.linearEmptyToko.visibility = View.VISIBLE
+        binding.linearToko.visibility = View.GONE
         binding.chat.icMessage.visibility = View.GONE
         binding.chat.imgBadgeChat.visibility = View.GONE
         binding.notification.icNotification.visibility = View.GONE
@@ -180,7 +181,6 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             tvKategoriToko.text = shopsDataProfile.categoryName
             tvRatingMitra.text = shopsDataProfile.rating.toString()
             tvTotalPesanan.text = shopsDataProfile.totalPesananSukses.toString()
-
         }
     }
 

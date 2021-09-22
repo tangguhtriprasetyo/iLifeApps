@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.Timestamp
+import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentDiprosesBinding
@@ -20,6 +22,7 @@ import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class DiprosesFragment : Fragment() {
@@ -154,6 +157,7 @@ class DiprosesFragment : Fragment() {
 
                     detailViewModel.updateTotalOrderShop(shopsDataProfile).observe(viewLifecycleOwner, { updateOrder ->
                         if (updateOrder != null) {
+                            sendNotif(PESANAN_SELESAI)
                             progressDialog.dismiss()
                             activity?.onBackPressed()
                         } else {
@@ -177,6 +181,7 @@ class DiprosesFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
+                sendNotif(SAMPAI_TUJUAN)
                 progressDialog.dismiss()
                 activity?.onBackPressed()
             } else {
@@ -196,6 +201,7 @@ class DiprosesFragment : Fragment() {
 
         detailViewModel.updateOrderData(ordersData).observe(viewLifecycleOwner, { updateOrder ->
             if (updateOrder != null) {
+                sendNotif(MULAI_PERJALANAN)
                 progressDialog.dismiss()
                 activity?.onBackPressed()
             } else {
@@ -209,5 +215,62 @@ class DiprosesFragment : Fragment() {
         })
     }
 
+    private fun sendNotif(result: String) {
+
+        val notif = Notifications(
+            notifId = Timestamp(Date()).toString(),
+            date = DateHelper.getCurrentDateTime(),
+            orderId = ordersData.orderId,
+            receiverId = ordersData.userId,
+            receiverPicture = ordersData.userPicture,
+            senderId = ordersData.shopId,
+            senderPicture = ordersData.shopPicture
+        )
+
+        if (result == MULAI_PERJALANAN) {
+            notif.body = AppConstants.BODY_STATUS_DIPROSES_MULAI
+            notif.title = AppConstants.TITLE_STATUS_DIPROSES_MULAI
+            detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_STATUS_DIPROSES,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else if (result == SAMPAI_TUJUAN) {
+            notif.body = AppConstants.BODY_STATUS_DIPROSES_SAMPAI
+            notif.title = AppConstants.TITLE_STATUS_DIPROSES_SAMPAI
+            detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_STATUS_DIPROSES,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            notif.body = AppConstants.BODY_STATUS_DIPROSES_SELESAI
+            notif.title = AppConstants.TITLE_STATUS_DIPROSES_SELESAI
+            detailViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_STATUS_DIPROSES,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
 
 }

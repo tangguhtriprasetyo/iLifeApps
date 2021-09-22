@@ -41,14 +41,15 @@ class UlasanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initShops()
-
         val bottomNav: BottomNavigationView =
             requireActivity().findViewById(R.id.bottom_navigation)
         bottomNav.visibility = View.GONE
 
+        initShops()
+
         val ulasan = requireArguments().getBoolean(FROM_TRANSACTION, false)
         Log.e(ulasan.toString(), "ulasanInfo")
+
         binding.icBack.setOnClickListener {
             if (ulasan) {
                 activity?.onBackPressed()
@@ -122,6 +123,4 @@ class UlasanFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
         }
     }
-
-
 }
