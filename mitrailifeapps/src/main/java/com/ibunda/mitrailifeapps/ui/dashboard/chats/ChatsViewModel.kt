@@ -8,7 +8,9 @@ import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
 import com.ibunda.mitrailifeapps.data.model.ChatMessages
 import com.ibunda.mitrailifeapps.data.model.ChatRoom
 import com.ibunda.mitrailifeapps.data.model.Shops
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ChatsViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()
@@ -43,4 +45,5 @@ class ChatsViewModel : ViewModel() {
     fun setChatRoomId(chatRoom: ChatRoom) {
         _chatRoom.value = chatRoom
     }
+
 }

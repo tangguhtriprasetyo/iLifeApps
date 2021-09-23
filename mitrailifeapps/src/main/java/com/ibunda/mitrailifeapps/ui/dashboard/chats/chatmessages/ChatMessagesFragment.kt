@@ -19,9 +19,10 @@ import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import com.ibunda.mitrailifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
-
+@ExperimentalCoroutinesApi
 class ChatMessagesFragment : Fragment() {
 
     private lateinit var binding: FragmentChatMessagesBinding
@@ -80,6 +81,8 @@ class ChatMessagesFragment : Fragment() {
             tvNamaUser.text = chatRoom.userName
             if (chatRoom.lastTawar) {
                 binding.linearBgTawarPesan.visibility = View.VISIBLE
+            } else {
+                binding.linearBgTawarPesan.visibility = View.GONE
             }
         }
     }
@@ -172,6 +175,8 @@ class ChatMessagesFragment : Fragment() {
                         chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
                             .observe(viewLifecycleOwner, { statusChat ->
                                 if (statusChat == AppConstants.STATUS_SUCCESS) {
+                                    requireActivity().supportFragmentManager.beginTransaction().detach(this).attach(this).commit()
+                                    initData()
                                     binding.etChatbox.text = null
                                     Toast.makeText(
                                         requireContext(),
@@ -200,6 +205,8 @@ class ChatMessagesFragment : Fragment() {
                         chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
                             .observe(viewLifecycleOwner, { statusChat ->
                                 if (statusChat == AppConstants.STATUS_SUCCESS) {
+                                    requireActivity().supportFragmentManager.beginTransaction().detach(this).attach(this).commit()
+                                    initData()
                                     binding.etChatbox.text = null
                                     Toast.makeText(
                                         requireContext(),
@@ -259,6 +266,7 @@ class ChatMessagesFragment : Fragment() {
                     chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
                         .observe(viewLifecycleOwner, { statusChat ->
                             if (statusChat == AppConstants.STATUS_SUCCESS) {
+
                                 binding.etChatbox.text = null
                                 Toast.makeText(
                                     requireContext(),
@@ -275,5 +283,7 @@ class ChatMessagesFragment : Fragment() {
                 }
             })
     }
+
+
 
 }

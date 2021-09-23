@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentNotificationsBinding
@@ -41,7 +43,12 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        val bottomNav: BottomNavigationView =
+            requireActivity().findViewById(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
+
         initView()
         initData()
     }

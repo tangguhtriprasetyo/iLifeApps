@@ -9,7 +9,6 @@ import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
 import com.ibunda.mitrailifeapps.data.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
 @ExperimentalCoroutinesApi
 class MainViewModel: ViewModel() {
 
@@ -98,7 +97,11 @@ class MainViewModel: ViewModel() {
         return firebaseServices.getListChatRoom(shopId, true).asLiveData()
     }
 
+    //Notification
     fun deleteNotif(notifId: String): LiveData<String> =
         firebaseServices.deleteNotification(notifId)
+
+    fun uploadNotif(notif: Notifications): LiveData<String> =
+        firebaseServices.uploadNotification(notif)
 
 }

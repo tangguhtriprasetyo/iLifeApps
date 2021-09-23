@@ -7,6 +7,16 @@
     tools:context=".ui.listmitra.listshop.detailshop.payment.PaymentFragment"
     android:background="@color/colorBackground">
 
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp">
+
     <ImageView
         android:id="@+id/ic_back"
         android:layout_width="28dp"
@@ -21,7 +31,7 @@
         android:id="@+id/tvpesan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/pesan"
@@ -34,7 +44,7 @@
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:background="@color/colorLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ic_back"
@@ -84,7 +94,7 @@
         android:id="@+id/view200"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         style="@style/Responsive16dp"
         android:background="@color/colorLine8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,10 +153,11 @@
                 android:id="@+id/ic_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/ic_baseline_arrow_forward_ios_24"
                 app:layout_constraintBottom_toTopOf="@+id/view201"
-                app:layout_constraintEnd_toEndOf="@+id/view201"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
@@ -215,15 +226,15 @@
                 android:id="@+id/ic_next2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/ic_baseline_arrow_forward_ios_24"
                 app:layout_constraintBottom_toTopOf="@+id/view202"
-                app:layout_constraintEnd_toEndOf="@+id/view202"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:id="@+id/view202"
-                style="@style/Responsive16dp"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="12dp"
@@ -238,28 +249,174 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_info_detail_pembayaran"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Detail Pembayaran"
+        android:textColor="@color/font_default"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_waktu_pesanan" />
+
+    <LinearLayout
+        android:id="@+id/linear_diskon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_info_detail_pembayaran">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_info_diskon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Harga Jasa"
+                android:textColor="@color/fontulasan"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_price_jasa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Rp 30.000"
+                android:textColor="@color/font_default"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_ongkir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_diskon">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_info_ongkir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Ongkir"
+                android:textColor="@color/fontulasan"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_price_ongkir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Rp 6.000"
+                android:textColor="@color/font_default"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="match_parent"
+        style="@style/Responsive16dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorLine8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_ongkir" />
+
+    <TextView
+        android:id="@+id/tv_info_total_pembayaran"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Total Pembayaran"
+        android:textColor="@color/font_default"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+    <TextView
+        android:id="@+id/tv_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Rp 42.000"
+        android:textColor="@color/font_default"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_info_total_pembayaran"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_info_total_pembayaran" />
+
+    <View
+        android:id="@+id/view71"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorLine8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_info_total_pembayaran" />
+
+    <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/metode_pembayaran"
         android:textColor="@color/font_default"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/ic_back"
-        app:layout_constraintTop_toBottomOf="@+id/linear_waktu_pesanan" />
+        app:layout_constraintTop_toBottomOf="@+id/view71" />
 
     <TextView
         android:id="@+id/tv_sub_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:alpha="0.5"
         android:fontFamily="@font/roboto"
         android:text="@string/tentukan_metode_pembayaran_anda_untuk_transaksi_pembayaran_jasa"
         android:textColor="@color/font_default"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ic_back"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -392,14 +549,17 @@
         style="@style/Responsive16dp"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_marginTop="40dp"
         android:text="@string/pesan_sekarang"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.923" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_metode_pembayaran" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

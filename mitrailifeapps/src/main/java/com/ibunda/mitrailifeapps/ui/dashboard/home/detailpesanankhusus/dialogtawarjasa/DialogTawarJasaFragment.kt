@@ -13,12 +13,14 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ibunda.mitrailifeapps.R
+import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.OfferOrder
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentDialogTawarJasaBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.utils.AppConstants
+import com.ibunda.mitrailifeapps.utils.DateHelper
 import com.ibunda.mitrailifeapps.utils.PriceFormatHelper
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,7 +60,6 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
         if (arguments != null) {
             ordersData = requireArguments().getParcelable(EXTRA_ORDER_DIALOG_DATA)!!
         }
-        Log.e(ordersData.orderId.toString(), "orderIdDialog")
 
         binding.icClose.setOnClickListener {
             onDismiss(dialog!!)
@@ -92,7 +93,6 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
                     Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
                 })
         }
-
     }
 
     private fun tawarJasa(shopsDataProfile: Shops) {
@@ -112,12 +112,8 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
         )
         mainViewModel.uploadTawaran(ordersData.orderId.toString(), tawarId, offerOrder).observe(viewLifecycleOwner, { status ->
             if (status == AppConstants.STATUS_SUCCESS) {
+                sendNotif(shopsDataProfile)
                 progressDialog.dismiss()
-                Toast.makeText(
-                    requireContext(),
-                    "Tawaran berhasil dilakukan.",
-                    Toast.LENGTH_SHORT
-                ).show()
                 onDismiss(dialog!!)
                 val bottomNav: BottomNavigationView =
                     requireActivity().findViewById(R.id.bottom_navigation)
@@ -131,7 +127,30 @@ class DialogTawarJasaFragment : BottomSheetDialogFragment() {
         })
     }
 
+    private fun sendNotif(shopsDataProfile: Shops) {
+        val notif = Notifications(
+            date = DateHelper.getCurrentDateTime(),
+            body = AppConstants.TITLE_ORDER_TAWAR,
+            title = AppConstants.BODY_ORDER_TAWAR,
+            orderId = ordersData.orderId,
+            receiverId = ordersData.userId,
+            receiverPicture = ordersData.userPicture,
+            senderId = shopsDataProfile.shopId,
+            senderPicture = shopsDataProfile.shopPicture
+        )
+        mainViewModel.uploadNotif(notif).observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        AppConstants.TOAST_ORDER_TAWAR,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
 
+    }
 
 
 }

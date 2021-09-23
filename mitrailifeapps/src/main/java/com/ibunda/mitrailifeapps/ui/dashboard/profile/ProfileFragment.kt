@@ -1,19 +1,14 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -82,14 +77,7 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
 
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
-            val mFragmentManager = parentFragmentManager
-            mFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.host_fragment_activity_main,
-                    mCreateShopOneFragment
-                )
-            }
+            setCurrentFragment(mCreateShopOneFragment)
         }
     }
 
@@ -138,39 +126,6 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             })
     }
 
-    private val getResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-
-                    mainViewModel.getShopData()
-                        .observe(viewLifecycleOwner, { shopsProfile ->
-                            if (shopsProfile != null) {
-                                shopsDataProfile = shopsProfile
-                                shopsDataProfile.address = result.data?.getStringExtra("address")
-                                shopsDataProfile.latitude = result.data?.getDoubleExtra("latitude", 0.0)
-                                shopsDataProfile.longitude = result.data?.getDoubleExtra("longitude", 0.0)
-                                updateShopLocation(shopsProfile)
-                            }
-                            Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
-                        })
-
-
-                }
-                AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
-                    val status = result.data?.let { Autocomplete.getStatusFromIntent(it) }
-                }
-                Activity.RESULT_CANCELED -> {
-                    // The user canceled the operation.
-                }
-            }
-        }
-
-    private fun updateShopLocation(shopsProfile: Shops) {
-
-    }
-
     private fun setDataShops(shopsDataProfile: Shops) {
         with(binding) {
             linearToko.visibility = View.VISIBLE
@@ -198,16 +153,8 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
     }
 
     private fun gotoNotifications() {
-        val mFragmentManager = parentFragmentManager
         val mCustomOrderFragment = NotificationsFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mCustomOrderFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
-        }
+        setCurrentFragment(mCustomOrderFragment)
     }
 
     private fun gotoChats() {
@@ -258,20 +205,8 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
         }
     }
 
-    private fun openNotifications() {
-
-    }
-
-    private fun openMessage() {
-    }
-
     override fun onResume() {
         super.onResume()
-        getMitraData()
-    }
-
-    override fun onStart() {
-        super.onStart()
         getMitraData()
     }
 

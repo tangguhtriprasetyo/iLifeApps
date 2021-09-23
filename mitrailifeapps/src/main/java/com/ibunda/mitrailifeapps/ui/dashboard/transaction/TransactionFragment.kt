@@ -68,31 +68,15 @@ class TransactionFragment : Fragment() {
         binding.notification.icNotification.visibility = View.GONE
         binding.notification.imgBadgeNotification.visibility = View.GONE
 
-
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
-            val mFragmentManager = parentFragmentManager
-            mFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.host_fragment_activity_main,
-                    mCreateShopOneFragment
-                )
-            }
+            setCurrentFragment(mCreateShopOneFragment)
         }
     }
 
     private fun gotoNotifications() {
-        val mFragmentManager = parentFragmentManager
-        val mCustomOrderFragment = NotificationsFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mCustomOrderFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
-        }
+        val mNotificationsFragment = NotificationsFragment()
+        setCurrentFragment(mNotificationsFragment)
     }
 
     private fun gotoChats() {
@@ -152,6 +136,13 @@ class TransactionFragment : Fragment() {
                     binding.notification.imgBadgeNotification.visibility = View.GONE
                 }
             })
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        parentFragmentManager.commit {
+            addToBackStack(null)
+            replace(R.id.host_fragment_activity_main, fragment, MainActivity.CHILD_FRAGMENT)
+        }
     }
 
     override fun onResume() {

@@ -92,6 +92,10 @@ class PaymentFragment : Fragment() {
             setDataOrder()
             order(orders)
         }
+        //INVOICE
+        binding.tvPriceJasa.text
+        binding.tvPriceOngkir.text
+        binding.tvTotalPrice.text
     }
 
     private fun setDataOrder() {

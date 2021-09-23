@@ -76,15 +76,7 @@ class OrderFragment : Fragment() {
 
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
-            val mFragmentManager = parentFragmentManager
-            mFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.host_fragment_activity_main,
-                    mCreateShopOneFragment,
-                    MainActivity.CHILD_FRAGMENT
-                )
-            }
+            setCurrentFragment(mCreateShopOneFragment)
         }
     }
 
@@ -106,16 +98,8 @@ class OrderFragment : Fragment() {
     }
 
     private fun gotoNotifications() {
-        val mFragmentManager = parentFragmentManager
         val mCustomOrderFragment = NotificationsFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mCustomOrderFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
-        }
+        setCurrentFragment(mCustomOrderFragment)
     }
 
     private fun gotoChats() {
@@ -184,6 +168,13 @@ class OrderFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        parentFragmentManager.commit {
+            addToBackStack(null)
+            replace(R.id.host_fragment_activity_main, fragment, MainActivity.CHILD_FRAGMENT)
         }
     }
 

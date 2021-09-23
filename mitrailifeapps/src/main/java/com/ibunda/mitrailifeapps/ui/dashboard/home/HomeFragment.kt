@@ -27,13 +27,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class HomeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-
     private val mainViewModel: MainViewModel by activityViewModels()
     private val homeAdapter = HomeAdapter()
-
     private var categoryOrder: String? = null
     private var sort: Boolean = false
-
     private lateinit var mitraDataProfile: Mitras
     private lateinit var shopsDataProfile: Shops
 
@@ -48,8 +45,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.e(sort.toString(), "sorting")
 
         getProfileData()
     }
@@ -102,7 +97,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
             })
 
-        binding.rvPesananKhusus.visibility = View.VISIBLE
         setDataRvListOrders(sort)
         binding.linearSortby.setOnClickListener(this)
         binding.notification.icNotification.setOnClickListener(this)
@@ -119,15 +113,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         binding.btnTambahToko.setOnClickListener {
             val mCreateShopOneFragment = CreateShopOneFragment()
-            val mFragmentManager = parentFragmentManager
-            mFragmentManager.commit {
-                addToBackStack(null)
-                replace(
-                    R.id.host_fragment_activity_main,
-                    mCreateShopOneFragment,
-                    MainActivity.CHILD_FRAGMENT
-                )
-            }
+            setCurrentFragment(mCreateShopOneFragment)
         }
     }
 
@@ -151,7 +137,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = homeAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 
@@ -164,16 +149,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun gotoNotifications() {
-        val mFragmentManager = parentFragmentManager
-        val mCustomOrderFragment = NotificationsFragment()
-        mFragmentManager.commit {
-            addToBackStack(null)
-            replace(
-                R.id.host_fragment_activity_main,
-                mCustomOrderFragment,
-                MainActivity.CHILD_FRAGMENT
-            )
-        }
+        val mNotificationsFragment = NotificationsFragment()
+        setCurrentFragment(mNotificationsFragment)
     }
 
     private fun gotoChats() {
@@ -204,9 +181,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         if (state) {
             binding.linearEmptyPesanan.visibility = View.VISIBLE
             binding.rvPesananKhusus.visibility = View.GONE
+            binding.linearSortby.visibility = View.GONE
         } else {
             binding.rvPesananKhusus.visibility = View.VISIBLE
             binding.linearEmptyPesanan.visibility = View.GONE
+            binding.linearSortby.visibility = View.VISIBLE
         }
     }
 
@@ -215,6 +194,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        parentFragmentManager.commit {
+            addToBackStack(null)
+            replace(R.id.host_fragment_activity_main, fragment, MainActivity.CHILD_FRAGMENT)
         }
     }
 
