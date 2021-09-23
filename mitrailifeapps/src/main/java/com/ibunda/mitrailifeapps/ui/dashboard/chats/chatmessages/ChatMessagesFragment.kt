@@ -250,7 +250,7 @@ class ChatMessagesFragment : Fragment() {
             lastDate = DateHelper.getCurrentDate(),
             lastMessage = message,
             lastHargaTawar = chatRoom.lastHargaTawar,
-            lastTawar = true,
+            lastTawar = false,
             readByUser = false,
             readByShop = true,
             shopId = chatRoom.shopId,

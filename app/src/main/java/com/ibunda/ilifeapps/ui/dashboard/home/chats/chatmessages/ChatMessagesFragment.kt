@@ -195,7 +195,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             lastDate = DateHelper.getCurrentDate(),
             lastMessage = message,
             lastHargaTawar = chatRoom.lastHargaTawar,
-            lastTawar = true,
+            lastTawar = false,
             readByUser = true,
             readByShop = false,
             shopId = chatRoom.shopId,
