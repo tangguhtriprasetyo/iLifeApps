@@ -16,8 +16,8 @@ class ChatsViewModel : ViewModel() {
     private val _userData = MutableLiveData<Users?>()
     val userData: LiveData<Users?> = _userData
 
-    private val _chatRoom = MutableLiveData<ChatRoom?>()
-    val chatRoom: LiveData<ChatRoom?> = _chatRoom
+    private val _chatRoom = MutableLiveData<String?>()
+    val chatRoom: LiveData<String?> = _chatRoom
 
     fun getListChatRoom(userId: String): LiveData<List<ChatRoom>?> {
         return firebaseServices.getListChatRoom(userId, false).asLiveData()
@@ -40,7 +40,10 @@ class ChatsViewModel : ViewModel() {
         _userData.value = userData
     }
 
-    fun setChatRoomId(chatRoom: ChatRoom) {
+    fun setChatRoomId(chatRoom: String) {
         _chatRoom.value = chatRoom
     }
+
+    fun getChatRoomData(chatRoomId: String): LiveData<ChatRoom> =
+        firebaseServices.getChatRoomData(chatRoomId)
 }

@@ -150,6 +150,26 @@ class FirebaseServices {
         return userProfileData
     }
 
+    fun getChatRoomData(chatRoomId: String): LiveData<ChatRoom> {
+        val docRef: DocumentReference = chatRef.document(chatRoomId)
+        val chatRoomData = MutableLiveData<ChatRoom>()
+        CoroutineScope(IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val chatRoom = document.toObject<ChatRoom>()
+                    chatRoomData.postValue(chatRoom!!)
+                    Log.d("getUserProfile: ", chatRoom.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return chatRoomData
+    }
+
     fun getShopData(shopId: String): LiveData<Shops> {
         val docRef: DocumentReference = shopsRef.document(shopId)
         val shopData = MutableLiveData<Shops>()

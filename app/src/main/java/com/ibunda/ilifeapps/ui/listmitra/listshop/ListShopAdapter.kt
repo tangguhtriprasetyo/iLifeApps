@@ -19,15 +19,17 @@ class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
         this.listShops.clear()
         for (item in shops) {
             val userLocation = Location("userLocation")
-            userLocation.latitude = userData.latitude!!
-            userLocation.longitude = userData.longitude!!
+            if (userData.latitude != null || userData.longitude != null) {
+                userLocation.latitude = userData.latitude!!
+                userLocation.longitude = userData.longitude!!
 
-            val shopLocation = Location("shopLocation")
-            shopLocation.latitude = item.latitude!!
-            shopLocation.longitude = item.longitude!!
+                val shopLocation = Location("shopLocation")
+                shopLocation.latitude = item.latitude!!
+                shopLocation.longitude = item.longitude!!
 
-            var distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
-            item.distance = distance
+                val distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
+                item.distance = distance
+            }
             this.listShops.add(item)
         }
         when (filter) {

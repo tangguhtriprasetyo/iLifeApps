@@ -100,11 +100,12 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
 
     private fun sendTawaran(result: String) {
         val tawarPrice: Int = binding.etTawar.text.toString().toInt()
+        val tawarPriceFormat = PriceFormatHelper.getPriceFormat(tawarPrice)
         val chatRoom = ChatRoom(
             accTawar = false,
             lastDate = DateHelper.getCurrentDate(),
-            lastMessage = "Melakukan Penawaran $tawarPrice",
-            lastHargaTawar = PriceFormatHelper.getPriceFormat(tawarPrice),
+            lastMessage = "Melakukan Penawaran $tawarPriceFormat",
+            lastHargaTawar = tawarPriceFormat,
             lastTawar = true,
             readByUser = true,
             readByShop = false,

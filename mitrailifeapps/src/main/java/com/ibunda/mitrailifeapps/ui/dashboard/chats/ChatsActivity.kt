@@ -36,7 +36,7 @@ class ChatsActivity : AppCompatActivity() {
         }
         if (intent.hasExtra(EXTRA_ROOM_ID)) {
             val chatRoom = intent.getParcelableExtra<ChatRoom>(EXTRA_ROOM_ID) as ChatRoom
-            chatsViewModel.setChatRoomId(chatRoom)
+            chatsViewModel.setChatRoomId(chatRoom.chatRoomId!!)
             val chatMessagesFragment = ChatMessagesFragment()
             setCurrentFragment(chatMessagesFragment, ChatMessagesFragment::class.java.simpleName)
         } else {

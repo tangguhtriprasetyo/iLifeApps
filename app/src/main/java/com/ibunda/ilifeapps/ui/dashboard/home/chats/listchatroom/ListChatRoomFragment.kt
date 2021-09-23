@@ -112,7 +112,7 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
     }
 
     override fun onItemClicked(data: ChatRoom) {
-        chatsViewModel.setChatRoomId(data)
+        chatsViewModel.setChatRoomId(data.chatRoomId!!)
         chatsViewModel.readChat(data.chatRoomId!!)
             .observe(viewLifecycleOwner, { status ->
                 if (status == AppConstants.STATUS_SUCCESS) {

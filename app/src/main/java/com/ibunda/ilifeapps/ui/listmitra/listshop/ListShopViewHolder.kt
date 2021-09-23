@@ -40,7 +40,7 @@ class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
                 }
 
             } else {
-                tvJarakMitra.text = "-"
+                tvJarakMitra.text = "Tentukan Lokasi Anda"
             }
 
             if (data.promo == true) {

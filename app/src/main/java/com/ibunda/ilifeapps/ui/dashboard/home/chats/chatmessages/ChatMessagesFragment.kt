@@ -32,6 +32,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
     private val chatMessagesAdapter = ChatMessagesAdapter(this@ChatMessagesFragment)
 
     private var chatRoom: ChatRoom = ChatRoom()
+    private var listChatSize: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +46,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
-        initView()
+        initOnClick()
     }
 
     private fun initData() {
@@ -61,15 +62,23 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
         chatsViewModel.chatRoom
             .observe(viewLifecycleOwner, { chatId ->
                 if (chatId != null) {
-                    chatRoom = chatId
-                    setDataItem(chatRoom)
-                    setDataChatMessages(chatRoom.chatRoomId!!)
+                    getChatRoomData(chatId)
                 }
             })
 
     }
 
-    private fun setDataItem(chatRoom: ChatRoom) {
+    private fun getChatRoomData(chatId: String) {
+        chatsViewModel.getChatRoomData(chatId).observe(viewLifecycleOwner, { chatRoomData ->
+            if (chatRoomData != null) {
+                chatRoom = chatRoomData
+                setDataChatMessages(chatRoom.chatRoomId!!)
+                initView(chatRoom)
+            }
+        })
+    }
+
+    private fun initView(chatRoom: ChatRoom) {
         with(binding) {
             imgProfileMitra.loadImage(chatRoom.shopPicture)
             tvNamaMitra.text = chatRoom.shopName
@@ -78,29 +87,21 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
 
             if (chatRoom.verified) {
                 icVerified.visibility = View.VISIBLE
+            } else {
+                icVerified.visibility = View.GONE
             }
 
             if (!chatRoom.lastTawar) {
                 linearBgTawarPesan.visibility = View.VISIBLE
-                btnTawarMitra.setOnClickListener {
-                    val mDialogTawarMitraFragment = DialogTawarMitraFragment()
-                    val mBundle = Bundle()
-                    mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_CHATROOM, chatRoom)
-                    mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userDataProfile)
-                    mBundle.putBoolean(DialogTawarMitraFragment.FROM_CHAT, true)
-                    mDialogTawarMitraFragment.arguments = mBundle
-                    mDialogTawarMitraFragment.show(
-                        requireActivity().supportFragmentManager,
-                        DialogTawarMitraFragment::class.java.simpleName
-                    )
-                }
+
                 if (chatRoom.accTawar) {
                     btnTawarMitra.visibility = View.GONE
-                    btnPesan.setOnClickListener {
-                        //Order
-                    }
+                } else {
+                    btnTawarMitra.visibility = View.VISIBLE
                 }
 
+            } else {
+                linearBgTawarPesan.visibility = View.GONE
             }
         }
     }
@@ -109,12 +110,17 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
         chatsViewModel.getListChatMessages(chatRoomId)
             .observe(viewLifecycleOwner, { listChatMessages ->
                 if (listChatMessages != null && listChatMessages.isNotEmpty()) {
-                    chatMessagesAdapter.setListChatMessages(
-                        listChatMessages,
-                        userDataProfile.userId
-                    )
-                    setChatMessagesAdapter()
-                    showEmptChatMessages(false)
+                    val listSize = listChatMessages.size
+                    if (listSize != listChatSize) {
+                        getChatRoomData(chatRoomId)
+                        chatMessagesAdapter.setListChatMessages(
+                            listChatMessages,
+                            userDataProfile.userId
+                        )
+                        setChatMessagesAdapter()
+                        showEmptChatMessages(false)
+                        listChatSize = listSize
+                    }
                 } else {
                     showEmptChatMessages(true)
                 }
@@ -138,7 +144,7 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
         }
     }
 
-    private fun initView() {
+    private fun initOnClick() {
         binding.icBack.setOnClickListener {
             activity?.onBackPressed()
         }
@@ -147,6 +153,38 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
                 sendChat()
             }
         }
+        binding.btnPesan.setOnClickListener {
+            sendOrder()
+        }
+        binding.linearProfileChat.setOnClickListener {
+            goToProfile()
+        }
+
+        binding.btnTawarMitra.setOnClickListener {
+            val mDialogTawarMitraFragment = DialogTawarMitraFragment()
+            val mBundle = Bundle()
+            mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_CHATROOM, chatRoom)
+            mBundle.putParcelable(DialogTawarMitraFragment.EXTRA_USER, userDataProfile)
+            mBundle.putBoolean(DialogTawarMitraFragment.FROM_CHAT, true)
+            mDialogTawarMitraFragment.arguments = mBundle
+            mDialogTawarMitraFragment.show(
+                requireActivity().supportFragmentManager,
+                DialogTawarMitraFragment::class.java.simpleName
+            )
+        }
+    }
+
+    private fun sendOrder() {
+        TODO("Not yet implemented")
+        if (chatRoom.accTawar) {
+            // Order Ganti Price
+        } else {
+            // Order Harga Tetap
+        }
+    }
+
+    private fun goToProfile() {
+        TODO("Not yet implemented")
     }
 
     private fun sendChat() {

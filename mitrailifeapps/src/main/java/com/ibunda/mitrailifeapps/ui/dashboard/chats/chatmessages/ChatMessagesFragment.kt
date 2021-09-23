@@ -31,7 +31,8 @@ class ChatMessagesFragment : Fragment() {
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val chatMessagesAdapter = ChatMessagesAdapter()
     private var chatRoom: ChatRoom = ChatRoom()
-    private lateinit var progressDialog : Dialog
+    private var listChatSize: Int = 0
+    private lateinit var progressDialog: Dialog
 
     companion object {
         const val TOLAK_TAWARAN = "Tawaran ditolak!"
@@ -52,7 +53,7 @@ class ChatMessagesFragment : Fragment() {
 
         progressDialog = ProgressDialogHelper.progressDialog(requireContext())
         initData()
-        initView()
+        initOnClick()
     }
 
     private fun initData() {
@@ -60,9 +61,7 @@ class ChatMessagesFragment : Fragment() {
         chatsViewModel.chatRoom
             .observe(viewLifecycleOwner, { chatId ->
                 if (chatId != null) {
-                    chatRoom = chatId
-                    setDataItem(chatRoom)
-                    setDataChatMessages(chatRoom.chatRoomId!!)
+                    getChatRoomData(chatId)
                 }
             })
 
@@ -75,7 +74,7 @@ class ChatMessagesFragment : Fragment() {
 
     }
 
-    private fun setDataItem(chatRoom: ChatRoom) {
+    private fun initView(chatRoom: ChatRoom) {
         with(binding) {
             imgProfileUser.loadImage(chatRoom.userPicture)
             tvNamaUser.text = chatRoom.userName
@@ -91,16 +90,31 @@ class ChatMessagesFragment : Fragment() {
         chatsViewModel.getListChatMessages(chatRoomId)
             .observe(viewLifecycleOwner, { listChatMessages ->
                 if (listChatMessages != null && listChatMessages.isNotEmpty()) {
-                    chatMessagesAdapter.setListChatMessages(
-                        listChatMessages,
-                        shopsDataProfile.shopId
-                    )
-                    setChatMessagesAdapter()
-                    showEmptChatMessages(false)
+                    val listSize = listChatMessages.size
+                    if (listSize != listChatSize) {
+                        getChatRoomData(chatRoomId)
+                        chatMessagesAdapter.setListChatMessages(
+                            listChatMessages,
+                            shopsDataProfile.shopId
+                        )
+                        setChatMessagesAdapter()
+                        showEmptChatMessages(false)
+                        listChatSize = listSize
+                    }
                 } else {
                     showEmptChatMessages(true)
                 }
             })
+    }
+
+    private fun getChatRoomData(chatId: String) {
+        chatsViewModel.getChatRoomData(chatId).observe(viewLifecycleOwner, { chatRoomData ->
+            if (chatRoomData != null) {
+                chatRoom = chatRoomData
+                setDataChatMessages(chatRoom.chatRoomId!!)
+                initView(chatRoom)
+            }
+        })
     }
 
     private fun showEmptChatMessages(state: Boolean) {
@@ -120,7 +134,7 @@ class ChatMessagesFragment : Fragment() {
         }
     }
 
-    private fun initView() {
+    private fun initOnClick() {
         binding.icBack.setOnClickListener {
             activity?.onBackPressed()
         }

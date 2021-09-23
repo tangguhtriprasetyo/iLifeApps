@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.ibunda.ilifeapps.R
+import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivityListMitraBinding
@@ -20,6 +21,7 @@ class ListMitraActivity : AppCompatActivity() {
 
     private val listMitraViewModel: ListMitraViewModel by viewModels()
     private lateinit var user: Users
+    private var chatRoom: ChatRoom? = null
     private var shopData = Shops()
     private var userId: String? = null
     private var search: String? = null
@@ -32,6 +34,7 @@ class ListMitraActivity : AppCompatActivity() {
         const val EXTRA_SEARCH = "extra_search"
         const val EXTRA_TRANSACTION = "extra_transaction"
         const val EXTRA_ORDER_AGAIN = "extra_order_again"
+        const val EXTRA_ORDER_FROM_CHAT = "extra_order_from_chat"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,43 +51,22 @@ class ListMitraActivity : AppCompatActivity() {
 
         if (intent.hasExtra(EXTRA_USER)) {
             userId = intent.getStringExtra(EXTRA_USER)
-            listMitraViewModel.setUserProfile(userId.toString()).observe(this, { userProfile ->
-                if (userProfile != null) {
-                    user = userProfile
-                }
-            })
+            setUserProfile(userId)
         }
 
         if (intent.hasExtra(EXTRA_SHOP)) {
             val shopId = intent.getStringExtra(EXTRA_SHOP)
-            val transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
+            setShopData(shopId)
 
-            listMitraViewModel.setShopData(shopId.toString())
-                .observe(this, { shops ->
-                    if (shops != null) {
-                        shopData = shops
-
-                        if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
-                            val paymentFragment = PaymentFragment()
-                            setCurrentFragment(
-                                paymentFragment,
-                                paymentFragment::class.java.simpleName
-                            )
-                        } else {
-                            val profileShopFragment = DetailShopFragment()
-                            shopData.shopId = shopId
-
-                            val mBundle = Bundle()
-                            mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
-                            mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
-                            profileShopFragment.arguments = mBundle
-                            setCurrentFragment(
-                                profileShopFragment,
-                                DetailShopFragment::class.java.simpleName
-                            )
-                        }
-                    }
-                })
+        } else if (intent.hasExtra(EXTRA_ORDER_FROM_CHAT)) {
+            chatRoom = intent.getParcelableExtra(EXTRA_ORDER_FROM_CHAT)
+            setUserProfile(chatRoom?.userId)
+            setShopData(chatRoom?.shopId)
+            val paymentFragment = PaymentFragment()
+            setCurrentFragment(
+                paymentFragment,
+                paymentFragment::class.java.simpleName
+            )
 
         } else {
             var promo = false
@@ -100,6 +82,45 @@ class ListMitraActivity : AppCompatActivity() {
                 replace(R.id.host_listshop_activity, listShopFragment)
             }
         }
+    }
+
+    private fun setShopData(shopId: String?) {
+        val transaction = intent.getBooleanExtra(EXTRA_TRANSACTION, false)
+        listMitraViewModel.setShopData(shopId.toString())
+            .observe(this, { shops ->
+                if (shops != null) {
+                    shopData = shops
+
+                    if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
+                        val paymentFragment = PaymentFragment()
+                        setCurrentFragment(
+                            paymentFragment,
+                            paymentFragment::class.java.simpleName
+                        )
+                    } else {
+                        val profileShopFragment = DetailShopFragment()
+                        shopData.shopId = shopId
+
+                        val mBundle = Bundle()
+                        mBundle.putParcelable(DetailShopFragment.EXTRA_SHOP_DATA, shopData)
+                        mBundle.putBoolean(DetailShopFragment.FROM_TRANSACTION, transaction)
+                        profileShopFragment.arguments = mBundle
+                        setCurrentFragment(
+                            profileShopFragment,
+                            DetailShopFragment::class.java.simpleName
+                        )
+                    }
+                }
+            })
+    }
+
+    private fun setUserProfile(userId: String?) {
+        listMitraViewModel.setUserProfile(userId.toString()).observe(this, { userProfile ->
+            if (userProfile != null) {
+                user = userProfile
+            }
+        })
+
     }
 
     override fun onBackPressed() {
