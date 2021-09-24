@@ -590,18 +590,36 @@
                 app:layout_constraintTop_toBottomOf="@+id/linear_waktu_pesanan" />
 
             <TextView
+                android:id="@+id/btn_lihat_lokasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_outline_white_r4"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="4dp"
+                android:text="Lihat Lokasi"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
+
+            <TextView
                 android:id="@+id/tv_lokasi"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/roboto"
+                android:paddingEnd="12dp"
+                tools:text="Jalan Ngaliyan No. 123, Semarang"
                 android:textColor="@color/font_default"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_lihat_lokasi"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                tools:text="Jalan Ngaliyan, Kota Semarang" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
             <View
                 android:id="@+id/view3"

@@ -1,5 +1,6 @@
 package com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +11,12 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Orders
+import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.FragmentDetailPesananKhususBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment.Companion.EXTRA_ORDER_DIALOG_DATA
+import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -25,6 +28,7 @@ class DetailPesananKhususFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var ordersData: Orders
+    private lateinit var userDataProfile: Users
 
     companion object {
         const val EXTRA_ORDER_DATA = "extra_order_data"
@@ -46,7 +50,6 @@ class DetailPesananKhususFragment : Fragment() {
         if (arguments != null) {
             ordersData = requireArguments().getParcelable(EXTRA_ORDER_DATA)!!
         }
-        Log.d(ordersData.orderId.toString(), "orderId")
 
         mainViewModel.setOrderData(ordersData.orderId.toString())
             .observe(viewLifecycleOwner, { orders ->
@@ -55,9 +58,8 @@ class DetailPesananKhususFragment : Fragment() {
                 }
             })
 
-        initView()
         getOrderData()
-
+        initView()
 
     }
 
@@ -102,7 +104,31 @@ class DetailPesananKhususFragment : Fragment() {
         binding.btnTawarkanJasa.setOnClickListener {
             dialogTawar()
         }
+        binding.btnLihatLokasi.setOnClickListener {
+            openMaps(ordersData.userId!!)
+        }
+    }
 
+    private fun openMaps(userId: String) {
+        //setUserId
+        mainViewModel.setUserProfile(userId).observe(viewLifecycleOwner, { userProfile ->
+            if (userProfile != null) {
+                userDataProfile = userProfile
+            }
+        })
+        //getUserData
+        mainViewModel.getUserProfileData()
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+                    userDataProfile = userProfile
+                    //openMaps
+                    val intent =
+                        Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
+                    startActivity(intent)
+                }
+                Log.d("ViewModelProfile: ", userProfile.toString())
+            })
     }
 
     private fun dialogTawar() {

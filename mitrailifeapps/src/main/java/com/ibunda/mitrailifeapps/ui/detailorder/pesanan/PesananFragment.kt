@@ -1,6 +1,7 @@
 package com.ibunda.mitrailifeapps.ui.detailorder.pesanan
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
+import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.FragmentPesananBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.ui.detailorder.pesanan.dialogtolakpesanan.DialogTolakPesananFragment
+import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.mitrailifeapps.utils.AppConstants.STATUS_DIPROSES
@@ -29,6 +32,7 @@ class PesananFragment : Fragment() {
 
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
+    private lateinit var userDataProfile: Users
 
     private var reasonCancel: String? = null
     private lateinit var progressDialog : Dialog
@@ -91,6 +95,25 @@ class PesananFragment : Fragment() {
             val mFragmentManager = childFragmentManager
             mDialogBatalkanPesananFragment.show(mFragmentManager, DialogTolakPesananFragment::class.java.simpleName)
         }
+        binding.btnLihatLokasi.setOnClickListener {
+            openMaps()
+        }
+    }
+
+    private fun openMaps() {
+        //getUserData
+        detailViewModel.getUserProfileData()
+            .observe(viewLifecycleOwner, { userProfile ->
+                if (userProfile != null) {
+                    userDataProfile = userProfile
+                    //openMaps
+                    val intent =
+                        Intent(requireActivity(), MapsActivity::class.java)
+                    intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
+                    startActivity(intent)
+                }
+                Log.d("ViewModelProfile: ", userProfile.toString())
+            })
     }
 
     private fun orderProcessed() {

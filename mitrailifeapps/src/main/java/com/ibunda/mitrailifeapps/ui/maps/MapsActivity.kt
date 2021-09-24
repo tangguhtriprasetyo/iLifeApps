@@ -36,6 +36,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.ibunda.mitrailifeapps.BuildConfig.MAPS_API_KEY
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Shops
+import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.ActivityMapsBinding
 import java.io.IOException
 import java.util.*
@@ -45,6 +46,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private lateinit var binding: ActivityMapsBinding
     private lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var user: Users
     private lateinit var shops: Shops
 
     private var map: GoogleMap? = null
@@ -54,6 +56,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var lastKnownAddress: String? = null
     private var mapMarker: Marker? = null
     private var shopLocation: LatLng? = null
+    private var userLocation: LatLng? = null
 
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
 
@@ -93,12 +96,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
-            shops = intent.getParcelableExtra<Shops>(EXTRA_USER_MAPS) as Shops
+        if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
+            shops = intent.getParcelableExtra<Shops>(EXTRA_SHOP_MAPS) as Shops
             lastKnownAddress = shops.address
-            binding.btnKonfirmasiLokasi.visibility = View.GONE
-            binding.searchLocation.visibility = View.GONE
             getShopLocation()
+        } else if (intent.hasExtra(EXTRA_USER_MAPS)) {
+            user = intent.getParcelableExtra<Users>(EXTRA_USER_MAPS) as Users
+            lastKnownAddress = user.address
+            getUserLocation()
         }
 
         // Initialize the SDK
@@ -147,7 +152,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             startActivity(intent)
         }
         if (enabled) {
-            if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
+            if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
                 if (shopLocation == null) {
                     getShopLocation()
                 } else {
@@ -160,8 +165,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     )
                     mapMarker?.showInfoWindow()
                 }
-            } else
-                if (locationPermissionGranted) {
+            } else if(intent.hasExtra(EXTRA_USER_MAPS)) {
+                if (userLocation == null) {
+                    getUserLocation()
+                } else {
+                    mapMarker?.remove()
+                    mapMarker = map?.addMarker(
+                        MarkerOptions()
+                            .position(userLocation)
+                            .title(user.name)
+                            .snippet(user.address)
+                    )
+                    mapMarker?.showInfoWindow()
+                }
+            } else if (locationPermissionGranted) {
                     val cameraPosition = map?.cameraPosition?.target
                     val localeID = Locale("in", "ID")
                     val geocoder = Geocoder(this@MapsActivity, localeID)
@@ -263,6 +280,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     }
 
+    private fun getUserLocation() {
+        userLocation = LatLng(user.latitude!!, user.longitude!!)
+        map?.moveCamera(
+            CameraUpdateFactory
+                .newLatLngZoom(userLocation, DEFAULT_ZOOM.toFloat())
+        )
+        map?.uiSettings?.isMyLocationButtonEnabled = false
+        binding.btnKonfirmasiLokasi.visibility = View.GONE
+        binding.searchLocation.visibility = View.GONE
+
+    }
+
     private fun moveCamera() {
         if (lastKnownLocation != null) {
             val latLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
@@ -299,10 +328,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
         try {
             if (locationPermissionGranted) {
-                if (intent.getBooleanExtra(EXTRA_SHOPS_DATA, false)) {
+                if (intent.hasExtra(EXTRA_SHOP_MAPS)) {
                     map?.isMyLocationEnabled = false
                     map?.uiSettings?.isMyLocationButtonEnabled = false
                     getShopLocation()
+                } else if (intent.hasExtra(EXTRA_USER_MAPS)) {
+                    map?.isMyLocationEnabled = false
+                    map?.uiSettings?.isMyLocationButtonEnabled = false
+                    getUserLocation()
                 } else {
                     map?.isMyLocationEnabled = true
                     map?.uiSettings?.isMyLocationButtonEnabled = true
@@ -337,7 +370,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         private const val DEFAULT_ZOOM = 17
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         const val EXTRA_USER_MAPS = "extra_user_maps"
-        const val EXTRA_SHOPS_DATA = "extra_shops_data"
+        const val EXTRA_SHOP_MAPS = "extra_shop_maps"
 
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"

@@ -181,11 +181,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         if (state) {
             binding.linearEmptyPesanan.visibility = View.VISIBLE
             binding.rvPesananKhusus.visibility = View.GONE
-            binding.linearSortby.visibility = View.GONE
         } else {
             binding.rvPesananKhusus.visibility = View.VISIBLE
             binding.linearEmptyPesanan.visibility = View.GONE
-            binding.linearSortby.visibility = View.VISIBLE
         }
     }
 

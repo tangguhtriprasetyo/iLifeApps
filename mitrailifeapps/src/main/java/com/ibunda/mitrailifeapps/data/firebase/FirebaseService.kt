@@ -29,6 +29,7 @@ class FirebaseServices {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestoreRef: FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    private val usersRef: CollectionReference = firestoreRef.collection("users")
     private val shopsRef: CollectionReference = firestoreRef.collection("shops")
     private val ordersRef: CollectionReference = firestoreRef.collection("orders")
     private val mitraRef: CollectionReference = firestoreRef.collection("mitras")
@@ -101,6 +102,26 @@ class FirebaseServices {
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<< GET DATA FROM DATABASE METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    fun getUserData(userId: String): LiveData<Users> {
+        val docRef: DocumentReference = usersRef.document(userId)
+        val userProfileData = MutableLiveData<Users>()
+        CoroutineScope(Dispatchers.IO).launch {
+            docRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userProfile = document.toObject<Users>()
+                    userProfileData.postValue(userProfile!!)
+                    Log.d("getUserProfile: ", userProfile.toString())
+                } else {
+                    Log.d("Error getting Doc", "Document Doesn't Exist")
+                }
+            }
+                .addOnFailureListener {
+
+                }
+        }
+        return userProfileData
+    }
+
     fun getMitraData(mitraId: String): LiveData<Mitras> {
         val docRef: DocumentReference = mitraRef.document(mitraId)
         val mitraProfileData = MutableLiveData<Mitras>()

@@ -166,8 +166,7 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
     private fun openMaps() {
         val intent =
             Intent(requireActivity(), MapsActivity::class.java)
-        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, shopsDataProfile)
-        intent.putExtra(MapsActivity.EXTRA_SHOPS_DATA, true)
+        intent.putExtra(MapsActivity.EXTRA_SHOP_MAPS, shopsDataProfile)
         startActivity(intent)
     }
 
