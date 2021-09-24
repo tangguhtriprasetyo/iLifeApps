@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Orders
-import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.FragmentDetailPesananKhususBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.home.detailpesanankhusus.dialogtawarjasa.DialogTawarJasaFragment
@@ -24,11 +23,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class DetailPesananKhususFragment : Fragment() {
 
-    private lateinit var binding : FragmentDetailPesananKhususBinding
+    private lateinit var binding: FragmentDetailPesananKhususBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var ordersData: Orders
-    private lateinit var userDataProfile: Users
 
     companion object {
         const val EXTRA_ORDER_DATA = "extra_order_data"
@@ -105,30 +103,15 @@ class DetailPesananKhususFragment : Fragment() {
             dialogTawar()
         }
         binding.btnLihatLokasi.setOnClickListener {
-            openMaps(ordersData.userId!!)
+            openMaps()
         }
     }
 
-    private fun openMaps(userId: String) {
-        //setUserId
-        mainViewModel.setUserProfile(userId).observe(viewLifecycleOwner, { userProfile ->
-            if (userProfile != null) {
-                userDataProfile = userProfile
-            }
-        })
-        //getUserData
-        mainViewModel.getUserProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    userDataProfile = userProfile
-                    //openMaps
-                    val intent =
-                        Intent(requireActivity(), MapsActivity::class.java)
-                    intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
-                    startActivity(intent)
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, ordersData)
+        startActivity(intent)
     }
 
     private fun dialogTawar() {
@@ -137,7 +120,10 @@ class DetailPesananKhususFragment : Fragment() {
         mBundle.putParcelable(EXTRA_ORDER_DIALOG_DATA, ordersData)
         mDialogTawarJasaFragment.arguments = mBundle
         val mFragmentManager = childFragmentManager
-        mDialogTawarJasaFragment.show(mFragmentManager, DialogTawarJasaFragment::class.java.simpleName)
+        mDialogTawarJasaFragment.show(
+            mFragmentManager,
+            DialogTawarJasaFragment::class.java.simpleName
+        )
     }
 
 }

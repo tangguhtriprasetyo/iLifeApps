@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
-import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.FragmentDiprosesBinding
 import com.ibunda.mitrailifeapps.databinding.ItemDialogFinishOrderBinding
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
@@ -33,7 +32,6 @@ class DiprosesFragment : Fragment() {
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
     private lateinit var shopsDataProfile: Shops
-    private lateinit var userDataProfile: Users
 
     private lateinit var progressDialog : Dialog
 
@@ -119,19 +117,10 @@ class DiprosesFragment : Fragment() {
     }
 
     private fun openMaps() {
-        //getUserData
-        detailViewModel.getUserProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    userDataProfile = userProfile
-                    //openMaps
-                    val intent =
-                        Intent(requireActivity(), MapsActivity::class.java)
-                    intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
-                    startActivity(intent)
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, ordersData)
+        startActivity(intent)
     }
 
     private fun dialogFinishOrder() {

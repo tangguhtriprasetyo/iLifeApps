@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.mitrailifeapps.data.model.Orders
-import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.FragmentSelesaiBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.MainActivity
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
@@ -24,7 +23,6 @@ class SelesaiFragment : Fragment() {
 
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
-    private lateinit var userDataProfile: Users
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,19 +85,10 @@ class SelesaiFragment : Fragment() {
     }
 
     private fun openMaps() {
-        //getUserData
-        detailViewModel.getUserProfileData()
-            .observe(viewLifecycleOwner, { userProfile ->
-                if (userProfile != null) {
-                    userDataProfile = userProfile
-                    //openMaps
-                    val intent =
-                        Intent(requireActivity(), MapsActivity::class.java)
-                    intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userDataProfile)
-                    startActivity(intent)
-                }
-                Log.d("ViewModelProfile: ", userProfile.toString())
-            })
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, ordersData)
+        startActivity(intent)
     }
 
 }

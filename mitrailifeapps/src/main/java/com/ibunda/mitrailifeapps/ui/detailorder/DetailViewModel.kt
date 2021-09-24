@@ -7,7 +7,6 @@ import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
-import com.ibunda.mitrailifeapps.data.model.Users
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -17,7 +16,6 @@ class DetailViewModel: ViewModel() {
 
     private var _orderData = MutableLiveData<Orders>()
     private var _shopsProfile = MutableLiveData<Shops>()
-    private var _userProfile = MutableLiveData<Users>()
 
     fun setOrderData(orderId: String): LiveData<Orders> {
         _orderData = firebaseServices.getOrdersData(orderId) as MutableLiveData<Orders>
@@ -46,14 +44,5 @@ class DetailViewModel: ViewModel() {
     fun uploadNotif(notif: Notifications): LiveData<String> =
         firebaseServices.uploadNotification(notif)
 
-    //Users
-    fun setUserProfile(userId: String): LiveData<Users> {
-        _userProfile = firebaseServices.getUserData(userId) as MutableLiveData<Users>
-        return _userProfile
-    }
-
-    fun getUserProfileData(): LiveData<Users> {
-        return _userProfile
-    }
 
 }

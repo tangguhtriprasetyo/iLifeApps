@@ -16,7 +16,6 @@ class MainViewModel: ViewModel() {
     private var _orderData = MutableLiveData<Orders>()
     private var _mitraProfile = MutableLiveData<Mitras>()
     private var _shopsProfile = MutableLiveData<Shops>()
-    private var _userProfile = MutableLiveData<Users>()
 
     //setMitraId
     fun setMitraProfile(mitraId: String): LiveData<Mitras> {
@@ -105,14 +104,5 @@ class MainViewModel: ViewModel() {
     fun uploadNotif(notif: Notifications): LiveData<String> =
         firebaseServices.uploadNotification(notif)
 
-    //Users
-    fun setUserProfile(userId: String): LiveData<Users> {
-        _userProfile = firebaseServices.getUserData(userId) as MutableLiveData<Users>
-        return _userProfile
-    }
-
-    fun getUserProfileData(): LiveData<Users> {
-        return _userProfile
-    }
 
 }

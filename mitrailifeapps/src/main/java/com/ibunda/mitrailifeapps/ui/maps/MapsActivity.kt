@@ -35,8 +35,8 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.ibunda.mitrailifeapps.BuildConfig.MAPS_API_KEY
 import com.ibunda.mitrailifeapps.R
+import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
-import com.ibunda.mitrailifeapps.data.model.Users
 import com.ibunda.mitrailifeapps.databinding.ActivityMapsBinding
 import java.io.IOException
 import java.util.*
@@ -46,7 +46,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private lateinit var binding: ActivityMapsBinding
     private lateinit var placesClient: PlacesClient
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var user: Users
+    private lateinit var ordersData: Orders
     private lateinit var shops: Shops
 
     private var map: GoogleMap? = null
@@ -101,8 +101,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             lastKnownAddress = shops.address
             getShopLocation()
         } else if (intent.hasExtra(EXTRA_USER_MAPS)) {
-            user = intent.getParcelableExtra<Users>(EXTRA_USER_MAPS) as Users
-            lastKnownAddress = user.address
+            ordersData = intent.getParcelableExtra<Orders>(EXTRA_USER_MAPS) as Orders
+            lastKnownAddress = ordersData.address
             getUserLocation()
         }
 
@@ -173,8 +173,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     mapMarker = map?.addMarker(
                         MarkerOptions()
                             .position(userLocation)
-                            .title(user.name)
-                            .snippet(user.address)
+                            .title(ordersData.userName)
+                            .snippet(ordersData.address)
                     )
                     mapMarker?.showInfoWindow()
                 }
@@ -281,7 +281,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     }
 
     private fun getUserLocation() {
-        userLocation = LatLng(user.latitude!!, user.longitude!!)
+        userLocation = LatLng(ordersData.latitude!!, ordersData.longitude!!)
         map?.moveCamera(
             CameraUpdateFactory
                 .newLatLngZoom(userLocation, DEFAULT_ZOOM.toFloat())
