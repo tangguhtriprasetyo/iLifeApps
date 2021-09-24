@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment
 
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.ibunda.ilifeapps.databinding.FragmentPaymentBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.utils.*
 import java.util.*
+import kotlin.math.roundToInt
 
 class PaymentFragment : Fragment() {
 
@@ -53,21 +55,22 @@ class PaymentFragment : Fragment() {
                     userData = userProfile
                     Log.e(userData.userId, "userId")
                     Log.e(userData.name, "userName")
+                    listMitraViewModel.getShopData()
+                        .observe(viewLifecycleOwner, { shops ->
+                            if (shops != null) {
+                                shopData = shops
+                                Log.e(shopData.shopId, "shopId")
+                                initView()
+                            }
+                            Log.d("ViewModelShopData: ", shops.toString())
+                        })
                 }
                 Log.d("ViewModelProfileData: ", userProfile.toString())
             })
         //dataShop
-        listMitraViewModel.getShopData()
-            .observe(viewLifecycleOwner, { shops ->
-                if (shops != null) {
-                    shopData = shops
-                    Log.e(shopData.shopId, "shopId")
-                }
-                Log.d("ViewModelShopData: ", shops.toString())
-            })
+
         datePicker = DatePickerHelper(requireContext())
         timePicker = TimePickerHelper(requireContext(), true)
-        initView()
 
     }
 
@@ -93,19 +96,43 @@ class PaymentFragment : Fragment() {
             order(orders)
         }
         //INVOICE
-        binding.tvPriceJasa.text
-        binding.tvPriceOngkir.text
-        binding.tvTotalPrice.text
+        calculateTotalPrice()
+    }
+
+    private fun calculateTotalPrice() {
+        var price: Int? = 0
+        if (shopData.promo == true) {
+            price = shopData.shopPromo
+        } else {
+            price = shopData.price
+        }
+        if (userData.latitude != null || userData.longitude != null) {
+
+            val userLocation = Location("userLocation")
+            userLocation.latitude = userData.latitude!!
+            userLocation.longitude = userData.longitude!!
+
+            val shopLocation = Location("shopLocation")
+            shopLocation.latitude = shopData.latitude!!
+            shopLocation.longitude = shopData.longitude!!
+
+            val distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
+            val priceOngkir = if (distance <= 6000) 6000 else {
+                (distance.div(1000)) * 2500
+            }
+            binding.tvPriceJasa.text = PriceFormatHelper.getPriceFormat(price)
+            binding.tvPriceOngkir.text = PriceFormatHelper.getPriceFormat(priceOngkir)
+            binding.tvTotalPrice.text =
+                PriceFormatHelper.getPriceFormat((shopData.price!!.plus(priceOngkir)))
+        } else {
+            Toast.makeText(requireContext(), "Mohon Tentukan Lokasi Anda!", Toast.LENGTH_SHORT)
+                .show()
+            parentFragment?.childFragmentManager?.popBackStackImmediate()
+        }
     }
 
     private fun setDataOrder() {
         val orderId = "${userData.userId}${shopData.shopId}-${userData.totalOrder}"
-        val price: String?
-        if(shopData.promo == true) {
-            price = PriceFormatHelper.getPriceFormat(shopData.shopPromo)
-        } else {
-            price = PriceFormatHelper.getPriceFormat(shopData.price)
-        }
         orders = Orders(
             orderId = orderId,
             address = userData.address,
@@ -120,7 +147,7 @@ class PaymentFragment : Fragment() {
             shopName = shopData.shopName,
             shopPicture = shopData.shopPicture,
             status = "Pesanan",
-            totalPrice = price,
+            totalPrice = binding.tvTotalPrice.text.toString(),
             userId = userData.userId,
             userName = userData.name,
             userPicture = userData.avatar,

@@ -35,6 +35,7 @@ class ListMitraActivity : AppCompatActivity() {
         const val EXTRA_TRANSACTION = "extra_transaction"
         const val EXTRA_ORDER_AGAIN = "extra_order_again"
         const val EXTRA_ORDER_FROM_CHAT = "extra_order_from_chat"
+        const val EXTRA_LAST_TAWAR = "extra_last_tawar"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,9 @@ class ListMitraActivity : AppCompatActivity() {
                     shopData = shops
 
                     if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
+                        if (intent.hasExtra(EXTRA_LAST_TAWAR)) {
+                            //TODO change price
+                        }
                         val paymentFragment = PaymentFragment()
                         setCurrentFragment(
                             paymentFragment,

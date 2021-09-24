@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatMessagesBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
+import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
@@ -175,16 +177,24 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
     }
 
     private fun sendOrder() {
-        TODO("Not yet implemented")
+        val intent =
+            Intent(requireActivity(), ListMitraActivity::class.java)
         if (chatRoom.accTawar) {
-            // Order Ganti Price
-        } else {
-            // Order Harga Tetap
+            intent.putExtra(ListMitraActivity.EXTRA_LAST_TAWAR, chatRoom.lastHargaTawar)
         }
+        intent.putExtra(ListMitraActivity.EXTRA_SHOP, chatRoom.shopId)
+        intent.putExtra(ListMitraActivity.EXTRA_ORDER_AGAIN, true)
+        intent.putExtra(ListMitraActivity.EXTRA_USER, chatRoom.userId)
+        startActivity(intent)
     }
 
     private fun goToProfile() {
-        TODO("Not yet implemented")
+        val intent =
+            Intent(requireActivity(), ListMitraActivity::class.java)
+        intent.putExtra(ListMitraActivity.EXTRA_SHOP, chatRoom.shopId)
+        intent.putExtra(ListMitraActivity.EXTRA_TRANSACTION, true)
+        intent.putExtra(ListMitraActivity.EXTRA_USER, chatRoom.userId)
+        startActivity(intent)
     }
 
     private fun sendChat() {

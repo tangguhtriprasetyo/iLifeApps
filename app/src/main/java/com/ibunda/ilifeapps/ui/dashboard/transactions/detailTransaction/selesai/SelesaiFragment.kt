@@ -69,7 +69,12 @@ class SelesaiFragment : Fragment() {
             }
         }
         binding.btnPesan.setOnClickListener {
-
+            val intent =
+                Intent(requireActivity(), ListMitraActivity::class.java)
+            intent.putExtra(ListMitraActivity.EXTRA_SHOP, orderData.shopId)
+            intent.putExtra(ListMitraActivity.EXTRA_ORDER_AGAIN, true)
+            intent.putExtra(ListMitraActivity.EXTRA_USER, orderData.userId)
+            startActivity(intent)
         }
         binding.btnLihatProfil.setOnClickListener {
             val intent =
