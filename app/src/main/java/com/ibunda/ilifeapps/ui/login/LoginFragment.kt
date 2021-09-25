@@ -1,7 +1,6 @@
 package com.ibunda.ilifeapps.ui.login
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -10,9 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -29,12 +29,10 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
-import com.ibunda.ilifeapps.databinding.FragmentDialogKategoriMitraBinding
 import com.ibunda.ilifeapps.databinding.FragmentLoginBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.utils.DatePickerHelper
 import com.ibunda.ilifeapps.utils.TimePickerHelper
-import java.text.SimpleDateFormat
 import java.util.*
 
 class LoginFragment : Fragment() {
@@ -60,6 +58,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkIsChecked()
         datePicker = DatePickerHelper(requireContext())
         timePicker = TimePickerHelper(requireContext(), true)
 
@@ -108,6 +107,10 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        initOnCLick(loginGoogleLauncher)
+    }
+
+    private fun initOnCLick(loginGoogleLauncher: ActivityResultLauncher<Intent>) {
 
         binding.gSignIn.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
@@ -124,6 +127,34 @@ class LoginFragment : Fragment() {
                     .show()
             }
 
+        }
+
+        binding.checkBox.setOnClickListener {
+            checkIsChecked()
+        }
+    }
+
+    private fun checkIsChecked() {
+        if (binding.checkBox.isChecked) {
+            binding.btnMulai.isEnabled = true
+            binding.gSignIn.isEnabled = true
+            binding.loginButton.isEnabled = true
+            binding.gSignIn.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
+                )
+            )
+        } else {
+            binding.btnMulai.isEnabled = false
+            binding.gSignIn.isEnabled = false
+            binding.loginButton.isEnabled = false
+            binding.gSignIn.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.common_google_signin_btn_text_light_disabled
+                )
+            )
         }
     }
 

@@ -14,4 +14,5 @@ class LoginViewModel : ViewModel() {
 
     fun createdNewUser(authUser: Users): LiveData<Users> =
         firebaseServices.createUserToFirestore(authUser)
+
 }
