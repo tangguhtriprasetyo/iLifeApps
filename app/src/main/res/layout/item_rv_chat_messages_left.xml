@@ -44,7 +44,7 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_chat_send"
+                android:background="@drawable/bg_chat_receive"
                 android:gravity="end"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"

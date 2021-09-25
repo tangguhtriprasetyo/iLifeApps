@@ -105,7 +105,7 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
             accTawar = false,
             lastDate = DateHelper.getCurrentDate(),
             lastMessage = "Melakukan Penawaran $tawarPriceFormat",
-            lastHargaTawar = tawarPriceFormat,
+            lastHargaTawar = tawarPrice,
             lastTawar = true,
             readByUser = true,
             readByShop = false,
@@ -117,7 +117,7 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
 
         val chatMessages = ChatMessages(
             date = DateHelper.getCurrentDate(),
-            message = "Melakukan Penawaran $tawarPrice",
+            message = "Melakukan Penawaran $tawarPriceFormat",
             sender = userData?.userId,
             statusTawaran = AppConstants.STATUS_MENAWAR,
             tawar = true,

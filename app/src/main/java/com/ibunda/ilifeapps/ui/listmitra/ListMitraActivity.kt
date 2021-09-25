@@ -93,10 +93,13 @@ class ListMitraActivity : AppCompatActivity() {
                     shopData = shops
 
                     if (intent.hasExtra(EXTRA_ORDER_AGAIN)) {
-                        if (intent.hasExtra(EXTRA_LAST_TAWAR)) {
-                            //TODO change price
-                        }
                         val paymentFragment = PaymentFragment()
+                        val mBundle = Bundle()
+                        mBundle.putInt(
+                            PaymentFragment.EXTRA_HARGA_TAWAR,
+                            intent.getIntExtra(EXTRA_LAST_TAWAR, 0)
+                        )
+                        paymentFragment.arguments = mBundle
                         setCurrentFragment(
                             paymentFragment,
                             paymentFragment::class.java.simpleName

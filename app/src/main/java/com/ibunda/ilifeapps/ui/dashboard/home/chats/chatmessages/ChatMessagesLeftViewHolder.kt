@@ -6,8 +6,7 @@ import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.databinding.ItemRvChatMessagesLeftBinding
 
 class ChatMessagesLeftViewHolder(
-    private val binding: ItemRvChatMessagesLeftBinding,
-    private val chatMessagesClickCallback: ChatMessagesClickCallback
+    private val binding: ItemRvChatMessagesLeftBinding
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: ChatMessages, showDate: Boolean) {
@@ -21,11 +20,6 @@ class ChatMessagesLeftViewHolder(
             }
             tvChatMessage.text = data.message
             tvTimeChatSend.text = data.time
-            with(itemView) {
-                setOnClickListener {
-                    chatMessagesClickCallback.onItemClicked(data)
-                }
-            }
         }
     }
 }

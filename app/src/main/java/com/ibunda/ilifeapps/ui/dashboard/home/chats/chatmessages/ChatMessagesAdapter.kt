@@ -11,8 +11,7 @@ import com.ibunda.ilifeapps.databinding.ItemRvChatMessagesTawaranLeftBinding
 import com.ibunda.ilifeapps.databinding.ItemRvChatMessagesTawaranRightBinding
 
 
-class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesClickCallback) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatMessagesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var listMessages = ArrayList<ChatMessages>()
     private var userId: String? = null
     private var oldDate: String? = null
@@ -35,7 +34,7 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
                         parent,
                         false
                     )
-                ChatMessagesTawaranRightViewHolder(viewholder, chatMessagesClickCallback)
+                ChatMessagesTawaranRightViewHolder(viewholder)
             }
             VIEW_TAWARAN_LEFT -> {
                 val viewholder =
@@ -44,7 +43,7 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
                         parent,
                         false
                     )
-                ChatMessagesTawaranLeftViewHolder(viewholder, chatMessagesClickCallback)
+                ChatMessagesTawaranLeftViewHolder(viewholder)
             }
             VIEW_MESSAGES_RIGHT -> {
                 val viewholder =
@@ -53,7 +52,7 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
                         parent,
                         false
                     )
-                ChatMessagesRightViewHolder(viewholder, chatMessagesClickCallback)
+                ChatMessagesRightViewHolder(viewholder)
             }
             else -> {
                 val viewholder =
@@ -62,7 +61,7 @@ class ChatMessagesAdapter(private val chatMessagesClickCallback: ChatMessagesCli
                         parent,
                         false
                     )
-                ChatMessagesLeftViewHolder(viewholder, chatMessagesClickCallback)
+                ChatMessagesLeftViewHolder(viewholder)
             }
         }
     }

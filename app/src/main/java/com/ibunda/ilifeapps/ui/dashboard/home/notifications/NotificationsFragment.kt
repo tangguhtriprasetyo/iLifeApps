@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentNotificationsBinding
@@ -56,9 +58,13 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
             .observe(viewLifecycleOwner, { dataNotif ->
                 if (dataNotif != null && dataNotif.isNotEmpty()) {
                     notifAdapter.setListNotif(dataNotif)
+                    val notRead = "( ${dataNotif.size} )"
+                    binding.tvBelumDibaca.text = notRead
                     setNotifAdapter()
                     showEmptyNotif(false)
                 } else {
+                    val notRead = "( 0 )"
+                    binding.tvBelumDibaca.text = notRead
                     showEmptyNotif(true)
                 }
             })
@@ -86,6 +92,9 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
         binding.icBack.setOnClickListener {
             activity?.onBackPressed()
         }
+        val bottomNav: BottomNavigationView =
+            requireActivity().findViewById(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
     }
 
     override fun onItemClicked(data: Notifications) {

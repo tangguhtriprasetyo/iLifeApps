@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="TAWARAN DITERIMA"
+                        android:text="STATUS TAWARAN"
                         android:textColor="@color/colorBackground"
                         android:textSize="12sp" />
 

@@ -20,18 +20,19 @@ import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.dialogtawarmitra.DialogTawarMitraFragment
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
+import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
 @ExperimentalCoroutinesApi
-class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
+class ChatMessagesFragment : Fragment() {
 
     private lateinit var binding: FragmentListChatMessagesBinding
     private lateinit var userDataProfile: Users
 
     private val chatsViewModel: ChatsViewModel by activityViewModels()
-    private val chatMessagesAdapter = ChatMessagesAdapter(this@ChatMessagesFragment)
+    private val chatMessagesAdapter = ChatMessagesAdapter()
 
     private var chatRoom: ChatRoom = ChatRoom()
     private var listChatSize: Int = 0
@@ -85,7 +86,6 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
             imgProfileMitra.loadImage(chatRoom.shopPicture)
             tvNamaMitra.text = chatRoom.shopName
             tvKategoriMitra.text = chatRoom.categoryName
-            tvHargaMitra.text = chatRoom.shopPrice
 
             if (chatRoom.verified) {
                 icVerified.visibility = View.VISIBLE
@@ -95,15 +95,15 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
 
             if (!chatRoom.lastTawar) {
                 linearBgTawarPesan.visibility = View.VISIBLE
-
-                if (chatRoom.accTawar) {
-                    btnTawarMitra.visibility = View.GONE
-                } else {
-                    btnTawarMitra.visibility = View.VISIBLE
-                }
-
             } else {
                 linearBgTawarPesan.visibility = View.GONE
+            }
+            if (chatRoom.accTawar) {
+                tvHargaMitra.text = PriceFormatHelper.getPriceFormat(chatRoom.lastHargaTawar)
+                btnTawarMitra.visibility = View.GONE
+            } else {
+                btnTawarMitra.visibility = View.VISIBLE
+                tvHargaMitra.text = chatRoom.shopPrice
             }
         }
     }
@@ -250,9 +250,5 @@ class ChatMessagesFragment : Fragment(), ChatMessagesClickCallback {
                     Toast.makeText(requireContext(), statusTawar, Toast.LENGTH_SHORT).show()
                 }
             })
-    }
-
-    override fun onItemClicked(data: ChatMessages) {
-        // TODO onItemClicked
     }
 }

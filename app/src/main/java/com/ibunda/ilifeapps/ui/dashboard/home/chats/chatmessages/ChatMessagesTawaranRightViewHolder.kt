@@ -6,8 +6,7 @@ import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.databinding.ItemRvChatMessagesTawaranRightBinding
 
 class ChatMessagesTawaranRightViewHolder(
-    private val binding: ItemRvChatMessagesTawaranRightBinding,
-    private val chatMessagesClickCallback: ChatMessagesClickCallback
+    private val binding: ItemRvChatMessagesTawaranRightBinding
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: ChatMessages, showDate: Boolean) {
@@ -21,11 +20,6 @@ class ChatMessagesTawaranRightViewHolder(
             }
             tvHargaTawar.text = data.message
             tvTimeTawar.text = data.time
-            with(itemView) {
-                setOnClickListener {
-                    chatMessagesClickCallback.onItemClicked(data)
-                }
-            }
         }
     }
 }

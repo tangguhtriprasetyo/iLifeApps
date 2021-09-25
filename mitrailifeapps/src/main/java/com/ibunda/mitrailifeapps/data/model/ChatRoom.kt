@@ -10,7 +10,7 @@ data class ChatRoom(
     var accTawar: Boolean = false,
     var lastDate: String? = null,
     var lastMessage: String? = null,
-    var lastHargaTawar: String? = null,
+    var lastHargaTawar: Int? = null,
     var lastTawar: Boolean = false,
     var readByUser: Boolean = false,
     var readByShop: Boolean = false,

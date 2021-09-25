@@ -17,6 +17,8 @@ class ListChatRoomViewHolder(
 
             if (data.verified) {
                 icVerified.visibility = View.VISIBLE
+            } else {
+                icVerified.visibility = View.GONE
             }
             if (!data.readByUser!!) {
                 linearRoomChat.setBackgroundResource(R.color.bgChatNotif)

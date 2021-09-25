@@ -34,6 +34,10 @@ class PaymentFragment : Fragment() {
     lateinit var datePicker: DatePickerHelper
     lateinit var timePicker: TimePickerHelper
 
+    companion object {
+        const val EXTRA_HARGA_TAWAR = "extra_harga_tawar"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -101,8 +105,12 @@ class PaymentFragment : Fragment() {
 
     private fun calculateTotalPrice() {
         var price: Int? = 0
-        if (shopData.promo == true) {
+        val priceTawar = requireArguments().getInt(EXTRA_HARGA_TAWAR, 0)
+        Log.d("HARGA TAWAR", "$priceTawar")
+        if (shopData.promo) {
             price = shopData.shopPromo
+        } else if (priceTawar != 0) {
+            price = priceTawar
         } else {
             price = shopData.price
         }
@@ -123,7 +131,7 @@ class PaymentFragment : Fragment() {
             binding.tvPriceJasa.text = PriceFormatHelper.getPriceFormat(price)
             binding.tvPriceOngkir.text = PriceFormatHelper.getPriceFormat(priceOngkir)
             binding.tvTotalPrice.text =
-                PriceFormatHelper.getPriceFormat((shopData.price!!.plus(priceOngkir)))
+                PriceFormatHelper.getPriceFormat((price!!.plus(priceOngkir)))
         } else {
             Toast.makeText(requireContext(), "Mohon Tentukan Lokasi Anda!", Toast.LENGTH_SHORT)
                 .show()
