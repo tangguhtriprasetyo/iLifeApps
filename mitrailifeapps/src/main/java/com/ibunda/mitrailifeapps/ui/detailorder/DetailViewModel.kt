@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ibunda.mitrailifeapps.data.firebase.FirebaseServices
+import com.ibunda.mitrailifeapps.data.model.ChatRoom
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -43,6 +44,9 @@ class DetailViewModel: ViewModel() {
 
     fun uploadNotif(notif: Notifications): LiveData<String> =
         firebaseServices.uploadNotification(notif)
+
+    fun createChatRoom(chatRoom: ChatRoom): LiveData<String> =
+        firebaseServices.sendTawaran(chatRoom)
 
 
 }

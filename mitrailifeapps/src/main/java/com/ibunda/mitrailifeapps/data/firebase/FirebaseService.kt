@@ -479,6 +479,9 @@ class FirebaseServices {
             val docRef: DocumentReference = chatRef.document(chatRoom.chatRoomId!!)
             docRef.get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    if (task.result["lastMessage"] != null) {
+                        chatRoom.lastMessage = task.result["lastMessage"].toString()
+                    }
                     docRef.set(chatRoom, SetOptions.merge()).addOnCompleteListener {
                         if (it.isSuccessful) {
                             statusChat.postValue(

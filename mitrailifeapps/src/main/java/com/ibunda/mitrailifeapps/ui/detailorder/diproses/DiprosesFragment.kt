@@ -11,11 +11,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.ibunda.mitrailifeapps.data.model.ChatRoom
 import com.ibunda.mitrailifeapps.data.model.Notifications
 import com.ibunda.mitrailifeapps.data.model.Orders
 import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentDiprosesBinding
 import com.ibunda.mitrailifeapps.databinding.ItemDialogFinishOrderBinding
+import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsActivity
 import com.ibunda.mitrailifeapps.ui.detailorder.DetailViewModel
 import com.ibunda.mitrailifeapps.ui.maps.MapsActivity
 import com.ibunda.mitrailifeapps.utils.AppConstants
@@ -27,13 +29,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class DiprosesFragment : Fragment() {
 
-    private lateinit var binding : FragmentDiprosesBinding
+    private lateinit var binding: FragmentDiprosesBinding
 
     private val detailViewModel: DetailViewModel by activityViewModels()
     private lateinit var ordersData: Orders
     private lateinit var shopsDataProfile: Shops
+    private var chatRooms: ChatRoom? = null
 
-    private lateinit var progressDialog : Dialog
+    private lateinit var progressDialog: Dialog
 
     companion object {
         const val MULAI_PERJALANAN = "Mulai Perjalanan"
@@ -78,13 +81,13 @@ class DiprosesFragment : Fragment() {
             tvCreatedAt.text = ordersData.createdAt
             tvProcessedAt.text = ordersData.processedAt
             btnStatusPekerjaan.text = MULAI_PERJALANAN
-            if (ordersData.startAt!= null) {
+            if (ordersData.startAt != null) {
                 tvInfoMulaiPerjalanan.visibility = View.VISIBLE
                 tvStartAt.visibility = View.VISIBLE
                 tvStartAt.text = ordersData.startAt
                 btnStatusPekerjaan.text = SAMPAI_TUJUAN
             }
-            if (ordersData.arrivedAt!= null) {
+            if (ordersData.arrivedAt != null) {
                 tvInfoSampaiTujuan.visibility = View.VISIBLE
                 tvArrivedAt.visibility = View.VISIBLE
                 tvArrivedAt.text = ordersData.arrivedAt
@@ -100,9 +103,9 @@ class DiprosesFragment : Fragment() {
             if (btnStatus == MULAI_PERJALANAN) {
                 btnStatusPekerjaan.setOnClickListener { mulaiPerjalanan() }
             } else if (btnStatus == SAMPAI_TUJUAN) {
-                btnStatusPekerjaan.setOnClickListener{ sampaiTujuan() }
+                btnStatusPekerjaan.setOnClickListener { sampaiTujuan() }
             } else if (btnStatus == PESANAN_SELESAI) {
-                btnStatusPekerjaan.setOnClickListener{ dialogFinishOrder() }
+                btnStatusPekerjaan.setOnClickListener { dialogFinishOrder() }
             }
         }
     }
@@ -114,6 +117,44 @@ class DiprosesFragment : Fragment() {
         binding.btnLihatLokasi.setOnClickListener {
             openMaps()
         }
+        binding.btnHubungiPelanggan.setOnClickListener {
+            createChatRoom()
+        }
+    }
+
+    private fun createChatRoom() {
+        progressDialog.show()
+        val chatRoom = ChatRoom(
+            chatRoomId = ordersData.userId + ordersData.shopId,
+            shopId = ordersData.shopId,
+            shopName = ordersData.shopName,
+            shopPicture = ordersData.shopPicture,
+            categoryName = ordersData.categoryName,
+            shopPrice = ordersData.totalPrice,
+            accTawar = false,
+            lastDate = DateHelper.getCurrentDate(),
+            lastHargaTawar = 0,
+            lastTawar = false,
+            readByUser = false,
+            readByShop = true,
+            userId = ordersData.userId,
+            userName = ordersData.userName,
+            userPicture = ordersData.userPicture,
+            verified = ordersData.verified!!
+        )
+        detailViewModel.createChatRoom(chatRoom)
+            .observe(viewLifecycleOwner, { status ->
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    progressDialog.dismiss()
+                    val intent =
+                        Intent(requireActivity(), ChatsActivity::class.java)
+                    intent.putExtra(ChatsActivity.EXTRA_ROOM_ID, chatRoom)
+                    startActivity(intent)
+                } else {
+                    progressDialog.dismiss()
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     private fun openMaps() {
@@ -125,7 +166,8 @@ class DiprosesFragment : Fragment() {
 
     private fun dialogFinishOrder() {
         val builder = AlertDialog.Builder(requireContext())
-        val binding : ItemDialogFinishOrderBinding = ItemDialogFinishOrderBinding.inflate(LayoutInflater.from(context))
+        val binding: ItemDialogFinishOrderBinding =
+            ItemDialogFinishOrderBinding.inflate(LayoutInflater.from(context))
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.show()
@@ -160,23 +202,24 @@ class DiprosesFragment : Fragment() {
                     shopsDataProfile = shopsProfile
                     var totalOrder = shopsDataProfile.totalPesananSukses!!
                     Log.e(totalOrder.toString(), "totalOrder")
-                    totalOrder+=1
+                    totalOrder += 1
                     shopsDataProfile.totalPesananSukses = totalOrder
 
-                    detailViewModel.updateTotalOrderShop(shopsDataProfile).observe(viewLifecycleOwner, { updateOrder ->
-                        if (updateOrder != null) {
-                            sendNotif(PESANAN_SELESAI)
-                            progressDialog.dismiss()
-                            activity?.onBackPressed()
-                        } else {
-                            progressDialog.dismiss()
-                            Toast.makeText(
-                                requireActivity(),
-                                "Update Order Failed",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    })
+                    detailViewModel.updateTotalOrderShop(shopsDataProfile)
+                        .observe(viewLifecycleOwner, { updateOrder ->
+                            if (updateOrder != null) {
+                                sendNotif(PESANAN_SELESAI)
+                                progressDialog.dismiss()
+                                activity?.onBackPressed()
+                            } else {
+                                progressDialog.dismiss()
+                                Toast.makeText(
+                                    requireActivity(),
+                                    "Update Order Failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
 
                 }
                 Log.d("ViewModelShopsProfile: ", shopsProfile.toString())

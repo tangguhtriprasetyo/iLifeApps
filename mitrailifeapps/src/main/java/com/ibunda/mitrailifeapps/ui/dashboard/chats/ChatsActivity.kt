@@ -11,7 +11,9 @@ import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.ActivityChatsBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.chats.chatmessages.ChatMessagesFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.chats.listchatroom.ListChatRoomFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ChatsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatsBinding
@@ -35,7 +37,7 @@ class ChatsActivity : AppCompatActivity() {
             chatsViewModel.setShopData(shopData)
         }
         if (intent.hasExtra(EXTRA_ROOM_ID)) {
-            val chatRoom = intent.getParcelableExtra<ChatRoom>(EXTRA_ROOM_ID) as ChatRoom
+            chatRoom = intent.getParcelableExtra<ChatRoom>(EXTRA_ROOM_ID) as ChatRoom
             chatsViewModel.setChatRoomId(chatRoom.chatRoomId!!)
             val chatMessagesFragment = ChatMessagesFragment()
             setCurrentFragment(chatMessagesFragment, ChatMessagesFragment::class.java.simpleName)

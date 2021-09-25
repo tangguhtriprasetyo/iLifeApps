@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.ibunda.mitrailifeapps.data.model.ChatMessages
 import com.ibunda.mitrailifeapps.data.model.ChatRoom
-import com.ibunda.mitrailifeapps.data.model.Shops
 import com.ibunda.mitrailifeapps.databinding.FragmentChatMessagesBinding
 import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsViewModel
 import com.ibunda.mitrailifeapps.utils.AppConstants
@@ -26,7 +25,6 @@ import java.util.*
 class ChatMessagesFragment : Fragment() {
 
     private lateinit var binding: FragmentChatMessagesBinding
-    private lateinit var shopsDataProfile: Shops
 
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val chatMessagesAdapter = ChatMessagesAdapter()
@@ -64,14 +62,6 @@ class ChatMessagesFragment : Fragment() {
                     getChatRoomData(chatId)
                 }
             })
-
-        chatsViewModel.shopData
-            .observe(viewLifecycleOwner, { shopsProfile ->
-                if (shopsProfile != null) {
-                    shopsDataProfile = shopsProfile
-                }
-            })
-
     }
 
     private fun initView(chatRoom: ChatRoom) {
@@ -95,7 +85,7 @@ class ChatMessagesFragment : Fragment() {
                         getChatRoomData(chatRoomId)
                         chatMessagesAdapter.setListChatMessages(
                             listChatMessages,
-                            shopsDataProfile.shopId
+                            chatRoom.shopId
                         )
                         setChatMessagesAdapter()
                         showEmptChatMessages(false)
@@ -280,7 +270,6 @@ class ChatMessagesFragment : Fragment() {
                     chatsViewModel.sendChat(chatRoom.chatRoomId.toString(), chatMessages)
                         .observe(viewLifecycleOwner, { statusChat ->
                             if (statusChat == AppConstants.STATUS_SUCCESS) {
-
                                 binding.etChatbox.text = null
                                 Toast.makeText(
                                     requireContext(),

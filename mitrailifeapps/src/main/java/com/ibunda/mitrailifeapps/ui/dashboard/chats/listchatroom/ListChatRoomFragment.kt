@@ -19,7 +19,9 @@ import com.ibunda.mitrailifeapps.ui.dashboard.chats.ChatsViewModel
 import com.ibunda.mitrailifeapps.ui.dashboard.chats.chatmessages.ChatMessagesFragment
 import com.ibunda.mitrailifeapps.utils.AppConstants
 import com.ibunda.mitrailifeapps.utils.ProgressDialogHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     private lateinit var binding : FragmentListChatRoomBinding
