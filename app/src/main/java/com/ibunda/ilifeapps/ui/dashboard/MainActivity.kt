@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         }
 
         this.doubleBackToExit = true
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Tekan Tombol Kembali 2 Kali Untuk Keluar", Toast.LENGTH_SHORT).show()
 
         Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExit = false }, 2000)
     }

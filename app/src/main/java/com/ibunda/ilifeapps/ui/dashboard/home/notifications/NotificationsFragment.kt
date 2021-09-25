@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.home.notifications
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,12 +18,14 @@ import com.ibunda.ilifeapps.databinding.FragmentNotificationsBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.DetailActivity
 import com.ibunda.ilifeapps.utils.AppConstants
+import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class NotificationsFragment : Fragment(), NotificationsClickCallback {
     private lateinit var binding: FragmentNotificationsBinding
     private lateinit var userDataProfile: Users
+    private lateinit var progressDialog: Dialog
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val notifAdapter = NotificationsAdapter(this@NotificationsFragment)
@@ -39,6 +42,8 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        progressDialog.show()
         initView()
         initData()
     }
@@ -66,6 +71,7 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
                     val notRead = "( 0 )"
                     binding.tvBelumDibaca.text = notRead
                     showEmptyNotif(true)
+                    progressDialog.dismiss()
                 }
             })
     }
@@ -86,6 +92,7 @@ class NotificationsFragment : Fragment(), NotificationsClickCallback {
             setHasFixedSize(true)
             adapter = notifAdapter
         }
+        progressDialog.dismiss()
     }
 
     private fun initView() {

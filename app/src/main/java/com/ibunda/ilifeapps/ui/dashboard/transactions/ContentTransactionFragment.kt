@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.transactions
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.ibunda.ilifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_DIPROSES
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_PESANAN
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_SELESAI
+import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -23,6 +25,7 @@ class ContentTransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentContentTransactionBinding
     private lateinit var userDataProfile: Users
+    private lateinit var progressDialog: Dialog
 
     private var userId: String? = null
 
@@ -52,7 +55,8 @@ class ContentTransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        progressDialog.show()
         when (arguments?.getInt(ARG_SECTION_NUMBER, 0)) {
             1 -> {
                 getUserId(STATUS_PESANAN)
@@ -115,6 +119,7 @@ class ContentTransactionFragment : Fragment() {
                         }
                     }
                 }
+                progressDialog.dismiss()
             })
     }
 

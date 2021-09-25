@@ -45,12 +45,12 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
         progressDialog = ProgressDialogHelper.progressDialog(requireContext())
 
+        progressDialog.show()
         initView()
         initData()
     }
 
     private fun initData() {
-        progressDialog.show()
         chatsViewModel.userData
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
@@ -64,14 +64,13 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
         chatsViewModel.getListChatRoom(userDataProfile.userId.toString())
             .observe(viewLifecycleOwner, { chatRoom ->
                 if (chatRoom != null && chatRoom.isNotEmpty()) {
-                    progressDialog.dismiss()
                     listChatRoomAdapter.setListChatRoom(chatRoom)
                     countNotRead(chatRoom)
                     setChatRoomAdapter()
                     showEmptChatRoom(false)
                 } else {
-                    progressDialog.dismiss()
                     showEmptChatRoom(true)
+                    progressDialog.dismiss()
                 }
             })
     }
@@ -103,6 +102,7 @@ class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
             setHasFixedSize(true)
             adapter = listChatRoomAdapter
         }
+        progressDialog.dismiss()
     }
 
     private fun initView() {
