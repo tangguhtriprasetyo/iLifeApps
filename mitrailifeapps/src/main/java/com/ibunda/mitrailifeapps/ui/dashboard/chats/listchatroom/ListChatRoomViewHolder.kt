@@ -17,6 +17,11 @@ class ListChatRoomViewHolder(
             if (!data.readByShop) {
                 linearRoomChat.setBackgroundResource(R.color.bgChatNotif)
             }
+            if (data.lastMessage == "null") {
+                tvChatMessage.text = ""
+            } else {
+                tvChatMessage.text = (data.lastMessage)
+            }
             imgProfile.loadImage(data.userPicture)
             tvNamaMitra.text = (data.userName)
             tvChatMessage.text = (data.lastMessage)
