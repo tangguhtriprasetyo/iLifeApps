@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class TransactionViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()
@@ -28,10 +30,6 @@ class TransactionViewModel : ViewModel() {
         return _shopData
     }
 
-    fun getShopData(): LiveData<Shops> {
-        return _shopData
-    }
-
     fun uploadPenilaian(ulasan: Ulasan, rating: Double): LiveData<String> =
         firebaseServices.uploadUlasan(ulasan, rating)
 
@@ -44,11 +42,6 @@ class TransactionViewModel : ViewModel() {
 
     fun updateOrderData(orderId: Orders): LiveData<Orders> =
         firebaseServices.updateOrderData(orderId)
-
-    fun setUserProfile(userId: String): LiveData<Users> {
-        _userProfile = firebaseServices.getUserData(userId) as MutableLiveData<Users>
-        return _userProfile
-    }
 
     fun getProfileData(): LiveData<Users> {
         return _userProfile

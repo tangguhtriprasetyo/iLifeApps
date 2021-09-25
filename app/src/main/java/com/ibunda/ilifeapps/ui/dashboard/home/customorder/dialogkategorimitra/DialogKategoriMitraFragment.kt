@@ -52,8 +52,7 @@ class DialogKategoriMitraFragment : DialogFragment() {
         val fragment = parentFragment
 
         if (fragment is CustomOrderFragment) {
-            val customOrderFragment = fragment
-            this.optionDialogListener = customOrderFragment.optionDialogListener
+            this.optionDialogListener = fragment.optionDialogListener
         }
     }
 

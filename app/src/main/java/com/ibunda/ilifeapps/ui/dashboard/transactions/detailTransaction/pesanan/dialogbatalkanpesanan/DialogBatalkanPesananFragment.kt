@@ -20,7 +20,7 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentDialogBatalkanPesananBinding.inflate(inflater, container, false)
         return binding.root
@@ -56,8 +56,7 @@ class DialogBatalkanPesananFragment : BottomSheetDialogFragment() {
         val fragment = parentFragment
 
         if (fragment is PesananFragment) {
-            val pesananFragment = fragment
-            this.optionDialogListener = pesananFragment.optionDialogListener
+            this.optionDialogListener = fragment.optionDialogListener
         }
     }
 

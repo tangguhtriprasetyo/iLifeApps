@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.Ulasan
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class UlasanViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()

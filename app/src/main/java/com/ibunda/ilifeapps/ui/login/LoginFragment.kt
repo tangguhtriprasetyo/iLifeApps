@@ -1,7 +1,7 @@
 package com.ibunda.ilifeapps.ui.login
 
 import android.app.Activity
-import android.content.ContentValues
+import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -32,19 +32,25 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentLoginBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.utils.DatePickerHelper
+import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 import com.ibunda.ilifeapps.utils.TimePickerHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class LoginFragment : Fragment() {
+
     private lateinit var binding: FragmentLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
+    private lateinit var progressDialog: Dialog
+
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     private var phoneNumber: String? = null
 
-    lateinit var datePicker: DatePickerHelper
-    lateinit var timePicker: TimePickerHelper
+    private lateinit var datePicker: DatePickerHelper
+    private lateinit var timePicker: TimePickerHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +64,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
         checkIsChecked()
         datePicker = DatePickerHelper(requireContext())
         timePicker = TimePickerHelper(requireContext(), true)
@@ -74,7 +81,7 @@ class LoginFragment : Fragment() {
                     try {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = task.getResult(ApiException::class.java)!!
-                        Log.d(ContentValues.TAG, "firebaseAuthWithGoogle:" + account.id)
+                        Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                         val googleCredential =
                             GoogleAuthProvider.getCredential(account.idToken!!, null)
                         loginViewModel.signInWithGoogleFacebook(googleCredential)
@@ -103,7 +110,7 @@ class LoginFragment : Fragment() {
                         // Google Sign In failed, update UI appropriately
                         Toast.makeText(requireContext(), "Login Failed, $e", Toast.LENGTH_LONG)
                             .show()
-                        Log.w(ContentValues.TAG, "Google sign in failed", e)
+                        Log.w(TAG, "Google sign in failed", e)
                     }
                 }
             }
@@ -113,12 +120,14 @@ class LoginFragment : Fragment() {
     private fun initOnCLick(loginGoogleLauncher: ActivityResultLauncher<Intent>) {
 
         binding.gSignIn.setOnClickListener {
+            progressDialog.show()
             val signInIntent = googleSignInClient.signInIntent
             loginGoogleLauncher.launch(signInIntent)
+            progressDialog.dismiss()
         }
 
         binding.btnMulai.setOnClickListener {
-
+            progressDialog.show()
             phoneNumber = binding.etPhoneNumber.text.toString()
             if (verifyPhoneNumberFormat()) {
                 gotoOtpFragment()
@@ -126,7 +135,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Masukkan Nomor Telepon Valid!", Toast.LENGTH_LONG)
                     .show()
             }
-
+            progressDialog.dismiss()
         }
 
         binding.checkBox.setOnClickListener {
@@ -135,6 +144,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkIsChecked() {
+        progressDialog.show()
         if (binding.checkBox.isChecked) {
             binding.btnMulai.isEnabled = true
             binding.gSignIn.isEnabled = true
@@ -156,6 +166,7 @@ class LoginFragment : Fragment() {
                 )
             )
         }
+        progressDialog.dismiss()
     }
 
     private fun verifyPhoneNumberFormat(): Boolean {
@@ -209,7 +220,7 @@ class LoginFragment : Fragment() {
     private fun createNewUser(userData: Users) {
         Log.d("createdNewUser", userData.name.toString())
         loginViewModel.createdNewUser(userData).observe(viewLifecycleOwner, { newUser ->
-            if (newUser.isCreated == true) {
+            if (newUser.isCreated) {
                 Toast.makeText(
                     requireContext(),
                     "Hello ${userData.name}, Your Account Successfully Created!",

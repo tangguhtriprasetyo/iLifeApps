@@ -28,7 +28,7 @@ class SelesaiFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSelesaiBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,7 +41,7 @@ class SelesaiFragment : Fragment() {
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     orderData = orders
-                    if (orderData.orderKhusus == true) {
+                    if (orderData.orderKhusus) {
                         initViewPesananKhusus(orderData)
                     } else {
                         initViewPesananJasa(orderData)
@@ -119,7 +119,7 @@ class SelesaiFragment : Fragment() {
             tvTotalDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.text = orderData.totalPrice
             //shopData
-            if (orderData.verified == true) {
+            if (orderData.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             imgProfile.loadImage(orderData.shopPicture)

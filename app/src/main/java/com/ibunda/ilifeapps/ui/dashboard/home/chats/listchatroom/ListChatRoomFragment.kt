@@ -12,29 +12,29 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.ChatRoom
-import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListChatRoomBinding
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.ChatsViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.chats.chatmessages.ChatMessagesFragment
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.ProgressDialogHelper
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ListChatRoomFragment : Fragment(), ListChatRoomClickCallback {
 
     private lateinit var binding: FragmentListChatRoomBinding
     private lateinit var userDataProfile: Users
-    private var shopData: Shops = Shops()
 
     private val chatsViewModel: ChatsViewModel by activityViewModels()
     private val listChatRoomAdapter = ListChatRoomAdapter(this@ListChatRoomFragment)
 
-    private lateinit var progressDialog : Dialog
+    private lateinit var progressDialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentListChatRoomBinding.inflate(inflater, container, false)
         return binding.root

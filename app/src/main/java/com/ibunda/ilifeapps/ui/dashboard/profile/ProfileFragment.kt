@@ -21,8 +21,10 @@ import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.profile.review.ReviewFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
@@ -32,7 +34,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root

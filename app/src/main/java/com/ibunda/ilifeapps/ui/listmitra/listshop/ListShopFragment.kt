@@ -13,8 +13,10 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentListShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
 import com.ibunda.ilifeapps.ui.listmitra.listshop.dialogseleksiberdasarkan.DialogSeleksiBerdasarkanFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class ListShopFragment : Fragment() {
 
     private lateinit var binding: FragmentListShopBinding
@@ -36,7 +38,7 @@ class ListShopFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentListShopBinding.inflate(inflater, container, false)
         return binding.root

@@ -53,7 +53,7 @@ class UlasanFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = ulasanAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,29 +19,31 @@ import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.ui.dashboard.home.customorder.dialogkategorimitra.DialogKategoriMitraFragment
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.text.NumberFormat
 import java.util.*
 import kotlin.math.roundToInt
 
 
+@ExperimentalCoroutinesApi
 class CustomOrderFragment : Fragment() {
 
-    private lateinit var binding : FragmentCustomOrderBinding
+    private lateinit var binding: FragmentCustomOrderBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userData: Users
     private lateinit var orders: Orders
 
-    lateinit var datePicker: DatePickerHelper
-    lateinit var timePicker: TimePickerHelper
+    private lateinit var datePicker: DatePickerHelper
+    private lateinit var timePicker: TimePickerHelper
 
     var isLainnya: Boolean = false
-    var penyediaJasa: String? = null
+    private var penyediaJasa: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCustomOrderBinding.inflate(inflater, container, false)
         return binding.root
@@ -101,13 +102,13 @@ class CustomOrderFragment : Fragment() {
             timePicker("to")
         }
 
-        binding.rgPenyediaJasa.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+        binding.rgPenyediaJasa.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rb_pria -> penyediaJasa = binding.rbPria.text.toString()
                 R.id.rb_wanita -> penyediaJasa = binding.rbWanita.text.toString()
                 R.id.rb_tidak_ada -> penyediaJasa = binding.rbTidakAda.text.toString()
             }
-        })
+        }
 
         binding.etKategori.setOnClickListener {
             val mDialogKategoriMitraFragment = DialogKategoriMitraFragment()
@@ -118,7 +119,7 @@ class CustomOrderFragment : Fragment() {
             )
         }
 
-        binding.rangeSlider.addOnChangeListener(RangeSlider.OnChangeListener { slider, value, fromUser ->
+        binding.rangeSlider.addOnChangeListener(RangeSlider.OnChangeListener { _, value, _ ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
             format.currency = Currency.getInstance("USD")
@@ -190,9 +191,9 @@ class CustomOrderFragment : Fragment() {
         datePicker.setMinDate(cal.timeInMillis)
         datePicker.showDialog(d, m, y, object : DatePickerHelper.Callback {
             override fun onDateSelected(datePicker: View, dayofMonth: Int, month: Int, year: Int) {
-                val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "${dayofMonth}"
+                val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "$dayofMonth"
                 val mon = month + 1
-                val monthStr = if (mon < 10) "0${mon}" else "${mon}"
+                val monthStr = if (mon < 10) "0${mon}" else "$mon"
                 val date = "${dayStr}/${monthStr}/${year}"
                 binding.etTanggalPesanan.setText(date)
             }
@@ -205,12 +206,13 @@ class CustomOrderFragment : Fragment() {
         val m = cal.get(Calendar.MINUTE)
         timePicker.showDialog(h, m, object : TimePickerHelper.Callback {
             override fun onTimeSelected(hourOfDay: Int, minute: Int) {
-                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "${hourOfDay}"
-                val minuteStr = if (minute < 10) "0${minute}" else "${minute}"
+                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "$hourOfDay"
+                val minuteStr = if (minute < 10) "0${minute}" else "$minute"
+                val minuteHour = "${hourStr}:${minuteStr}"
                 if (value == "from") {
-                    binding.etWaktuDari.setText("${hourStr}:${minuteStr}")
+                    binding.etWaktuDari.setText(minuteHour)
                 } else {
-                    binding.etWaktuSampai.setText("${hourStr}:${minuteStr}")
+                    binding.etWaktuSampai.setText(minuteHour)
                 }
             }
         })

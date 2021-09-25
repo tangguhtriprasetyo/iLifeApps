@@ -8,7 +8,9 @@ import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.ChatMessages
 import com.ibunda.ilifeapps.data.model.ChatRoom
 import com.ibunda.ilifeapps.data.model.Users
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ChatsViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()

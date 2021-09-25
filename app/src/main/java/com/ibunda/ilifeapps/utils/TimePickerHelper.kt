@@ -11,7 +11,7 @@ class TimePickerHelper(
 ) {
     private var dialog: TimePickerDialog
     private var callback: Callback? = null
-    private val listener = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
+    private val listener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
         callback?.onTimeSelected(hourOfDay, minute)
     }
     init {

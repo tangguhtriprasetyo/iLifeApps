@@ -64,9 +64,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 Activity.RESULT_OK -> {
                     val place = result.data?.let { Autocomplete.getPlaceFromIntent(it) }
 
-                    lastKnownLocation!!.latitude =
+                    lastKnownLocation.latitude =
                         place?.latLng?.latitude ?: defaultLocation.latitude
-                    lastKnownLocation!!.longitude =
+                    lastKnownLocation.longitude =
                         place?.latLng?.longitude ?: defaultLocation.longitude
                     lastKnownAddress = place?.address
                     moveCamera()
@@ -167,7 +167,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                         )[0].getAddressLine(0)
                     }
             } catch (e: IOException) {
-                e.printStackTrace();
+                e.printStackTrace()
             }
             mapMarker?.remove()
             mapMarker = map?.addMarker(
@@ -203,8 +203,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     private fun postNewLocation() {
         user.address = lastKnownAddress
-        user.latitude = lastKnownLocation?.latitude
-        user.longitude = lastKnownLocation?.longitude
+        user.latitude = lastKnownLocation.latitude
+        user.longitude = lastKnownLocation.longitude
         mapsViewModel.editProfileUser(user).observe(this, { newUserData ->
             if (newUserData != null) {
                 Toast.makeText(

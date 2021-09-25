@@ -10,7 +10,9 @@ import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ActivitySplashScreenBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
 import com.ibunda.ilifeapps.ui.onboarding.OnboardingActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class SplashScreenActivity : AppCompatActivity() {
     private val timeOut: Long = 2000
     private lateinit var binding: ActivitySplashScreenBinding

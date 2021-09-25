@@ -28,7 +28,7 @@ class PenilaianFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentPenilaianBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,8 +41,8 @@ class PenilaianFragment : Fragment() {
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     ordersData = orders
-                    orders.shopId?.let {
-                        transactionViewModel.setShopData(it).observe(viewLifecycleOwner, {
+                    orders.shopId?.let { data ->
+                        transactionViewModel.setShopData(data).observe(viewLifecycleOwner, {
                             if (it != null) {
                                 shopData = it
                                 setDataShop(shopData)
@@ -59,7 +59,7 @@ class PenilaianFragment : Fragment() {
 
     private fun setDataShop(shopData: Shops) {
         with(binding) {
-            if (shopData.verified == true) {
+            if (shopData.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             imgProfile.loadImage(shopData.shopPicture)

@@ -21,7 +21,9 @@ import com.ibunda.ilifeapps.ui.dashboard.profile.ProfileFragment
 import com.ibunda.ilifeapps.ui.dashboard.search.SearchFragment
 import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionsFragment
 import com.ibunda.ilifeapps.ui.login.LoginActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     private lateinit var binding: ActivityMainBinding

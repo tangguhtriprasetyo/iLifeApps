@@ -20,7 +20,7 @@ class ListChatRoomViewHolder(
             } else {
                 icVerified.visibility = View.GONE
             }
-            if (!data.readByUser!!) {
+            if (!data.readByUser) {
                 linearRoomChat.setBackgroundResource(R.color.bgChatNotif)
             }
             imgProfile.loadImage(data.shopPicture)

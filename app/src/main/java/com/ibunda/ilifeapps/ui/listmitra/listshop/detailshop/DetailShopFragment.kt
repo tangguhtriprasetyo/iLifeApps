@@ -26,6 +26,7 @@ import com.ibunda.ilifeapps.utils.loadImage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.math.roundToInt
 
+@ExperimentalCoroutinesApi
 class DetailShopFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDetailShopBinding
@@ -131,6 +132,12 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
     private fun gotoPayment() {
         val mFragmentManager = parentFragmentManager
         val mPaymentFragment = PaymentFragment()
+        val mBundle = Bundle()
+        mBundle.putInt(
+            PaymentFragment.EXTRA_HARGA_TAWAR,
+            0
+        )
+        mPaymentFragment.arguments = mBundle
         mFragmentManager.commit {
             addToBackStack(null)
             replace(
@@ -181,7 +188,7 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             shopLocation.latitude = shopData!!.latitude!!
             shopLocation.longitude = shopData!!.longitude!!
 
-            var distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
+            val distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
             if (distance >= 1000) {
                 val distanceText = "${distance.div(1000)} Km"
                 binding.tvJarakMitra.text = distanceText
@@ -196,14 +203,16 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setShopData(shopData: Shops) {
+        val jumlahUlasan = shopData.totalUlasan.toString() + " Ulasan"
+        val dateJoin = "Bergabung sejak " + shopData.registeredAt
         with(binding) {
             imgProfileMitra.loadImage(shopData.shopPicture)
             tvNamaMitra.text = shopData.shopName
-            if (shopData.verified == true) {
+            if (shopData.verified) {
                 icVerified.visibility = View.VISIBLE
             }
 
-            if (shopData.promo == true) {
+            if (shopData.promo) {
                 tvHargaMitraSebelum.visibility = View.VISIBLE
                 tvHargaMitraSebelum.text = PriceFormatHelper.getPriceFormat(shopData.price)
                 tvHargaMitraSebelum.paintFlags =
@@ -214,9 +223,9 @@ class DetailShopFragment : Fragment(), View.OnClickListener {
             }
 
             tvNilaiRating.text = shopData.rating.toString()
-            tvJumlahUlasanMitra.text = shopData.totalUlasan.toString() + " Ulasan"
+            tvJumlahUlasanMitra.text = jumlahUlasan
             tvKategoriMitra.text = shopData.categoryName
-            tvMitraBergabung.text = "Bergabung sejak " + shopData.registeredAt
+            tvMitraBergabung.text = dateJoin
             tvLokasiMitra.text = shopData.address
         }
     }

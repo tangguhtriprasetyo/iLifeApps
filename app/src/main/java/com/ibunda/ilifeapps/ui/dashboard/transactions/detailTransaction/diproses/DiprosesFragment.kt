@@ -25,7 +25,7 @@ class DiprosesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDiprosesBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,7 +38,7 @@ class DiprosesFragment : Fragment() {
             .observe(viewLifecycleOwner, { orders ->
                 if (orders != null) {
                     orderData = orders
-                    if (orderData.orderKhusus == true) {
+                    if (orderData.orderKhusus) {
                         initViewPesananKhusus(orderData)
                     } else {
                         initViewPesananJasa(orderData)
@@ -107,7 +107,7 @@ class DiprosesFragment : Fragment() {
             tvTotalDanaPesananKhusus.visibility = View.VISIBLE
             tvTotalDanaPesananKhusus.text = orderData.totalPrice
             //shopData
-            if (orderData.verified == true) {
+            if (orderData.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             imgProfile.loadImage(orderData.shopPicture)

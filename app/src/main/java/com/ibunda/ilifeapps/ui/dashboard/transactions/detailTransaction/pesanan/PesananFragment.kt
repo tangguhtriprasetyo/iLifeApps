@@ -21,8 +21,10 @@ import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class PesananFragment : Fragment() {
 
     private lateinit var binding: FragmentPesananBinding
@@ -38,7 +40,7 @@ class PesananFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentPesananBinding.inflate(inflater, container, false)
         return binding.root
@@ -157,8 +159,8 @@ class PesananFragment : Fragment() {
     }
 
     internal var optionDialogListener: DialogBatalkanPesananFragment.OnOptionDialogListener = object : DialogBatalkanPesananFragment.OnOptionDialogListener {
-        override fun onOptionChosen(reason: String?) {
-            reasonCancel = reason
+        override fun onOptionChosen(category: String?) {
+            reasonCancel = category
             updateOrderData(reasonCancel)
         }
     }

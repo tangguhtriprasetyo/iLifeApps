@@ -9,19 +9,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.ibunda.ilifeapps.data.model.Shops
-import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.ItemRvListShopBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
 import com.ibunda.ilifeapps.utils.PriceFormatHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(data: Shops, userData: Users) {
+    fun bind(data: Shops) {
         with(binding) {
 
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             Log.d(data.verified.toString(), "verified")
@@ -43,7 +44,7 @@ class ListShopViewHolder(private val binding: ItemRvListShopBinding) :
                 tvJarakMitra.text = "Tentukan Lokasi Anda"
             }
 
-            if (data.promo == true) {
+            if (data.promo) {
                 tvHargaMitra.text = PriceFormatHelper.getPriceFormat(data.shopPromo)
                 tvHargaMitraSebelum.visibility = View.VISIBLE
                 tvHargaMitraSebelum.text = PriceFormatHelper.getPriceFormat(data.price)

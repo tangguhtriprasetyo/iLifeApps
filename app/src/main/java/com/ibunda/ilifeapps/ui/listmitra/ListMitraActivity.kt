@@ -14,7 +14,9 @@ import com.ibunda.ilifeapps.databinding.ActivityListMitraBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.ListShopFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.DetailShopFragment
 import com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment.PaymentFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ListMitraActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListMitraBinding
@@ -55,32 +57,30 @@ class ListMitraActivity : AppCompatActivity() {
             setUserProfile(userId)
         }
 
-        if (intent.hasExtra(EXTRA_SHOP)) {
-            val shopId = intent.getStringExtra(EXTRA_SHOP)
-            setShopData(shopId)
+        when {
+            intent.hasExtra(EXTRA_SHOP) -> {
+                val shopId = intent.getStringExtra(EXTRA_SHOP)
+                setShopData(shopId)
 
-        } else if (intent.hasExtra(EXTRA_ORDER_FROM_CHAT)) {
-            chatRoom = intent.getParcelableExtra(EXTRA_ORDER_FROM_CHAT)
-            setUserProfile(chatRoom?.userId)
-            setShopData(chatRoom?.shopId)
-            val paymentFragment = PaymentFragment()
-            setCurrentFragment(
-                paymentFragment,
-                paymentFragment::class.java.simpleName
-            )
-
-        } else {
-            var promo = false
-            if (intent.hasExtra(EXTRA_PROMO)) {
-                promo = intent.getBooleanExtra(EXTRA_PROMO, false)
             }
-            val listShopFragment = ListShopFragment()
-            val mBundle = Bundle()
-            mBundle.putBoolean(ListShopFragment.EXTRA_PROMO, promo)
-            mBundle.putString(ListShopFragment.EXTRA_SEARCH, search)
-            listShopFragment.arguments = mBundle
-            supportFragmentManager.commit {
-                replace(R.id.host_listshop_activity, listShopFragment)
+            intent.hasExtra(EXTRA_ORDER_FROM_CHAT) -> {
+                chatRoom = intent.getParcelableExtra(EXTRA_ORDER_FROM_CHAT)
+                setUserProfile(chatRoom?.userId)
+                setShopData(chatRoom?.shopId)
+            }
+            else -> {
+                var promo = false
+                if (intent.hasExtra(EXTRA_PROMO)) {
+                    promo = intent.getBooleanExtra(EXTRA_PROMO, false)
+                }
+                val listShopFragment = ListShopFragment()
+                val mBundle = Bundle()
+                mBundle.putBoolean(ListShopFragment.EXTRA_PROMO, promo)
+                mBundle.putString(ListShopFragment.EXTRA_SEARCH, search)
+                listShopFragment.arguments = mBundle
+                supportFragmentManager.commit {
+                    replace(R.id.host_listshop_activity, listShopFragment)
+                }
             }
         }
     }

@@ -19,16 +19,18 @@ import com.ibunda.ilifeapps.databinding.FragmentEditProfileBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
 import com.ibunda.ilifeapps.utils.DatePickerHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
 
+@ExperimentalCoroutinesApi
 class EditProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentEditProfileBinding
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
-    lateinit var datePicker: DatePickerHelper
+    private lateinit var datePicker: DatePickerHelper
 
     private var uriImagePath: Uri? = null
     private var gender: String? = null
@@ -36,7 +38,7 @@ class EditProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -107,9 +109,9 @@ class EditProfileFragment : Fragment() {
                     month: Int,
                     year: Int
                 ) {
-                    val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "${dayofMonth}"
+                    val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "$dayofMonth"
                     val mon = month + 1
-                    val monthStr = if (mon < 10) "0${mon}" else "${mon}"
+                    val monthStr = if (mon < 10) "0${mon}" else "$mon"
                     val date = "${dayStr}/${monthStr}/${year}"
                     binding.etTanggalLahir.setText(date)
                 }

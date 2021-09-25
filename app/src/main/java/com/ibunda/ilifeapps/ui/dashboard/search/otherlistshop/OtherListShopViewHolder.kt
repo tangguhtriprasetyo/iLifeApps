@@ -15,7 +15,7 @@ class OtherListShopViewHolder(private val binding: ItemRvShopLainnyaBinding) :
     fun bind(data: Shops, userData: Users) {
         with(binding) {
 
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             imgProfile.loadImage(data.shopPicture)

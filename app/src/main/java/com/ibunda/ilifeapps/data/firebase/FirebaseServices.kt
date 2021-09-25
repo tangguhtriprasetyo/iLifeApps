@@ -36,7 +36,7 @@ class FirebaseServices {
     private val notifRef: CollectionReference = firestoreRef.collection("notifications")
     private val chatRef: CollectionReference = firestoreRef.collection("chatRoom")
 
-    private var STATUS_ERROR = "error"
+    private var statusError = "error"
 
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<< AUTHENTICATION METHOD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -492,8 +492,8 @@ class FirebaseServices {
                     status.postValue(STATUS_SUCCESS)
                 }
                 .addOnFailureListener { error ->
-                    STATUS_ERROR = error.message.toString()
-                    status.postValue(STATUS_ERROR)
+                    statusError = error.message.toString()
+                    status.postValue(statusError)
                     Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
                 }
         }
@@ -544,13 +544,13 @@ class FirebaseServices {
                                         statusOrder.postValue(STATUS_SUCCESS)
                                     }
                                     .addOnFailureListener { error ->
-                                        STATUS_ERROR = error.message.toString()
-                                        statusOrder.postValue(STATUS_ERROR)
+                                        statusError = error.message.toString()
+                                        statusOrder.postValue(statusError)
                                         Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
                                     }
                             } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
+                                statusError = it.exception?.message.toString()
+                                statusOrder.postValue(statusError)
                                 Log.d(
                                     "errorCreateUser: ",
                                     it.exception?.message.toString()
@@ -561,8 +561,8 @@ class FirebaseServices {
                 }
             }
                 .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusOrder.postValue(STATUS_ERROR)
+                    statusError = it.message.toString()
+                    statusOrder.postValue(statusError)
                     Log.d("ErrorUploadOrder: ", it.message.toString())
                 }
         }
@@ -590,13 +590,13 @@ class FirebaseServices {
                                         statusOrder.postValue(STATUS_SUCCESS)
                                     }
                                     .addOnFailureListener { error ->
-                                        STATUS_ERROR = error.message.toString()
-                                        statusOrder.postValue(STATUS_ERROR)
+                                        statusError = error.message.toString()
+                                        statusOrder.postValue(statusError)
                                         Log.d("ErrorUpdateTotalOrder: ", error.message.toString())
                                     }
                             } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusOrder.postValue(STATUS_ERROR)
+                                statusError = it.exception?.message.toString()
+                                statusOrder.postValue(statusError)
                                 Log.d(
                                     "errorCreateUser: ",
                                     it.exception?.message.toString()
@@ -607,8 +607,8 @@ class FirebaseServices {
                 }
             }
                 .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusOrder.postValue(STATUS_ERROR)
+                    statusError = it.message.toString()
+                    statusOrder.postValue(statusError)
                     Log.d("ErrorUploadOrder: ", it.message.toString())
                 }
         }
@@ -628,8 +628,8 @@ class FirebaseServices {
                             if (it.isSuccessful) {
                                 statusNotif.postValue(STATUS_SUCCESS)
                             } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusNotif.postValue(STATUS_ERROR)
+                                statusError = it.exception?.message.toString()
+                                statusNotif.postValue(statusError)
                                 Log.d(
                                     "errorCreateUser: ",
                                     it.exception?.message.toString()
@@ -640,8 +640,8 @@ class FirebaseServices {
                 }
             }
                 .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusNotif.postValue(STATUS_ERROR)
+                    statusError = it.message.toString()
+                    statusNotif.postValue(statusError)
                     Log.d("ErrorUploadNotif: ", it.message.toString())
                 }
         }
@@ -660,8 +660,8 @@ class FirebaseServices {
                                 STATUS_SUCCESS
                             )
                         } else {
-                            STATUS_ERROR = it.exception?.message.toString()
-                            statusChat.postValue(STATUS_ERROR)
+                            statusError = it.exception?.message.toString()
+                            statusChat.postValue(statusError)
                             Log.d(
                                 "errorCreateUser: ",
                                 it.exception?.message.toString()
@@ -671,8 +671,8 @@ class FirebaseServices {
                 }
             }
                 .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusChat.postValue(STATUS_ERROR)
+                    statusError = it.message.toString()
+                    statusChat.postValue(statusError)
                     Log.d("ErrorUploadNotif: ", it.message.toString())
                 }
         }
@@ -692,16 +692,16 @@ class FirebaseServices {
                             if (it.isSuccessful) {
                                 statusChat.postValue(STATUS_SUCCESS)
                             } else {
-                                STATUS_ERROR = it.exception?.message.toString()
-                                statusChat.postValue(STATUS_ERROR)
+                                statusError = it.exception?.message.toString()
+                                statusChat.postValue(statusError)
                             }
                         }
                     }
                 }
             }
                 .addOnFailureListener {
-                    STATUS_ERROR = it.message.toString()
-                    statusChat.postValue(STATUS_ERROR)
+                    statusError = it.message.toString()
+                    statusChat.postValue(statusError)
                 }
         }
         return statusChat

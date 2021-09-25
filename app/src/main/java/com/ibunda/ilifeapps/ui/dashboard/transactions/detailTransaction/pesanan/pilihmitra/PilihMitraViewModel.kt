@@ -7,7 +7,9 @@ import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.Notifications
 import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.data.model.Shops
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class PilihMitraViewModel : ViewModel() {
 
     private val firebaseServices: FirebaseServices = FirebaseServices()

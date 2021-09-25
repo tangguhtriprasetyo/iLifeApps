@@ -32,7 +32,7 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentPilihMitraBinding.inflate(inflater, container, false)
         return binding.root
@@ -47,7 +47,7 @@ class PilihMitraFragment : Fragment(), PilihMitraClickCallback {
     private fun getListTawaranMitra() {
         if (arguments != null) {
             orders = requireArguments().getParcelable<Orders>(EXTRA_ORDER_ID) as Orders
-            orders?.let {
+            orders.let {
                 pilihMitraViewModel.getListTawaranMitra(it.orderId.toString())
                     .observe(viewLifecycleOwner, { listMitra ->
                         if (listMitra != null && listMitra.isNotEmpty()) {

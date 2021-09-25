@@ -8,7 +8,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.ibunda.ilifeapps.databinding.FragmentDialogSeleksiBerdasarkanBinding
 import com.ibunda.ilifeapps.ui.listmitra.listshop.ListShopViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class DialogSeleksiBerdasarkanFragment : DialogFragment() {
 
     private var mView: View? = null
@@ -26,19 +28,19 @@ class DialogSeleksiBerdasarkanFragment : DialogFragment() {
                     dialog?.dismiss()
                 }
 
-                rbPopularitas.setOnCheckedChangeListener { buttonView, isChecked ->
+                rbPopularitas.setOnCheckedChangeListener { _, _ ->
                     val sort = "Popularitas"
                     listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()
                 }
 
-                rbJarak.setOnCheckedChangeListener { buttonView, isChecked ->
+                rbJarak.setOnCheckedChangeListener { _, _ ->
                     val sort = "Distance"
                     listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()
                 }
 
-                rbRating.setOnCheckedChangeListener { buttonView, isChecked ->
+                rbRating.setOnCheckedChangeListener { _, _ ->
                     val sort = "Rating"
                     listShopViewModel.setFilterQuery(sort)
                     dialog?.dismiss()

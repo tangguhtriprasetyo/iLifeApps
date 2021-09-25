@@ -15,8 +15,10 @@ import com.ibunda.ilifeapps.utils.AppConstants.STATUS_DIBATALKAN
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_DIPROSES
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_PESANAN
 import com.ibunda.ilifeapps.utils.AppConstants.STATUS_SELESAI
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class ContentTransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentContentTransactionBinding
@@ -43,7 +45,7 @@ class ContentTransactionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentContentTransactionBinding.inflate(inflater, container, false)
         return binding.root
     }

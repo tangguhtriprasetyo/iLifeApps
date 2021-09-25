@@ -11,7 +11,7 @@ class ReviewViewHolder (private val binding: ItemRvPenilaianBinding) :
     fun bind(data: Ulasan) {
         with(binding) {
 
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.AuthCredential
 import com.ibunda.ilifeapps.data.firebase.FirebaseServices
 import com.ibunda.ilifeapps.data.model.Users
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class LoginViewModel : ViewModel() {
     private val firebaseServices: FirebaseServices = FirebaseServices()
 

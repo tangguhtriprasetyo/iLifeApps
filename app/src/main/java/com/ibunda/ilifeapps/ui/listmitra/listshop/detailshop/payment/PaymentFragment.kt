@@ -1,12 +1,13 @@
 package com.ibunda.ilifeapps.ui.listmitra.listshop.detailshop.payment
 
+import android.app.Dialog
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -18,10 +19,13 @@ import com.ibunda.ilifeapps.data.model.Shops
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentPaymentBinding
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraViewModel
+import com.ibunda.ilifeapps.ui.maps.MapsActivity
 import com.ibunda.ilifeapps.utils.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 import kotlin.math.roundToInt
 
+@ExperimentalCoroutinesApi
 class PaymentFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentBinding
@@ -31,8 +35,9 @@ class PaymentFragment : Fragment() {
     private lateinit var shopData: Shops
     private lateinit var orders: Orders
 
-    lateinit var datePicker: DatePickerHelper
-    lateinit var timePicker: TimePickerHelper
+    private lateinit var datePicker: DatePickerHelper
+    private lateinit var timePicker: TimePickerHelper
+    private lateinit var progressDialog: Dialog
 
     companion object {
         const val EXTRA_HARGA_TAWAR = "extra_harga_tawar"
@@ -41,7 +46,7 @@ class PaymentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,15 +55,34 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        progressDialog.show()
         userData = Users()
         shopData = Shops()
-        //dataUser
+        checkUserData()
+
+        datePicker = DatePickerHelper(requireContext())
+        timePicker = TimePickerHelper(requireContext(), true)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userData.userId?.let {
+            listMitraViewModel.setUserProfile(it)
+                .observe(viewLifecycleOwner, { userProfile ->
+                    if (userProfile != null) {
+                        checkUserData()
+                    }
+                })
+        }
+    }
+
+    private fun checkUserData() {
         listMitraViewModel.getProfileData()
             .observe(viewLifecycleOwner, { userProfile ->
                 if (userProfile != null) {
                     userData = userProfile
-                    Log.e(userData.userId, "userId")
-                    Log.e(userData.name, "userName")
                     listMitraViewModel.getShopData()
                         .observe(viewLifecycleOwner, { shops ->
                             if (shops != null) {
@@ -66,16 +90,9 @@ class PaymentFragment : Fragment() {
                                 Log.e(shopData.shopId, "shopId")
                                 initView()
                             }
-                            Log.d("ViewModelShopData: ", shops.toString())
                         })
                 }
-                Log.d("ViewModelProfileData: ", userProfile.toString())
             })
-        //dataShop
-
-        datePicker = DatePickerHelper(requireContext())
-        timePicker = TimePickerHelper(requireContext(), true)
-
     }
 
     private fun initView() {
@@ -85,35 +102,51 @@ class PaymentFragment : Fragment() {
         if (binding.rbPesanSekarang.isChecked) {
             scheduleNow()
         }
-        binding.rgScheduleOrcer.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+        binding.rgScheduleOrcer.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rb_pesan_sekarang -> scheduleNow()
                 R.id.rb_atur_jadwal -> scheduleLater()
             }
-        })
+        }
+        initOnClick()
+        calculateTotalPrice()
+    }
 
+    private fun initOnClick() {
         binding.icBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }
         binding.btnOrder.setOnClickListener {
-            setDataOrder()
-            order(orders)
+            progressDialog.show()
+            if (userData.latitude != null || userData.longitude != null) {
+                setDataOrder()
+                order(orders)
+            } else {
+                openMaps()
+                Toast.makeText(requireContext(), "Mohon Tentukan Lokasi Anda!", Toast.LENGTH_SHORT)
+                    .show()
+                progressDialog.dismiss()
+            }
         }
-        //INVOICE
-        calculateTotalPrice()
     }
 
     private fun calculateTotalPrice() {
-        var price: Int? = 0
+        val price: Int?
+        val priceOngkir: Int?
         val priceTawar = requireArguments().getInt(EXTRA_HARGA_TAWAR, 0)
-        Log.d("HARGA TAWAR", "$priceTawar")
-        if (shopData.promo) {
-            price = shopData.shopPromo
-        } else if (priceTawar != 0) {
-            price = priceTawar
-        } else {
-            price = shopData.price
+
+        price = when {
+            shopData.promo -> {
+                shopData.shopPromo
+            }
+            priceTawar != 0 -> {
+                priceTawar
+            }
+            else -> {
+                shopData.price
+            }
         }
+
         if (userData.latitude != null || userData.longitude != null) {
 
             val userLocation = Location("userLocation")
@@ -125,18 +158,18 @@ class PaymentFragment : Fragment() {
             shopLocation.longitude = shopData.longitude!!
 
             val distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
-            val priceOngkir = if (distance <= 6000) 6000 else {
+            priceOngkir = if (distance <= 6000) 6000 else {
                 (distance.div(1000)) * 2500
             }
-            binding.tvPriceJasa.text = PriceFormatHelper.getPriceFormat(price)
             binding.tvPriceOngkir.text = PriceFormatHelper.getPriceFormat(priceOngkir)
-            binding.tvTotalPrice.text =
-                PriceFormatHelper.getPriceFormat((price!!.plus(priceOngkir)))
         } else {
-            Toast.makeText(requireContext(), "Mohon Tentukan Lokasi Anda!", Toast.LENGTH_SHORT)
-                .show()
-            parentFragment?.childFragmentManager?.popBackStackImmediate()
+            priceOngkir = 0
+            binding.tvPriceOngkir.text = "-"
         }
+        binding.tvPriceJasa.text = PriceFormatHelper.getPriceFormat(price)
+        binding.tvTotalPrice.text =
+            PriceFormatHelper.getPriceFormat((price!!.plus(priceOngkir)))
+        progressDialog.dismiss()
     }
 
     private fun setDataOrder() {
@@ -171,6 +204,7 @@ class PaymentFragment : Fragment() {
                 sendNotif()
             } else {
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                progressDialog.dismiss()
             }
         })
     }
@@ -193,9 +227,11 @@ class PaymentFragment : Fragment() {
                     "Pesanan berhasil diproses, silahkan lihat status pesanan anda di halaman Transaksi",
                     Toast.LENGTH_SHORT
                 ).show()
+                progressDialog.dismiss()
                 requireActivity().finish()
             } else {
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                progressDialog.dismiss()
             }
         })
     }
@@ -210,13 +246,13 @@ class PaymentFragment : Fragment() {
         binding.tvTanggalPesanan.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                com.ibunda.ilifeapps.R.color.font_default
+                R.color.font_default
             )
         )
         binding.tvWaktuPesanan.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                com.ibunda.ilifeapps.R.color.font_default
+                R.color.font_default
             )
         )
         binding.linearTanggalPesanan.setOnClickListener {
@@ -237,13 +273,13 @@ class PaymentFragment : Fragment() {
         binding.tvTanggalPesanan.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                com.ibunda.ilifeapps.R.color.fontulasan
+                R.color.fontulasan
             )
         )
         binding.tvWaktuPesanan.setTextColor(
             ContextCompat.getColor(
                 requireContext(),
-                com.ibunda.ilifeapps.R.color.fontulasan
+                R.color.fontulasan
             )
         )
     }
@@ -256,9 +292,9 @@ class PaymentFragment : Fragment() {
         datePicker.setMinDate(cal.timeInMillis)
         datePicker.showDialog(d, m, y, object : DatePickerHelper.Callback {
             override fun onDateSelected(datePicker: View, dayofMonth: Int, month: Int, year: Int) {
-                val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "${dayofMonth}"
+                val dayStr = if (dayofMonth < 10) "0${dayofMonth}" else "$dayofMonth"
                 val mon = month + 1
-                val monthStr = if (mon < 10) "0${mon}" else "${mon}"
+                val monthStr = if (mon < 10) "0${mon}" else "$mon"
                 val date = "${dayStr}/${monthStr}/${year}"
                 binding.tvDate.text = date
             }
@@ -271,10 +307,18 @@ class PaymentFragment : Fragment() {
         val m = cal.get(Calendar.MINUTE)
         timePicker.showDialog(h, m, object : TimePickerHelper.Callback {
             override fun onTimeSelected(hourOfDay: Int, minute: Int) {
-                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "${hourOfDay}"
-                val minuteStr = if (minute < 10) "0${minute}" else "${minute}"
-                binding.tvTimeOrder.text = "${hourStr}:${minuteStr}"
+                val hourStr = if (hourOfDay < 10) "0${hourOfDay}" else "$hourOfDay"
+                val minuteStr = if (minute < 10) "0${minute}" else "$minute"
+                val minuteHour = "${hourStr}:${minuteStr}"
+                binding.tvTimeOrder.text = minuteHour
             }
         })
+    }
+
+    private fun openMaps() {
+        val intent =
+            Intent(requireActivity(), MapsActivity::class.java)
+        intent.putExtra(MapsActivity.EXTRA_USER_MAPS, userData)
+        startActivity(intent)
     }
 }

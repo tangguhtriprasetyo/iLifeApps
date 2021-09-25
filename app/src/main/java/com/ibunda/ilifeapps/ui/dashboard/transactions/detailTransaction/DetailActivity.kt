@@ -14,7 +14,9 @@ import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.diproses
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.pesanan.PesananFragment
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.selesai.SelesaiFragment
 import com.ibunda.ilifeapps.utils.AppConstants
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding

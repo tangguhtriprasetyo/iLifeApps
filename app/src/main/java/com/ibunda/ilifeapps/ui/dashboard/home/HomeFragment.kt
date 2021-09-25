@@ -1,5 +1,6 @@
 package com.ibunda.ilifeapps.ui.dashboard.home
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,11 +26,15 @@ import com.ibunda.ilifeapps.ui.dashboard.home.notifications.NotificationsFragmen
 import com.ibunda.ilifeapps.ui.dashboard.home.story.StoryHomeAdaper
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
 import com.ibunda.ilifeapps.ui.maps.MapsActivity
+import com.ibunda.ilifeapps.utils.ProgressDialogHelper
 import com.ibunda.ilifeapps.utils.RvDecoration
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class HomeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var progressDialog: Dialog
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var userDataProfile: Users
@@ -39,7 +44,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -49,10 +54,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressDialog = ProgressDialogHelper.progressDialog(requireContext())
+        progressDialog.show()
         getProfileData()
         initView()
-        setRvAdsHome()
-        setRvStoryHome()
 
     }
 
@@ -64,6 +69,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 } else {
                     binding.notification.imgBadgeNotification.visibility = View.GONE
                 }
+                progressDialog.dismiss()
             })
     }
 
@@ -168,10 +174,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     if (userDataProfile.isNew == true) {
                         showDialogEditProfile()
                     }
+                    setRvAdsHome()
+                    setRvStoryHome()
                     listenChats()
                     listenNotif()
                 }
-                Log.d("ViewModelProfile: ", userProfile.toString())
             })
     }
 

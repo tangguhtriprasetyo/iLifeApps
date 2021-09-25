@@ -17,12 +17,15 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentOtpBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.concurrent.TimeUnit
 
 
+@ExperimentalCoroutinesApi
 class OtpFragment : Fragment() {
 
     private lateinit var binding: FragmentOtpBinding
@@ -43,7 +46,7 @@ class OtpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentOtpBinding.inflate(inflater, container, false)
         if (arguments != null) {
@@ -76,7 +79,7 @@ class OtpFragment : Fragment() {
             val otp = str.toString()
             if (otp.isEmpty()) {
                 binding.tvFeedbackOTP.visibility = View.VISIBLE
-                binding.tvFeedbackOTP.text = "Silahkan masukkan kode yang telah dikirimkan."
+                binding.tvFeedbackOTP.text = getString(R.string.tv_feedback_otp)
             } else {
                 verifyPhoneNumberWithCode(storedVerificationId, otp)
             }
@@ -183,7 +186,7 @@ class OtpFragment : Fragment() {
     private fun createNewUser(userData: Users) {
         Log.d("createdNewUser", userData.name.toString())
         loginViewModel.createdNewUser(userData).observe(viewLifecycleOwner, { newUser ->
-            if (newUser.isCreated == true) {
+            if (newUser.isCreated) {
                 Toast.makeText(
                     requireContext(),
                     "Hello ${userData.name}, Your Account Successfully Created!",

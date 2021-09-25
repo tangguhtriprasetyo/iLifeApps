@@ -59,6 +59,11 @@
     <string name="pesanan_dibatalkan">Pesanan Dibatalkan</string>
     <string name="edit_akun">Edit Akun</string>
     <string name="loading">Loading...</string>
+    <string name="tv_tentukan_lokasi">Tentukan Lokasi Anda</string>
+    <string name="tv_feedback_otp">Silahkan masukkan kode yang telah dikirimkan.</string>
+    <string name="tv_lewati">Lewati</string>
+    <string name="tv_berikutnya">BERIKUTNYA</string>
+    <string name="tv_mulai">MULAI</string>
 
 
 </resources>

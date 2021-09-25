@@ -7,17 +7,19 @@ import com.ibunda.ilifeapps.data.model.Orders
 import com.ibunda.ilifeapps.databinding.ItemRvContentTransactionBinding
 import com.ibunda.ilifeapps.ui.dashboard.transactions.detailTransaction.DetailActivity
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class ListTransactionViewHolder(private val binding: ItemRvContentTransactionBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Orders) {
         with(binding) {
 
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
 
-            if (data.orderKhusus == true) {
+            if (data.orderKhusus) {
                 imgProfileMitra.loadImage(data.userPicture)
                 tvNamaMitraPesanan.text = data.userName
             } else {

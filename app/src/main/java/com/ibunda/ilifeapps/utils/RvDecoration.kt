@@ -9,6 +9,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.max
 
 class RvDecoration : RecyclerView.ItemDecoration() {
 
@@ -29,6 +30,7 @@ class RvDecoration : RecyclerView.ItemDecoration() {
      * Indicator width.
      */
     private val mIndicatorItemLength = DP * 1
+
     /**
      * Padding between indicators.
      */
@@ -55,7 +57,7 @@ class RvDecoration : RecyclerView.ItemDecoration() {
 
         // center horizontally, calculate width and subtract half from center
         val totalLength = mIndicatorItemLength * itemCount
-        val paddingBetweenItems = Math.max(0, itemCount - 1) * mIndicatorItemPadding
+        val paddingBetweenItems = max(0, itemCount - 1) * mIndicatorItemPadding
         val indicatorTotalWidth = totalLength + paddingBetweenItems
         val indicatorStartX = (parent.width - indicatorTotalWidth) / 2f
 
@@ -84,7 +86,12 @@ class RvDecoration : RecyclerView.ItemDecoration() {
         drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress, itemCount)
     }
 
-    private fun drawInactiveIndicators(c: Canvas, indicatorStartX: Float, indicatorPosY: Float, itemCount: Int) {
+    private fun drawInactiveIndicators(
+        c: Canvas,
+        indicatorStartX: Float,
+        indicatorPosY: Float,
+        itemCount: Int
+    ) {
         mPaint.color = colorInactive
 
         // width of item indicator including padding
@@ -140,7 +147,12 @@ class RvDecoration : RecyclerView.ItemDecoration() {
         }
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom = mIndicatorHeight
     }

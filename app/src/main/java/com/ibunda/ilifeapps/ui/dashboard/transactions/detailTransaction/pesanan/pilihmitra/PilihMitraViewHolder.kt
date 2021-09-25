@@ -12,7 +12,7 @@ class PilihMitraViewHolder(private val binding: ItemRvPilihMitraBinding, private
         with(binding) {
 
             imgProfile.loadImage(data.shopPicture)
-            if (data.verified == true) {
+            if (data.verified) {
                 icVerified.visibility = View.VISIBLE
             }
             ratingBar.rating = (data.rating?.toFloat()!!)

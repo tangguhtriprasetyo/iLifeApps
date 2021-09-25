@@ -13,8 +13,10 @@ import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentReviewBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class ReviewFragment : Fragment() {
 
     private lateinit var binding : FragmentReviewBinding
@@ -26,7 +28,7 @@ class ReviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentReviewBinding.inflate(inflater, container, false)
         return binding.root
@@ -75,7 +77,7 @@ class ReviewFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = reviewAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "setAdapter: ")
+            Log.d(android.content.ContentValues.TAG, "setAdapter: ")
         }
     }
 

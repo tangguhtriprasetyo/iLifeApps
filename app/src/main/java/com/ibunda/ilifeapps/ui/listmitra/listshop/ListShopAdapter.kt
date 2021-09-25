@@ -40,27 +40,6 @@ class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setFilter(shops: List<Shops>?, user: Users) {
-        if (shops == null) return
-        this.listShops.clear()
-        for (item in shops) {
-            val userLocation = Location("userLocation")
-            userLocation.latitude = userData.latitude!!
-            userLocation.longitude = userData.longitude!!
-
-            val shopLocation = Location("shopLocation")
-            shopLocation.latitude = item.latitude!!
-            shopLocation.longitude = item.longitude!!
-
-            var distance: Int = (userLocation.distanceTo(shopLocation)).roundToInt()
-            item.distance = distance
-            this.listShops.add(item)
-        }
-        this.listShops.sortBy { it.distance }
-        this.userData = user
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListShopViewHolder {
         val itemRvListShopBinding =
             ItemRvListShopBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -69,7 +48,7 @@ class ListShopAdapter : RecyclerView.Adapter<ListShopViewHolder>() {
 
     override fun onBindViewHolder(holder: ListShopViewHolder, position: Int) {
         val shops = listShops[position]
-        holder.bind(shops, userData)
+        holder.bind(shops)
     }
 
     override fun getItemCount(): Int = listShops.size

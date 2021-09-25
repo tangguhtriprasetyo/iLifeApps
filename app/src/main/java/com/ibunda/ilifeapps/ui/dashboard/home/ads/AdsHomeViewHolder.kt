@@ -5,7 +5,7 @@ import com.ibunda.ilifeapps.data.model.Ads
 import com.ibunda.ilifeapps.databinding.ItemRvAdsHomeBinding
 import com.ibunda.ilifeapps.utils.loadImage
 
-class AdsHomeViewHoler(private val binding: ItemRvAdsHomeBinding) :
+class AdsHomeViewHolder(private val binding: ItemRvAdsHomeBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(data: Ads) {
         with(binding) {

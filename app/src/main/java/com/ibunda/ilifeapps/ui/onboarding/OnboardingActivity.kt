@@ -58,7 +58,6 @@ class OnboardingActivity : AppCompatActivity() {
 
         binding.onboardingViewPager.adapter = onBoardingViewPagerAdapter
 
-//        binding.imgIndicatorOnboarding.setViewPager(binding.onboardingViewPager)
 
 
         binding.onboardingViewPager.registerOnPageChangeCallback(
@@ -67,22 +66,20 @@ class OnboardingActivity : AppCompatActivity() {
                     super.onPageSelected(position)
                     setCurrentIndicator(position)
                     if (position == onBoardingViewPagerAdapter.itemCount - 1) {
-//                        binding.imgIndicatorOnboarding.visibility = View.GONE
-                        binding.buttonOnboardingAction.text = "MULAI"
+                        binding.buttonOnboardingAction.text = getString(R.string.tv_mulai)
                         binding.buttonOnboardingAction.setOnClickListener {
                             val intent = Intent(this@OnboardingActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
                     } else {
-//                        binding.imgIndicatorOnboarding.visibility = View.VISIBLE
-                        binding.buttonOnboardingAction.text = "BERIKUTNYA"
+                        binding.buttonOnboardingAction.text = getString(R.string.tv_berikutnya)
                         binding.buttonOnboardingAction.setOnClickListener {
                             binding.onboardingViewPager.currentItem = position + 1
                         }
                     }
                     if (position == onBoardingViewPagerAdapter.itemCount - 3) {
-                        binding.tvLewati.text = "Lewati"
+                        binding.tvLewati.text = getString(R.string.tv_lewati)
                         binding.tvLewati.background = null
                         binding.tvLewati.setOnClickListener {
                             binding.onboardingViewPager.currentItem = position + 2
@@ -99,7 +96,7 @@ class OnboardingActivity : AppCompatActivity() {
     private fun setCurrentIndicator(index: Int) {
 
         for (i in indicators.indices) {
-            var imageView: ImageView = binding.layoutOnboardingIndicators.getChildAt(i) as ImageView
+            val imageView: ImageView = binding.layoutOnboardingIndicators.getChildAt(i) as ImageView
             if (i == index) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -116,9 +113,5 @@ class OnboardingActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    private fun setupOnboardingIndicators() {
-
     }
 }

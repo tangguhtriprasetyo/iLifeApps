@@ -46,7 +46,7 @@ class DialogTawarMitraFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentDialogTawarMitraBinding.inflate(inflater, container, false)
         return binding.root

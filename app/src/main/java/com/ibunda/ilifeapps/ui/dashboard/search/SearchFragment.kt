@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ibunda.ilifeapps.R
 import com.ibunda.ilifeapps.data.model.Users
 import com.ibunda.ilifeapps.databinding.FragmentSearchBinding
 import com.ibunda.ilifeapps.ui.dashboard.MainViewModel
@@ -18,8 +19,10 @@ import com.ibunda.ilifeapps.ui.dashboard.search.adsSearch.AdsSearchAdapter
 import com.ibunda.ilifeapps.ui.dashboard.search.otherlistshop.OtherListShopAdapter
 import com.ibunda.ilifeapps.ui.dashboard.search.promolistshop.PromoListShopAdapter
 import com.ibunda.ilifeapps.ui.listmitra.ListMitraActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
@@ -34,7 +37,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,7 +54,7 @@ class SearchFragment : Fragment() {
                     if (userDataProfile.address != null) {
                         binding.tvAddress.text = userDataProfile.address
                     } else {
-                        binding.tvAddress.text = "Tentukan Lokasi Anda"
+                        binding.tvAddress.text = getString(R.string.tv_tentukan_lokasi)
                     }
                 }
                 Log.d("ViewModelProfile: ", userProfile.toString())

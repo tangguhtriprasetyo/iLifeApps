@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ibunda.ilifeapps.databinding.FragmentTransactionsBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class TransactionsFragment : Fragment() {
 
     private lateinit var binding : FragmentTransactionsBinding
@@ -16,7 +18,7 @@ class TransactionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         return binding.root
