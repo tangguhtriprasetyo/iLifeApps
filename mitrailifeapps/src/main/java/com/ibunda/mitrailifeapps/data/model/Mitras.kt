@@ -18,7 +18,6 @@ data class Mitras(
     var provinsi: String? = null,
     var totalShop: Int? = null,
     var verified: Boolean? = null,
-    var registeredToken: String? = null,
     @get:Exclude
     var isAuthenticated: Boolean? = null,
     @get:Exclude

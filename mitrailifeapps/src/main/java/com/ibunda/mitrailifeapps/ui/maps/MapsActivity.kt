@@ -52,7 +52,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
     private var locationPermissionGranted = false
-    private var lastKnownLocation: Location? = null
+    private var lastKnownLocation: Location = Location("location")
     private var lastKnownAddress: String? = null
     private var mapMarker: Marker? = null
     private var shopLocation: LatLng? = null
@@ -66,9 +66,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 Activity.RESULT_OK -> {
                     val place = result.data?.let { Autocomplete.getPlaceFromIntent(it) }
 
-                    lastKnownLocation!!.latitude =
+                    lastKnownLocation.latitude =
                         place?.latLng?.latitude ?: defaultLocation.latitude
-                    lastKnownLocation!!.longitude =
+                    lastKnownLocation.longitude =
                         place?.latLng?.longitude ?: defaultLocation.longitude
                     lastKnownAddress = place?.address
                     moveCamera()
@@ -89,7 +89,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)!!
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 

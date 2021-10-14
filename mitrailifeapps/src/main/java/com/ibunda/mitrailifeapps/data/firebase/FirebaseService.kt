@@ -49,7 +49,6 @@ class FirebaseServices {
                         docRef.set(authUser).addOnCompleteListener {
                             if (it.isSuccessful) {
                                 authUser.isCreated = true
-                                authUser.registeredToken = null
                                 createdMitraData.postValue(authUser)
                             } else {
                                 Log.d(

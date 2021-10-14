@@ -64,10 +64,6 @@ class RegisterTwoFragment : Fragment() {
             mitrasData = bundle.getParcelable(EXTRA_USER)!!
         }
 
-        Log.e(mitrasData.email, "Email")
-        Log.e(mitrasData.name, "Mitra Name")
-        Log.e(mitrasData.password, "Mitra Password")
-
         binding.icBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStackImmediate()
         }

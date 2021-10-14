@@ -48,6 +48,8 @@ class CreateShopTwoFragment : Fragment() {
                     shopsData.latitude = result.data?.getDoubleExtra("latitude", 0.0)
                     shopsData.longitude = result.data?.getDoubleExtra("longitude", 0.0)
                     binding.etLokasiToko.setText(shopsData.address)
+                    Log.e(shopsData.latitude.toString(), "shopLatitude")
+                    Log.e(shopsData.longitude.toString(), "shopLongitude")
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
                     // TODO: Handle the error.
@@ -91,7 +93,6 @@ class CreateShopTwoFragment : Fragment() {
         if (bundle != null) {
             shopsData = bundle.getParcelable(EXTRA_SHOP)!!
         }
-        Log.e(shopsData.shopName, "shopName")
 
     }
 
