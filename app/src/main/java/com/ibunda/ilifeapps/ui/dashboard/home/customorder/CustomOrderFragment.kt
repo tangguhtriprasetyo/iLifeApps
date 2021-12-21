@@ -131,12 +131,11 @@ class CustomOrderFragment : Fragment() {
 
         binding.btnBuatPesanan.setOnClickListener {
             setLoading(true)
-            order()
+            setDataOrder()
         }
     }
 
     private fun order() {
-        setDataOrder()
         Log.d("order: ", "$orders")
         mainViewModel.uploadOrder(orders).observe(viewLifecycleOwner, { status ->
 
@@ -181,6 +180,65 @@ class CustomOrderFragment : Fragment() {
             jobPerson = penyediaJasa,
             verified = false
         )
+        if (checkErrors()) {
+            Toast.makeText(
+                requireContext(),
+                "Mohon Lengkapi Data Dengan Benar!",
+                Toast.LENGTH_SHORT
+            ).show()
+            setLoading(false)
+        } else {
+            order()
+        }
+    }
+
+    private fun checkErrors(): Boolean {
+        var error = false
+
+        if (orders.jobName == null || orders.jobName == "") {
+            binding.etNamaPekerjaan.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etNamaPekerjaan.error = null
+        }
+
+        if (orders.categoryName == null || orders.categoryName == "Pilih Kategori") {
+            binding.etKategori.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etKategori.error = null
+        }
+
+        if (orders.orderDate == null || orders.orderDate == "") {
+            binding.etTanggalPesanan.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etTanggalPesanan.error = null
+        }
+
+        if (orders.orderTime == null || orders.orderTime == " - ") {
+            binding.etWaktuDari.error = "Mohon Lengkapi Data Dengan Benar!"
+            binding.etWaktuSampai.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etWaktuDari.error = null
+            binding.etWaktuSampai.error = null
+        }
+
+        if (orders.address == null || orders.address == "Tentukan Lokasi Anda") {
+            binding.etLokasi.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etLokasi.error = null
+        }
+
+        if (orders.jobDesc == null || orders.jobDesc == "") {
+            binding.etDeskripsiPekerjaan.error = "Mohon Lengkapi Data Dengan Benar!"
+            error = true
+        } else {
+            binding.etDeskripsiPekerjaan.error = null
+        }
+        return error
     }
 
     private fun datePicker() {
