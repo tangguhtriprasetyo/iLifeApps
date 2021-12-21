@@ -28,6 +28,7 @@ data class Shops(
     var shopPromo: Int? = null,
     var totalPesananSukses: Int? = null,
     var totalUlasan: Int? = null,
+    var totalRating: Double? = null,
     //PilihMitra
     var priceTawar: String? = null,
 

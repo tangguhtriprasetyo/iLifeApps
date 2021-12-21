@@ -16,6 +16,7 @@ import com.ibunda.ilifeapps.ui.dashboard.transactions.TransactionViewModel
 import com.ibunda.ilifeapps.utils.AppConstants
 import com.ibunda.ilifeapps.utils.DateHelper
 import com.ibunda.ilifeapps.utils.loadImage
+import kotlin.math.round
 
 class PenilaianFragment : Fragment() {
 
@@ -78,32 +79,36 @@ class PenilaianFragment : Fragment() {
     }
 
     private fun sendUlasan() {
-        val rating = shopData.rating?.plus(binding.ratingBar.rating)
+        val totalRating = shopData.totalRating?.plus(binding.ratingBar.rating)
         val totalUlasan = shopData.totalUlasan?.plus(1)
-        val totalRating = rating?.div(totalUlasan?.toDouble()!!)
-        val ulasan = Ulasan (
-        date = DateHelper.getCurrentDate(),
-        rating = binding.ratingBar.rating.toDouble(),
-        shopId = shopData.shopId,
-        shopName = shopData.shopName,
-        shopPicture = shopData.shopPicture,
-        ulasan = binding.etUlasan.text.toString().trim(),
-        userId = ordersData.userId,
-        userName = ordersData.userName,
-        userPicture = ordersData.userPicture,
+        var rating = totalRating?.div(totalUlasan?.toDouble()!!)
+        if (rating != null) {
+            rating = round(rating * 100).div(100)
+        }
+        val ulasan = Ulasan(
+            date = DateHelper.getCurrentDate(),
+            rating = binding.ratingBar.rating.toDouble(),
+            shopId = shopData.shopId,
+            shopName = shopData.shopName,
+            shopPicture = shopData.shopPicture,
+            ulasan = binding.etUlasan.text.toString().trim(),
+            userId = ordersData.userId,
+            userName = ordersData.userName,
+            userPicture = ordersData.userPicture,
         verified = shopData.verified
             )
-        transactionViewModel.uploadPenilaian(ulasan, totalRating!!).observe(viewLifecycleOwner, { status ->
+        transactionViewModel.uploadPenilaian(ulasan, rating!!, totalRating!!)
+            .observe(viewLifecycleOwner, { status ->
 
-            if (status == AppConstants.STATUS_SUCCESS) {
-                Toast.makeText(
-                    requireContext(),
-                    "Penilaian berhasil dilakukan. Terima kasih telah menilai mitra kami.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                activity?.onBackPressed()
-            } else {
-                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                if (status == AppConstants.STATUS_SUCCESS) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Penilaian berhasil dilakukan. Terima kasih telah menilai mitra kami.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    activity?.onBackPressed()
+                } else {
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             }
 
         })

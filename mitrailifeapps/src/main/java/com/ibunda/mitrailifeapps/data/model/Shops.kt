@@ -29,6 +29,7 @@ data class Shops(
     var shopPromo: Int? = null,
     var totalPesananSukses: Int? = null,
     var totalUlasan: Int? = null,
+    var totalRating: Double? = null,
     @get:Exclude
     var isAuthenticated: Boolean? = null,
     @get:Exclude

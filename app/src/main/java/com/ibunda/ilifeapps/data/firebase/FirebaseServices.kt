@@ -569,7 +569,7 @@ class FirebaseServices {
         return statusOrder
     }
 
-    fun uploadUlasan(ulasan: Ulasan, rating: Double): LiveData<String> {
+    fun uploadUlasan(ulasan: Ulasan, rating: Double, totalRating: Double): LiveData<String> {
         val statusOrder = MutableLiveData<String>()
         CoroutineScope(IO).launch {
             val docRef: DocumentReference = ulasanRef.document()
@@ -584,7 +584,9 @@ class FirebaseServices {
                                         "totalUlasan",
                                         FieldValue.increment(1),
                                         "rating",
-                                        rating
+                                        rating,
+                                        "totalRating",
+                                        totalRating
                                     )
                                     .addOnCompleteListener {
                                         statusOrder.postValue(STATUS_SUCCESS)

@@ -30,8 +30,8 @@ class TransactionViewModel : ViewModel() {
         return _shopData
     }
 
-    fun uploadPenilaian(ulasan: Ulasan, rating: Double): LiveData<String> =
-        firebaseServices.uploadUlasan(ulasan, rating)
+    fun uploadPenilaian(ulasan: Ulasan, rating: Double, totalRating: Double): LiveData<String> =
+        firebaseServices.uploadUlasan(ulasan, rating, totalRating)
 
     fun uploadNotif(notif: Notifications): LiveData<String> =
         firebaseServices.uploadNotification(notif)
