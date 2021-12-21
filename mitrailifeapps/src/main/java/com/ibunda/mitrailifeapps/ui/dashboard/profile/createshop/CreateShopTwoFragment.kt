@@ -180,7 +180,8 @@ class CreateShopTwoFragment : Fragment() {
             shopPicture = shopsData.shopPicture,
             shopPromo = 0,
             totalPesananSukses = 0,
-            totalUlasan = 0
+            totalUlasan = 0,
+            totalRating = 0.toDouble()
         )
         uploadShops(shopsData)
     }
