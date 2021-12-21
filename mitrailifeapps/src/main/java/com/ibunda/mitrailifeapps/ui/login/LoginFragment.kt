@@ -3,6 +3,7 @@ package com.ibunda.mitrailifeapps.ui.login
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,6 +55,13 @@ class LoginFragment : Fragment() {
             if (validateEmail() && validatePassword()) {
                 userLogin()
             }
+        }
+
+        binding.tvPrivasi.setOnClickListener {
+            val url = "https://pages.flycricket.io/ilifeapps/privacy.html"
+            val uriUrl = Uri.parse(url)
+            val launchBrowser = Intent(Intent.ACTION_VIEW, uriUrl)
+            startActivity(launchBrowser)
         }
 
         binding.tvRegister.setOnClickListener {

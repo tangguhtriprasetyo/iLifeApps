@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -87,9 +88,14 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             .observe(viewLifecycleOwner, { shopsProfile ->
                 if (shopsProfile != null) {
                     shopsDataProfile = shopsProfile
-                    setDataShops(shopsDataProfile)
-                    listenNotif(shopsDataProfile.shopId)
-                    listenChats(shopsDataProfile.shopId)
+                    mainViewModel.setShopsProfile(shopsDataProfile.shopId.toString()).observe(viewLifecycleOwner, { shopsProfile ->
+                        if (shopsProfile != null) {
+                            shopsDataProfile = shopsProfile
+                            setDataShops(shopsDataProfile)
+                            listenNotif(shopsDataProfile.shopId)
+                            listenChats(shopsDataProfile.shopId)
+                        }
+                    })
                 }
                 Log.d("ViewModelShopsProfile: ", shopsProfile.toString())
             })
@@ -136,6 +142,7 @@ class ProfileFragment : Fragment(), View.OnClickListener  {
             tvKategoriToko.text = shopsDataProfile.categoryName
             tvRatingMitra.text = shopsDataProfile.rating.toString()
             tvTotalPesanan.text = shopsDataProfile.totalPesananSukses.toString()
+            Log.e("rating", shopsDataProfile.rating.toString())
         }
     }
 

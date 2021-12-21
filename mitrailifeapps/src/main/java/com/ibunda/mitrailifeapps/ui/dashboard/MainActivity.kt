@@ -16,7 +16,6 @@ import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.EventListener
 import com.ibunda.mitrailifeapps.R
 import com.ibunda.mitrailifeapps.data.model.Mitras
 import com.ibunda.mitrailifeapps.data.model.Shops
@@ -29,7 +28,6 @@ import com.ibunda.mitrailifeapps.ui.dashboard.transaction.TransactionFragment
 import com.ibunda.mitrailifeapps.ui.dashboard.verification.FragmentVerification
 import com.ibunda.mitrailifeapps.ui.login.LoginActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.text.DateFormat
 import java.util.*
 
 @ExperimentalCoroutinesApi
@@ -80,7 +78,10 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
                     val mBundle = Bundle()
                     mBundle.putBoolean(UlasanFragment.FROM_TRANSACTION, ulasan)
                     mUlasanFragment.arguments = mBundle
-                    setCurrentFragment(mUlasanFragment, ULASAN_FRAGMENT_TAG)
+                    supportFragmentManager.commit {
+                        replace(R.id.host_fragment_activity_main, mUlasanFragment, CHILD_FRAGMENT)
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
                 }
             })
         } else {
@@ -182,41 +183,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         }
     }
 
-    private fun initNotification() {
-
-        firestoreRef.collection("mitras")
-            .document(mitra.mitraId!!)
-            .collection("Notifications")
-            .addSnapshotListener(EventListener<QuerySnapshot?> { snapshots, e ->
-                if (e != null) {
-                    return@EventListener
-                }
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.MINUTE, -5)
-                val before = calendar.time
-                val calendar1 = Calendar.getInstance()
-                val until = calendar1.time
-                for (dc in snapshots!!.documentChanges) {
-                    val dateFormat = DateFormat.getDateTimeInstance()
-                    val date = dc.document.getDate("notificationDate")
-                    if (dc.type == DocumentChange.Type.ADDED) {
-                        if (!before.after(date) && !until.before(date)) {
-                            Log.d("life", "Data: $date")
-                            val title = dc.document.data["notificationTitle"].toString()
-                            val body = dc.document.data["notificationBody"].toString()
-//                            getNotification(title, body)
-                            Log.e(title, "titleNotif")
-                            Log.e(body, "bodyNotif")
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Notifikasi akan keluar",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-            })
-    }
 
 
 }
